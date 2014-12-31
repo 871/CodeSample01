@@ -28,14 +28,14 @@ abstract class AppOrmModel extends AppModel {
 	 * 文字列型プライマリIDを作成
 	 * (over raid)
 	 * @return string
-	 */
+	 *
 	public function createStringId() {
 		return '';
 	}
 
 	/**
 	 * 枝番を取得
-	 */
+	 *
 	public function getBranchNo() {
 		$dbModel = $this;
 		$tmpBnModelName = $dbModel->branchNoModelName;
@@ -52,7 +52,7 @@ abstract class AppOrmModel extends AppModel {
 	 * (over raid)
 	 * @param mix $check
 	 * @return boolean
-	 */
+	 *
 	public function checkStringIdFormat($check) {
 		return true;
 	}

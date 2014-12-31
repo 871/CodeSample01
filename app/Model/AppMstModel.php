@@ -162,7 +162,7 @@ abstract class AppMstModel extends AppModel {
 	 * @param int $id
 	 * @return boolean
 	 */
-	public function delete($id = null) {
+	public function delete($id = null, $validate = false) {
 		$id			= empty($id)? $this->id: $id;
 		$deleted	= $this->deleted;
 		$alias		= $this->alias;
@@ -177,7 +177,7 @@ abstract class AppMstModel extends AppModel {
 			),
 		);
 		$this->logicDeleteFlag = false;
-		return parent::save($data, false);
+		return parent::save($data, $validate = false);
 	}
 	
 	/**
