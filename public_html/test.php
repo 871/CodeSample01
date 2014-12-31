@@ -17,6 +17,17 @@ if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
+if ($_SERVER['SERVER_ADDR'] !== '127.0.0.1') {
+	// /home/saver_name/domain_name/
+	// define('ROOT', DS . 'home' . DS . 'saver_name' . DS . 'domain_name');
+	// define('APP_DIR', 'app');
+} else {
+	// /Applications/MAMP/htdocs/Roster
+	define('ROOT', DS . 'Applications' . DS . 'MAMP' . DS . 'htdocs' . DS . 'Roster');
+	define('APP_DIR', 'app');
+}
+
+
 /**
  * These defines should only be edited if you have cake installed in
  * a directory layout other than the way it is distributed.
