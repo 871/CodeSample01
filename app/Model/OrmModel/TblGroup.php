@@ -67,5 +67,26 @@ class TblGroup extends AppOrmModel {
 			throw new ErrorException();
 		}
 	}
+	
+	
+	public function afterDelete() {
+		$id			= $this->id;
+		$lockModel	= ClassRegistry::init('TblGroupLock');
+		// 更新ロック用データ削除
+		self::deleteTblGroupLock($lockModel, $id);
+	}
+	
+	/**
+	 * 更新ロック用データ削除
+	 * @param TblGroupLock $lockModel
+	 * @param type $id
+	 * @throws ErrorException
+	 */
+	private static function deleteTblGroupLock(TblGroupLock $lockModel, $id) {
+		$result = $lockModel->delete($id);
+		if (!$result) {
+			throw new ErrorException();
+		}
+	}
 
 }

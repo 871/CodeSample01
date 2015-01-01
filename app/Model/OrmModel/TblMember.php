@@ -118,12 +118,13 @@ class TblMember extends AppOrmModel {
 		if ($created) {
 			$id			= $this->getID();
 			$lockModel	= ClassRegistry::init('TblMemberLock');
+			// 更新ロック用データ作成
 			self::saveTblMemberLock($lockModel, $id);
 		}
 	}
 	
 	/**
-	 * ロック用データ作成
+	 * 更新ロック用データ作成
 	 * @param TblMemberLock $lockModel
 	 * @param type $id
 	 * @throws ErrorException
@@ -135,6 +136,26 @@ class TblMember extends AppOrmModel {
 			),
 		);
 		$result = $lockModel->save($data);
+		if (!$result) {
+			throw new ErrorException();
+		}
+	}
+	
+	public function afterDelete() {
+		$id			= $this->id;
+		$lockModel	= ClassRegistry::init('TblMemberLock');
+		// 更新ロック用データ削除
+		self::deleteTblMemberLock($lockModel, $id);
+	}
+	
+	/**
+	 * 更新ロック用データ削除
+	 * @param TblMemberLock $lockModel
+	 * @param type $id
+	 * @throws ErrorException
+	 */
+	private static function deleteTblMemberLock(TblMemberLock $lockModel, $id) {
+		$result = $lockModel->delete($id);
 		if (!$result) {
 			throw new ErrorException();
 		}
