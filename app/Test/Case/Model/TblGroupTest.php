@@ -118,6 +118,9 @@ class TblGroupTest extends CakeTestCase {
 					'TblMember.id',
 					'TblMember.tbl_group_count',
 				),
+				'order' => array(
+					'TblMember.id' => 'ASC',
+				),
 				'recursive' => -1,
 			);
 			$tblMember->create();
@@ -168,4 +171,112 @@ class TblGroupTest extends CakeTestCase {
 		$checkTblGroupCount($tu, $beforeResult, $afterResult, '4.TblMember.tbl_group_count', 0);
 	}
 
+	/**
+	 * データ削除テスト
+	 */
+	public function testDeleteLockData() {
+		$tu				= $this;
+		$tblGroup		= $tu->TblGroup;
+		$tblGroupLock	= $tu->TblGroupLock;
+		$tblMember		= $tu->TblMember;
+		
+		$id = 2;
+		
+		/**
+		 * TblMember情報を取得
+		 */
+		$findTblMember = function(TblMember $tblMember) {
+			$options1 = array(
+				'fields' => array(
+					'TblMember.id',
+					'TblMember.tbl_group_count',
+				),
+				'order' => array(
+					'TblMember.id' => 'ASC',
+				),
+				'recursive' => -1,
+			);
+			$tblMember->create();
+			return $tblMember->find('all', $options1);
+		};
+		
+		/**
+		 * TblGroup情報を取得
+		 */
+		$findTblGroup = function(TblGroup $tblGroup, $id) {
+			$options = array(
+				'fields' => array(
+					'TblGroup.id',
+					'TblGroup.tbl_member_count',
+				),
+				'conditions' => array(
+					'TblGroup.id' => $id,
+				),
+				'recursive' => 1,
+			);
+			return $tblGroup->find('first', $options);
+		};
+		
+		/**
+		 * TblGroupLock情報を取得
+		 */
+		$findTblGroupLock = function(TblGroupLock $tblGroupLock, $id) {
+			$options = array(
+				'fields' => array(
+					'TblGroupLock.id',
+				),
+				'conditions' => array(
+					'TblGroupLock.id' => $id,
+				),
+				'recursive' => -1,
+			);
+			return $tblGroupLock->find('first', $options);
+		};
+		
+		/**
+		 * データ削除
+		 */
+		$deleteData = function(TblGroup $tblGroup, $id) {
+			$tblGroup->delete($id);
+		};
+		
+		/**
+		 * カウンタのチェック
+		 */
+		$checkTblGroupCount = function(self $tu, array $beforeResult, array $afterResult, $path, $removeCnt) {
+			$beforeCount	= Hash::get($beforeResult	, $path);
+			$afterCount		= Hash::get($afterResult	, $path);
+			
+			$tmp		= $beforeCount - $removeCnt;
+			$message	= 'Count Error path = ' . $path;
+			$tu->assertEqual($afterCount, $tmp, $message);
+		};
+		
+		// TblMember情報を取得(削除前)
+		$beforeResult = $findTblMember($tblMember);
+		
+		// データ存在チェック
+		$beforeData = $findTblGroup($tblGroup, $id);
+		$tu->assertEqual(empty($beforeData), false, 'Before $findTblGroup Error');
+		$beforeLock = $findTblGroupLock($tblGroupLock, $id);
+		$tu->assertEqual(empty($beforeLock), false, 'Before $findTblGroupLock Error');
+		
+		// データ削除
+		$deleteData($tblGroup, $id);
+		
+		// データ削除チェック
+		$afterData = $findTblGroup($tblGroup, $id);
+		$tu->assertEqual(empty($afterData), true, 'After $findTblGroup Error');
+		$afterLock = $findTblGroupLock($tblGroupLock, $id);
+		$tu->assertEqual(empty($afterLock), true, 'After $findTblGroupLock Error');
+		
+		// TblMember情報を取得(削除後)
+		$afterResult = $findTblMember($tblMember);
+		
+		$checkTblGroupCount($tu, $beforeResult, $afterResult, '0.TblMember.tbl_group_count', 0);
+		$checkTblGroupCount($tu, $beforeResult, $afterResult, '1.TblMember.tbl_group_count', 1);
+		$checkTblGroupCount($tu, $beforeResult, $afterResult, '2.TblMember.tbl_group_count', 1);
+		$checkTblGroupCount($tu, $beforeResult, $afterResult, '3.TblMember.tbl_group_count', 1);
+		$checkTblGroupCount($tu, $beforeResult, $afterResult, '4.TblMember.tbl_group_count', 1);
+	}
 }
