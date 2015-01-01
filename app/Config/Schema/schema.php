@@ -29,6 +29,8 @@ class AppSchema extends CakeSchema {
 		'password'					=> array('comment' => 'パスワード(ハッシュ)',		'type' => 'string',		'length' => 50,		'null' => true,		'default' => null,),
 		// 暗号化パスワード	
 		'user_password'				=> array('comment' => 'パスワード',				'type' => 'text',							'null' => true,		'default' => null,),
+		// ログイン可能フラグ
+		'login_flag'				=> array('comment' => 'ログイン可能フラグ',		'type' => 'boolean',						'null' => false,	'default' => null,),
 		
 		'create_ip'	=> array('comment' => '作成IP',		'type' => 'string',		'length' => 200,	'null' => true, 'default' => null),
 		'update_ip'	=> array('comment' => '更新IP',		'type' => 'string', 	'length' => 200,	'null' => true, 'default' => null),
@@ -260,9 +262,9 @@ class AppSchema extends CakeSchema {
 	 * @var type 
 	 */
 	protected $_dbInitData = array(
-		/**
+		/**/
 		'tbl_users' => array(
-			
+			array('id' => '1','user_name' => '管理者１','user_mail' => '871@hanahubuki.jp','password' => 'b982108fef663f83f4e5a190d2e679d5cbd47c91','user_password' => 'Ljnqmfhp8y8RhMX5t/dgMVDCyv7IrtH2Nct1GUvxOZQkJACSrv8rKyKq4sudeLCr4lBG2wx2DL4tOZCTiUY58j53','login_flag' => '1','create_ip' => '','update_ip' => '',),
 		),
 		
 		/**

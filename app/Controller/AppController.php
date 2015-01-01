@@ -24,11 +24,30 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
 	public $components = array(
+		'Paginator',
 		'Session',
 		'Security',
-		//'Auth' => array(
-		//	'userModel' => 'TblUser',
-		//),
+		'Auth' => array(
+			'authenticate' => array(
+				'Form' => array(
+					'userModel' => 'TblUser',
+					'fields' => array(
+						'username'	=> 'user_mail',
+						'password'	=> 'password',
+					),
+					'scope' => array(
+						'TblUser.login_flag' => true,
+					),
+				),
+			),
+			//ログイン後の移動先
+			'loginRedirect'		=> array('controller' => 'Mains', 'action' => 'index'),
+			//ログアウ後の移動先
+			'logoutRedirect'	=> array('controller' => 'Mains', 'action' => 'login'),
+			//ログインページのパス
+			'loginAction'		=> array('controller' => 'Mains', 'action' => 'login'),
+			'authError'			=> 'ログインしてください',
+		),
 	);
 	
 	public $helpers = array(
@@ -37,7 +56,4 @@ class AppController extends Controller {
 		'ExtForm',
 		'Project',
 	);
-	
-	
-	
 }

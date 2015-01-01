@@ -19,9 +19,15 @@ App::uses('AppHelper', 'View/Helper');
  * will inherit them.
  *
  * @package       app.View.Helper
+ * @property ExtFormHelper $ExtForm
+ * @property HtmlHelper $Html
+ * @property SessionHelper $Session
+ * @property PaginatorHelper $Paginator
  */
 class AppCtlHelper extends AppHelper {
 	
+	public $helpers = array('ExtForm', 'Html', 'Session', 'Paginator');
+
 	protected $data = array();
 	
 	protected $alias = '';
@@ -43,5 +49,5 @@ class AppCtlHelper extends AppHelper {
 	private static function createAlias(self $helper) {
 		return preg_replace('/Helper$/', '', get_class($helper));
 	}
-
+	
 }

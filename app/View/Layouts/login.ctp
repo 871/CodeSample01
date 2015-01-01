@@ -6,7 +6,6 @@
  * @package       app.View.Layouts
  * @since         CakePHP(tm) v 0.10.0.1076
  */
-
 $prjHelper = $this->Project;
 
 if (!isset($title_for_layout))				throw new RuntimeException(__DIR__ . ':' . __FILE__ . ':' . __LINE__);
@@ -14,15 +13,12 @@ if (!$prjHelper instanceof ProjectHelper)	throw new RuntimeException(__DIR__ . '
 
 $prjHelper->setTitleForLayout($title_for_layout);
 
-// タグ
-$ulMenuLinks			= $prjHelper->getUlMenuLinks();
 // テキスト
-$textTitleName			= $prjHelper->getTextTitleName();
-$textSystemName			= $prjHelper->getTextSystemName();
-$textCopyright			= $prjHelper->getTextCopyright();
-$textMenuTitle			= $prjHelper->getTextMenuTitle();
+$textTitleName				= $prjHelper->getTextTitleName();
+$textSystemName				= $prjHelper->getTextSystemName();
+$textCopyright				= $prjHelper->getTextCopyright();
 // システム
-$sessionFlashMessage	= $prjHelper->getSessionFlashMessage();
+$authSessionFlashMessage	= $prjHelper->getAuthSessionFlashMessage();
 
 ?>
 <!DOCTYPE html>
@@ -48,12 +44,8 @@ $sessionFlashMessage	= $prjHelper->getSessionFlashMessage();
 			<h1><?php echo $textSystemName; ?></h1>
 		</div>
 		<div id="content">
-			<?php echo $sessionFlashMessage; ?>			
-			<?php echo $this->fetch('content'); ?>
-			<div class="actions">
-				<h3><?php echo $textMenuTitle; ?></h3>
-				<?php echo $ulMenuLinks; ?>
-			</div>
+			<?php echo $authSessionFlashMessage; ?>	
+			<?php echo $this->fetch('content'); ?> 
 		</div>
 		<div id="footer">
 			<?php echo $textCopyright; ?>

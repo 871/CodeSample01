@@ -65,6 +65,10 @@ App::build(array(
 	'View' => array(
 		APP.'View'.DS.'00_Bake'.DS,
 	),
+	'View/Helper'	=> array(
+		APP . 'View' . DS . 'Helper' . DS . '00_Bake' . DS,
+		APP . 'View' . DS . 'Helper' . DS . 'CtlHelper' . DS,
+	),
 ));
 
 /**
