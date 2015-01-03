@@ -94,7 +94,7 @@ class ProjectHelper extends AppCtlHelper {
 	 * メニュータイトル
 	 */
 	public function getTextMenuTitle() {
-		return h(__('Menu'));
+		return h(__('メニュー'));
 	}
 
 	/**
