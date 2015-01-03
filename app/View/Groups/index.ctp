@@ -15,9 +15,9 @@ $paginatorSortUpdateIp			= $ctlHelper->getPaginatorSortUpdateIp			();
 $paginatorSortCreated			= $ctlHelper->getPaginatorSortCreated			();
 $paginatorSortUpdated			= $ctlHelper->getPaginatorSortUpdated			();
 // カウンタテキスト
-$paginatorCounter		= $ctlHelper->getPaginatorCounter		();
+$paginatorCounter		= $ctlHelper->getPaginatorCounter	();
 // ページ遷移リンク
-$paginatorLinks			= $ctlHelper->getPaginatorLinks			();
+$paginatorLinks			= $ctlHelper->getPaginatorLinks		();
 
 // フォーム
 $formStart			= $ctlHelper->getFormStart		();
@@ -47,21 +47,21 @@ $linkGroupSave		= $ctlHelper->getLinkGroupSave	();
 	<table cellpadding="0" cellspacing="0">
 		<tr>
 			<th>
-				<?php echo $paginatorSortId;		?>
+				<?php echo $paginatorSortId;				?>
 			</th>
 			<th>
 				<?php echo $paginatorSortTblMemberCount;	?>
 			</th>
 			<th>
-				<?php echo $paginatorSortGroupName;	?>
+				<?php echo $paginatorSortGroupName;			?>
 			</th>
 			<th>
-				<?php echo $paginatorSortCreateIp;	?>
-				<?php echo $paginatorSortUpdateIp;	?>
+				<?php echo $paginatorSortCreateIp;			?>
+				<?php echo $paginatorSortUpdateIp;			?>
 			</th>
 			<th>
-				<?php echo $paginatorSortCreated;	?>
-				<?php echo $paginatorSortUpdated;	?>
+				<?php echo $paginatorSortCreated;			?>
+				<?php echo $paginatorSortUpdated;			?>
 			</th>
 			<th class="actions">操作</th>
 		</tr>
@@ -84,7 +84,7 @@ $linkGroupSave		= $ctlHelper->getLinkGroupSave	();
 		?>
 		<tr>
 			<td>
-				<?php echo $textId;			?>
+				<?php echo $textId;				?>
 			</td>
 			<td>
 				<?php echo $textTblMemberCount;	?>
