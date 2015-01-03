@@ -22,12 +22,6 @@ App::uses('AppCtlModel', 'Model');
  */
 class TplCtlModel extends AppCtlModel {
 	
-	public $validationErrors = array();
-	
-	public $validationWarnings = array();
-	
-	public $validationSuccesses = array();
-	
 	public $validate = array();
 	
 	
@@ -36,24 +30,5 @@ class TplCtlModel extends AppCtlModel {
 	 * @var type 
 	 */
 	public $fieldParams = array();
-	
-	/**
-	 * 入力データの変換
-	 * array(
-	 *		'inputFiledName'	=> inputFiledName,
-	 *		'dbModelName'		=> dbModelName,
-	 *		'dbModelFieldName'	=> dbModelFieldName,
-	 *		'fixedValue'		=> fixedValue
-	 *		'mappingMethod'		=> mappingMethod,
-	 *		'mappingOptions'	=> mappingOptions,
-	 *		'unMappingMethod'	=> unMappingMethod,
-	 *		'unMappingOptions'	=> unMappingOptions,
-	 * ),
-	 * ・・・
-	 * 
-	 * @var type 
-	 */
-	public $inputMappings = array();
-	
 	
 }
