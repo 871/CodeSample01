@@ -190,7 +190,7 @@ class UserListHelper  extends AppCtlHelper {
 		$title		= __('削除');
 		$url		= UrlUtil::getAccountDelete($tbl_user_id);
 		$options	= array();
-		$confirmMessage = sprintf('ID: %1$s [%2$s]のアカウント情報を削除しますか？', $tbl_user_id, $user_name);
+		$confirmMessage = sprintf(__('ID: %1$s [%2$s]のアカウント情報を削除しますか？'), $tbl_user_id, $user_name);
 		return $form->postLink($title, $url, $options, $confirmMessage);
 	}
 	
