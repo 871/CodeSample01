@@ -162,7 +162,7 @@ class UserCreateHelper extends AppCtlHelper {
 	public function getValueUserName() {
 		$form		= $this->ExtForm;
 		$field		= 'user_name';
-		return $form->extValue($field);
+		return h($form->extValue($field));
 	}
 	
 	/**
@@ -172,7 +172,7 @@ class UserCreateHelper extends AppCtlHelper {
 	public function getValueUserMail() {
 		$form		= $this->ExtForm;
 		$field		= 'user_mail';
-		return $form->extValue($field);
+		return h($form->extValue($field));
 	}
 	
 	/**
@@ -190,11 +190,11 @@ class UserCreateHelper extends AppCtlHelper {
 	public function getValueLoginFlag() {
 		$form		= $this->ExtForm;
 		$field		= 'login_flag';
-		return $form->extValue($field);
+		return h($form->extValue($field));
 	}
 	
 	/**
-	 * アカウント情報編集リンク
+	 * アカウント情報一覧リンク
 	 * @param int $index
 	 * @return string
 	 */
