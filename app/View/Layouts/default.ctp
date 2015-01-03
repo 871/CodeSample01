@@ -41,6 +41,7 @@ $sessionFlashMessage	= $prjHelper->getSessionFlashMessage();
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<script src="/js/jquery-1.9.1.min.js"></script>
 </head>
 <body>
 	<div id="container">
