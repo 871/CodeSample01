@@ -184,12 +184,14 @@ class UserListHelper  extends AppCtlHelper {
 		$alias	= 'TblUser';
 		$field	= 'id';
 		
-		$tbl_user_id = $data[$alias][$field];
+		$tbl_user_id	= $data[$alias][$field];
+		$user_name		= $data[$alias]['user_name'];
 		
 		$title		= __('削除');
 		$url		= UrlUtil::getAccountDelete($tbl_user_id);
 		$options	= array();
-		return $form->postLink($title, $url, $options);
+		$confirmMessage = sprintf('ID: %1$s [%2$s]のアカウント情報を削除しますか？', $tbl_user_id, $user_name);
+		return $form->postLink($title, $url, $options, $confirmMessage);
 	}
 	
 	/**
