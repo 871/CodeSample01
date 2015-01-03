@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('AjaxUtil', 'Lib/Util');
+
 /**
  * Mains Controller
  *
@@ -27,6 +29,7 @@ class MainsController extends AppController {
 		sleep(1);
 		if($request->is('post')) {
 			if($auth->login()) {
+				AjaxUtil::setToken($session);
 				$ctl->redirect($auth->redirect());
 				return;
 			} else {
