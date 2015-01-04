@@ -20,7 +20,7 @@ class AppSchema extends CakeSchema {
 	 */
 	public $tbl_users = array(
 		'id'						=> array('comment' => 'プライマリID',				'type' => 'integer',	'length' => 11,		'null' => false,	'default' => null, 'key' => 'primary', 'extra' => 'auto_increment'),
-		// ユーザ名（公開）	
+		// ユーザ名	
 		'user_name'					=> array('comment' => 'ユーザ名',					'type' => 'string',		'length' => 50,		'null' => true,		'default' => null, 'unique' => true,),
 		// メールアドレス	
 		'user_mail'					=> array('comment' => 'ユーザのメールアドレス',		'type' => 'string',		'length' => 200,	'null' => false,	'default' => null, 'unique' => true,),
@@ -53,7 +53,7 @@ class AppSchema extends CakeSchema {
 	 */
 	public $tbl_members = array(
 		'id'						=> array('comment' => 'プライマリID',				'type' => 'integer',	'length' => 11,		'null' => false,	'default' => null, 'key' => 'primary', 'extra' => 'auto_increment'),
-		// ユーザ名（公開）	
+		// メンバ名
 		'member_name'				=> array('comment' => 'メンバ名',					'type' => 'string',		'length' => 50,		'null' => true,		'default' => null,),
 		// メールアドレス	
 		'member_mail'				=> array('comment' => 'メンバのメールアドレス',		'type' => 'string',		'length' => 200,	'null' => false,	'default' => null, 'unique' => true,),
