@@ -23,8 +23,6 @@ App::uses('AppCtlHelper', 'View/Helper');
  */
 class TplCtlHelper extends AppCtlHelper {
 
-	public $helpers = array('ExtForm');
-	
 	/**
 	 * フォーム開始
 	 * @return string

@@ -129,7 +129,7 @@ class MemberSearchHelper  extends AppCtlHelper {
 	 * @param int $index
 	 * @return string
 	 */
-	public function getTextTblGroupCount ($index = 0) {
+	public function getTextTblGroupCount($index = 0) {
 		$data	= $this->dataPaginate[$index];
 		$alias	= 'TblMember';
 		$field	= 'tbl_group_count';
@@ -168,11 +168,11 @@ class MemberSearchHelper  extends AppCtlHelper {
 	 * @return string
 	 */
 	public function getLinkMemberCreate() {
-		$form		= $this->Html;
+		$html		= $this->Html;
 		$title		= __('新規メンバー登録');
 		$url		= UrlUtil::getMemberCreate();
 		$options	= array();
-		return $form->link($title, $url, $options);
+		return $html->link($title, $url, $options);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ class MemberSearchHelper  extends AppCtlHelper {
 	 * @return string
 	 */
 	public function getLinkMemberDetail($index = 0) {
-		$form	= $this->ExtForm;
+		$html	= $this->Html;
 		$data	= $this->dataPaginate[$index];
 		$alias	= 'TblMember';
 		$field	= 'id';
@@ -191,7 +191,7 @@ class MemberSearchHelper  extends AppCtlHelper {
 		$title		= __('詳細');
 		$url		= UrlUtil::getMemberDetail($tbl_member_id);
 		$options	= array();
-		return $form->postLink($title, $url, $options);
+		return $html->link($title, $url, $options);
 	}
 	
 	/**
@@ -200,7 +200,7 @@ class MemberSearchHelper  extends AppCtlHelper {
 	 * @return string
 	 */
 	public function getLinkMemberEdit($index = 0) {
-		$form	= $this->ExtForm;
+		$html	= $this->Html;
 		$data	= $this->dataPaginate[$index];
 		$alias	= 'TblMember';
 		$field	= 'id';
@@ -210,7 +210,7 @@ class MemberSearchHelper  extends AppCtlHelper {
 		$title		= __('編集');
 		$url		= UrlUtil::getMemberEdit($tbl_member_id);
 		$options	= array();
-		return $form->postLink($title, $url, $options);
+		return $html->link($title, $url, $options);
 	}
 	
 	/**
