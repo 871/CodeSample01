@@ -42,6 +42,9 @@ $sessionFlashMessage	= $prjHelper->getSessionFlashMessage();
 		echo $this->fetch('script');
 	?>
 	<script src="/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+	<link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
 </head>
 <body>
 	<div id="container">

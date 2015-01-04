@@ -237,7 +237,6 @@ table td.actions a {
 dl {
 	line-height: 2em;
 	margin: 0em 0em;
-	width: 60%;
 }
 dl dd:nth-child(4n+2),
 dl dt:nth-child(4n+1) {
@@ -251,8 +250,7 @@ dt {
 	width: 10em;
 }
 dd {
-	margin-left: 10em;
-	margin-top: -2em;
+	margin-left: 1em;
 	vertical-align: top;
 }
 
