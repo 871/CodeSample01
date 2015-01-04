@@ -167,7 +167,7 @@ class MemberSearchHelper  extends AppCtlHelper {
 	 * メンバ情報作成リンク
 	 * @return string
 	 */
-	public function getLinkAccountMemberCreate() {
+	public function getLinkMemberCreate() {
 		$form		= $this->Html;
 		$title		= __('新規メンバー登録');
 		$url		= UrlUtil::getMemberCreate();

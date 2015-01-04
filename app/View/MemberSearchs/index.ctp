@@ -16,11 +16,11 @@ $paginatorSortTblGroupCount		= $ctlHelper->getPaginatorSortTblGroupCount	();
 $paginatorSortCreated			= $ctlHelper->getPaginatorSortCreated		();
 $paginatorSortUpdated			= $ctlHelper->getPaginatorSortUpdated		();
 // カウンタテキスト
-$paginatorCounter		= $ctlHelper->getPaginatorCounter		();
+$paginatorCounter		= $ctlHelper->getPaginatorCounter	();
 // ページ遷移リンク
-$paginatorLinks			= $ctlHelper->getPaginatorLinks			();
+$paginatorLinks			= $ctlHelper->getPaginatorLinks		();
 // リンク
-$linkMemberCreate		= $ctlHelper->getLinkAccountMemberCreate();
+$linkMemberCreate		= $ctlHelper->getLinkMemberCreate	();
 ?>
 <div class="index">
 	<h2>メンバ検索</h2>
