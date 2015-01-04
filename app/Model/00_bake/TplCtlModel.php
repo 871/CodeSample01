@@ -24,7 +24,6 @@ class TplCtlModel extends AppCtlModel {
 	
 	public $validate = array();
 	
-	
 	/**
 	 * フォーム設定用のパラメータ
 	 * @var type 
