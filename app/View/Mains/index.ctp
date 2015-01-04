@@ -17,11 +17,11 @@ $linkLogout			= $ctlHelper->getLinkLogout			();
 <table>
 	<tr>
 		<th><?php echo $linkMemberCreate; ?></th>
-		<td>名簿の登録</td>
+		<td>名簿への登録</td>
 	</tr>
 	<tr>
 		<th><?php echo $linkMemberSearch; ?></th>
-		<td>名簿の検索</td>
+		<td>名簿を検索</td>
 	</tr>
 	<tr>
 		<th><?php echo $linkGroupList; ?></th>

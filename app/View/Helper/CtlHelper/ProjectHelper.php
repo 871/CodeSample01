@@ -145,7 +145,7 @@ class ProjectHelper extends AppCtlHelper {
 	 * @return string
 	 */
 	private static function getLinkMemberCreate(HtmlHelper $html) {
-		$title		= __('メンバ登録');
+		$title		= __('新規メンバ登録');
 		$url		= UrlUtil::getMemberCreate();
 		$options	= array();
 		return $html->link($title, $url, $options);
@@ -169,7 +169,7 @@ class ProjectHelper extends AppCtlHelper {
 	 * @return string
 	 */
 	private static function getLinkMemberSearch(HtmlHelper $html) {
-		$title		= __('メンバ検索');
+		$title		= __('メンバ情報検索');
 		$url		= UrlUtil::getMemberSearch();
 		$options	= array();
 		return $html->link($title, $url, $options);

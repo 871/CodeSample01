@@ -23,7 +23,7 @@ $paginatorLinks			= $ctlHelper->getPaginatorLinks		();
 $linkMemberCreate		= $ctlHelper->getLinkMemberCreate	();
 ?>
 <div class="index">
-	<h2>メンバ検索</h2>
+	<h2>メンバ情報検索</h2>
 	<table cellpadding="0" cellspacing="0">
 		<tr>
 			<th>
@@ -129,7 +129,7 @@ $formEnd				= $ctlHelper->getFormEnd				();
 		<dd>
 			<?php echo $inputMemberAgeMin; ?>-<?php echo $inputMemberAgeMax; ?>
 		</dd>
-		<dt>生年月日<br />（年-月-日）<br />（下限-上限）</dt>
+		<dt>生年月日<br />（年/月/日）<br />（下限-上限）</dt>
 		<dd>
 			<?php echo $inputMemberBirthdayMin; ?>-<?php echo $inputMemberBirthdayMax; ?>
 		</dd>

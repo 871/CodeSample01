@@ -6,6 +6,8 @@ App::uses('AppOrmModel', 'Model');
  * @property TblMember $TblMember
  */
 class TblMemberSubMail extends AppOrmModel {
+	
+	const MAX_DATA_COUNT = 10;
 
 /**
  * Display field

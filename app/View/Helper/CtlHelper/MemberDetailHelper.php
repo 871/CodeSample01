@@ -66,8 +66,14 @@ class MemberDetailHelper extends AppCtlHelper {
 		$data	= $this->dataDetail;
 		$alias	= 'TblMember';
 		$field	= 'member_mail';
+		$value	= $data[$alias][$field];
 		
-		return h($data[$alias][$field]);
+		$path	= 'TblMemberSubMail.{n}.sub_mail';
+		$arrTmp = Hash::extract($data, $path);
+		array_unshift($arrTmp, $value);
+		
+		$result = join("\n", $arrTmp);
+		return nl2br(h($result));
 	}
 	
 	/**

@@ -88,7 +88,7 @@ class MainHelper extends AppCtlHelper {
 	 */
 	public function getLinkMemberCreate() {
 		$html		= $this->Html;
-		$title		= __('メンバ登録');
+		$title		= __('新規メンバ登録');
 		$url		= UrlUtil::getMemberCreate();
 		$options	= array();
 		return $html->link($title, $url, $options);
@@ -112,7 +112,7 @@ class MainHelper extends AppCtlHelper {
 	 */
 	public function getLinkMemberSearch() {
 		$html		= $this->Html;
-		$title		= __('メンバ検索');
+		$title		= __('メンバ情報検索');
 		$url		= UrlUtil::getMemberSearch();
 		$options	= array();
 		return $html->link($title, $url, $options);
