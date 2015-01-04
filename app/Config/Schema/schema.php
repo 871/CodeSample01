@@ -254,9 +254,6 @@ class AppSchema extends CakeSchema {
 		),
 	);
 	
-	
-	
-	
 	/**
 	 * DB初期値設定
 	 * @var type 
@@ -639,8 +636,61 @@ class AppSchema extends CakeSchema {
 			array('id' => '79',),
 			array('id' => '80',),
 		),
-		/**
+		/**/
 		'tbl_member_sub_mails' => array(
+			array('id' => '00000000001_00000000001', 'tbl_member_id' => '1', 'branch_no' => '1', 'sub_mail' => '11sub_mail@871.nagoya',),
+			
+			array('id' => '00000000002_00000000001', 'tbl_member_id' => '2', 'branch_no' => '1', 'sub_mail' => '21sub_mail@871.nagoya',),
+			array('id' => '00000000002_00000000002', 'tbl_member_id' => '2', 'branch_no' => '2', 'sub_mail' => '22sub_mail@871.nagoya',),
+			
+			array('id' => '00000000003_00000000001', 'tbl_member_id' => '3', 'branch_no' => '1', 'sub_mail' => '31sub_mail@871.nagoya',),
+			array('id' => '00000000003_00000000002', 'tbl_member_id' => '3', 'branch_no' => '2', 'sub_mail' => '32sub_mail@871.nagoya',),
+			array('id' => '00000000003_00000000003', 'tbl_member_id' => '3', 'branch_no' => '3', 'sub_mail' => '33sub_mail@871.nagoya',),
+			
+			array('id' => '00000000004_00000000001', 'tbl_member_id' => '4', 'branch_no' => '1', 'sub_mail' => '41sub_mail@871.nagoya',),
+			array('id' => '00000000004_00000000002', 'tbl_member_id' => '4', 'branch_no' => '2', 'sub_mail' => '42sub_mail@871.nagoya',),
+			array('id' => '00000000004_00000000003', 'tbl_member_id' => '4', 'branch_no' => '3', 'sub_mail' => '43sub_mail@871.nagoya',),
+			array('id' => '00000000004_00000000004', 'tbl_member_id' => '4', 'branch_no' => '4', 'sub_mail' => '44sub_mail@871.nagoya',),
+			
+			array('id' => '00000000005_00000000001', 'tbl_member_id' => '5', 'branch_no' => '1', 'sub_mail' => '51sub_mail@871.nagoya',),
+			array('id' => '00000000005_00000000002', 'tbl_member_id' => '5', 'branch_no' => '2', 'sub_mail' => '52sub_mail@871.nagoya',),
+			array('id' => '00000000005_00000000003', 'tbl_member_id' => '5', 'branch_no' => '3', 'sub_mail' => '53sub_mail@871.nagoya',),
+			array('id' => '00000000005_00000000004', 'tbl_member_id' => '5', 'branch_no' => '4', 'sub_mail' => '54sub_mail@871.nagoya',),
+			array('id' => '00000000005_00000000005', 'tbl_member_id' => '5', 'branch_no' => '5', 'sub_mail' => '55sub_mail@871.nagoya',),
+			
+			array('id' => '00000000006_00000000001', 'tbl_member_id' => '6', 'branch_no' => '1', 'sub_mail' => '61sub_mail@871.nagoya',),
+			array('id' => '00000000006_00000000002', 'tbl_member_id' => '6', 'branch_no' => '2', 'sub_mail' => '62sub_mail@871.nagoya',),
+			array('id' => '00000000006_00000000003', 'tbl_member_id' => '6', 'branch_no' => '3', 'sub_mail' => '63sub_mail@871.nagoya',),
+			array('id' => '00000000006_00000000004', 'tbl_member_id' => '6', 'branch_no' => '4', 'sub_mail' => '64sub_mail@871.nagoya',),
+			array('id' => '00000000006_00000000005', 'tbl_member_id' => '6', 'branch_no' => '5', 'sub_mail' => '65sub_mail@871.nagoya',),
+			array('id' => '00000000006_00000000006', 'tbl_member_id' => '6', 'branch_no' => '6', 'sub_mail' => '66sub_mail@871.nagoya',),
+			
+			array('id' => '00000000007_00000000001', 'tbl_member_id' => '7', 'branch_no' => '1', 'sub_mail' => '71sub_mail@871.nagoya',),
+			array('id' => '00000000007_00000000002', 'tbl_member_id' => '7', 'branch_no' => '2', 'sub_mail' => '72sub_mail@871.nagoya',),
+			array('id' => '00000000007_00000000003', 'tbl_member_id' => '7', 'branch_no' => '3', 'sub_mail' => '73sub_mail@871.nagoya',),
+			array('id' => '00000000007_00000000004', 'tbl_member_id' => '7', 'branch_no' => '4', 'sub_mail' => '74sub_mail@871.nagoya',),
+			array('id' => '00000000007_00000000005', 'tbl_member_id' => '7', 'branch_no' => '5', 'sub_mail' => '75sub_mail@871.nagoya',),
+			array('id' => '00000000007_00000000006', 'tbl_member_id' => '7', 'branch_no' => '6', 'sub_mail' => '76sub_mail@871.nagoya',),
+			array('id' => '00000000007_00000000007', 'tbl_member_id' => '7', 'branch_no' => '7', 'sub_mail' => '77sub_mail@871.nagoya',),
+			
+			array('id' => '00000000008_00000000001', 'tbl_member_id' => '8', 'branch_no' => '1', 'sub_mail' => '81sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000002', 'tbl_member_id' => '8', 'branch_no' => '2', 'sub_mail' => '82sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000003', 'tbl_member_id' => '8', 'branch_no' => '3', 'sub_mail' => '83sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000004', 'tbl_member_id' => '8', 'branch_no' => '4', 'sub_mail' => '84sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000005', 'tbl_member_id' => '8', 'branch_no' => '5', 'sub_mail' => '85sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000006', 'tbl_member_id' => '8', 'branch_no' => '6', 'sub_mail' => '86sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000007', 'tbl_member_id' => '8', 'branch_no' => '7', 'sub_mail' => '87sub_mail@871.nagoya',),
+			array('id' => '00000000008_00000000008', 'tbl_member_id' => '8', 'branch_no' => '8', 'sub_mail' => '88sub_mail@871.nagoya',),
+			
+			array('id' => '00000000009_00000000001', 'tbl_member_id' => '9', 'branch_no' => '1', 'sub_mail' => '91sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000002', 'tbl_member_id' => '9', 'branch_no' => '2', 'sub_mail' => '92sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000003', 'tbl_member_id' => '9', 'branch_no' => '3', 'sub_mail' => '93sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000004', 'tbl_member_id' => '9', 'branch_no' => '4', 'sub_mail' => '94sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000005', 'tbl_member_id' => '9', 'branch_no' => '5', 'sub_mail' => '95sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000006', 'tbl_member_id' => '9', 'branch_no' => '6', 'sub_mail' => '96sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000007', 'tbl_member_id' => '9', 'branch_no' => '7', 'sub_mail' => '97sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000008', 'tbl_member_id' => '9', 'branch_no' => '8', 'sub_mail' => '98sub_mail@871.nagoya',),
+			array('id' => '00000000009_00000000009', 'tbl_member_id' => '9', 'branch_no' => '9', 'sub_mail' => '99sub_mail@871.nagoya',),
 			
 		),
 		/**/

@@ -49,6 +49,7 @@ class TblMember extends AppOrmModel {
 		'TblMemberDetail' => array(
 			'className' => 'TblMemberDetail',
 			'foreignKey' => 'tbl_member_id',
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -79,7 +80,7 @@ class TblMember extends AppOrmModel {
 		'TblMemberSubMail' => array(
 			'className' => 'TblMemberSubMail',
 			'foreignKey' => 'tbl_member_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
