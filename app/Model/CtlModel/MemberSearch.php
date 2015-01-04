@@ -155,7 +155,7 @@ class MemberSearch extends AppCtlModel {
 					$paginateOrmName . '.updated',
 					'MstSex.name',
 				),
-				'recursive'		=> 1,
+				'recursive'		=> 0,
 				'limit'			=> 20,
 				'conditions'	=> self::getConditions($request),
 				'joins' => array(
