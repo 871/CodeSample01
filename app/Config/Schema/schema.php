@@ -333,15 +333,15 @@ class AppSchema extends CakeSchema {
 		
 		/**/
 		'tbl_members' => array(
-			array('id' => '1', 'member_name' => 'MEMBER_NAME1', 'member_mail' => 'member_mail1@871.nagoya', 'member_birthday' => '1910-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
-			array('id' => '2', 'member_name' => 'MEMBER_NAME2', 'member_mail' => 'member_mail2@871.nagoya', 'member_birthday' => '1920-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '0',),
-			array('id' => '3', 'member_name' => 'MEMBER_NAME3', 'member_mail' => 'member_mail3@871.nagoya', 'member_birthday' => '1930-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
-			array('id' => '4', 'member_name' => 'MEMBER_NAME4', 'member_mail' => 'member_mail4@871.nagoya', 'member_birthday' => '1940-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '0',),
-			array('id' => '5', 'member_name' => 'MEMBER_NAME5', 'member_mail' => 'member_mail5@871.nagoya', 'member_birthday' => '1950-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
-			array('id' => '6', 'member_name' => 'MEMBER_NAME6', 'member_mail' => 'member_mail6@871.nagoya', 'member_birthday' => '1960-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '0',),
-			array('id' => '7', 'member_name' => 'MEMBER_NAME7', 'member_mail' => 'member_mail7@871.nagoya', 'member_birthday' => '1970-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
-			array('id' => '8', 'member_name' => 'MEMBER_NAME8', 'member_mail' => 'member_mail8@871.nagoya', 'member_birthday' => '1980-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '0',),
-			array('id' => '9', 'member_name' => 'MEMBER_NAME9', 'member_mail' => 'member_mail9@871.nagoya', 'member_birthday' => '1990-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
+			array('id' => '1', 'member_name' => 'MEMBER_NAME1', 'member_mail' => 'member_mail1@871.nagoya', 'member_birthday' => '1910-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '9',),
+			array('id' => '2', 'member_name' => 'MEMBER_NAME2', 'member_mail' => 'member_mail2@871.nagoya', 'member_birthday' => '1920-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '8',),
+			array('id' => '3', 'member_name' => 'MEMBER_NAME3', 'member_mail' => 'member_mail3@871.nagoya', 'member_birthday' => '1930-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '7',),
+			array('id' => '4', 'member_name' => 'MEMBER_NAME4', 'member_mail' => 'member_mail4@871.nagoya', 'member_birthday' => '1940-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '6',),
+			array('id' => '5', 'member_name' => 'MEMBER_NAME5', 'member_mail' => 'member_mail5@871.nagoya', 'member_birthday' => '1950-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '5',),
+			array('id' => '6', 'member_name' => 'MEMBER_NAME6', 'member_mail' => 'member_mail6@871.nagoya', 'member_birthday' => '1960-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '4',),
+			array('id' => '7', 'member_name' => 'MEMBER_NAME7', 'member_mail' => 'member_mail7@871.nagoya', 'member_birthday' => '1970-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '3',),
+			array('id' => '8', 'member_name' => 'MEMBER_NAME8', 'member_mail' => 'member_mail8@871.nagoya', 'member_birthday' => '1980-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '2',),
+			array('id' => '9', 'member_name' => 'MEMBER_NAME9', 'member_mail' => 'member_mail9@871.nagoya', 'member_birthday' => '1990-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '1',),
 			array('id' => '10', 'member_name' => 'MEMBER_NAME10', 'member_mail' => 'member_mail10@871.nagoya', 'member_birthday' => '1910-12-31', 'mst_sex_id' => '2', 'tbl_group_count' => '0',),
 			array('id' => '11', 'member_name' => 'MEMBER_NAME11', 'member_mail' => 'member_mail11@871.nagoya', 'member_birthday' => '1911-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
 			array('id' => '12', 'member_name' => 'MEMBER_NAME12', 'member_mail' => 'member_mail12@871.nagoya', 'member_birthday' => '1912-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
@@ -415,8 +415,61 @@ class AppSchema extends CakeSchema {
 			array('id' => '80', 'member_name' => 'MEMBER_NAME80', 'member_mail' => 'member_mail80@871.nagoya', 'member_birthday' => '1980-12-31', 'mst_sex_id' => '1', 'tbl_group_count' => '0',),
 			
 		),
-		/**
+		/**/
 		'tbl_members_tbl_groups' => array(
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '3',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '4',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '5',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '6',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '7',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '8',),
+			array('tbl_member_id'=>'1', 'tbl_group_id' => '9',),
+			
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '3',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '4',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '5',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '6',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '7',),
+			array('tbl_member_id'=>'2', 'tbl_group_id' => '8',),
+			
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '3',),
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '4',),
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '5',),
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '6',),
+			array('tbl_member_id'=>'3', 'tbl_group_id' => '7',),
+			
+			array('tbl_member_id'=>'4', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'4', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'4', 'tbl_group_id' => '3',),
+			array('tbl_member_id'=>'4', 'tbl_group_id' => '4',),
+			array('tbl_member_id'=>'4', 'tbl_group_id' => '5',),
+			array('tbl_member_id'=>'4', 'tbl_group_id' => '6',),
+			
+			array('tbl_member_id'=>'5', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'5', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'5', 'tbl_group_id' => '3',),
+			array('tbl_member_id'=>'5', 'tbl_group_id' => '4',),
+			array('tbl_member_id'=>'5', 'tbl_group_id' => '5',),
+			
+			array('tbl_member_id'=>'6', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'6', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'6', 'tbl_group_id' => '3',),
+			array('tbl_member_id'=>'6', 'tbl_group_id' => '4',),
+			
+			array('tbl_member_id'=>'7', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'7', 'tbl_group_id' => '2',),
+			array('tbl_member_id'=>'7', 'tbl_group_id' => '3',),
+			
+			array('tbl_member_id'=>'8', 'tbl_group_id' => '1',),
+			array('tbl_member_id'=>'8', 'tbl_group_id' => '2',),
+			
+			array('tbl_member_id'=>'9', 'tbl_group_id' => '1',),
 			
 		),
 		/**/
@@ -592,15 +645,15 @@ class AppSchema extends CakeSchema {
 		),
 		/**/
 		'tbl_groups' => array(
-			array('id' => '1', 'group_name' => 'TEST1', 'tbl_member_count' => '0',),
-			array('id' => '2', 'group_name' => 'TEST2', 'tbl_member_count' => '0',),
-			array('id' => '3', 'group_name' => 'TEST3', 'tbl_member_count' => '0',),
-			array('id' => '4', 'group_name' => 'TEST4', 'tbl_member_count' => '0',),
-			array('id' => '5', 'group_name' => 'TEST5', 'tbl_member_count' => '0',),
-			array('id' => '6', 'group_name' => 'TEST6', 'tbl_member_count' => '0',),
-			array('id' => '7', 'group_name' => 'TEST7', 'tbl_member_count' => '0',),
-			array('id' => '8', 'group_name' => 'TEST8', 'tbl_member_count' => '0',),
-			array('id' => '9', 'group_name' => 'TEST9', 'tbl_member_count' => '0',),
+			array('id' => '1', 'group_name' => 'TEST1', 'tbl_member_count' => '9',),
+			array('id' => '2', 'group_name' => 'TEST2', 'tbl_member_count' => '8',),
+			array('id' => '3', 'group_name' => 'TEST3', 'tbl_member_count' => '7',),
+			array('id' => '4', 'group_name' => 'TEST4', 'tbl_member_count' => '6',),
+			array('id' => '5', 'group_name' => 'TEST5', 'tbl_member_count' => '5',),
+			array('id' => '6', 'group_name' => 'TEST6', 'tbl_member_count' => '4',),
+			array('id' => '7', 'group_name' => 'TEST7', 'tbl_member_count' => '3',),
+			array('id' => '8', 'group_name' => 'TEST8', 'tbl_member_count' => '2',),
+			array('id' => '9', 'group_name' => 'TEST9', 'tbl_member_count' => '1',),
 			array('id' => '10', 'group_name' => 'TEST10', 'tbl_member_count' => '0',),
 			
 			array('id' => '11', 'group_name' => 'TEST11', 'tbl_member_count' => '0',),
