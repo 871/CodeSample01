@@ -31,6 +31,8 @@ class TblMemberTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->TblMember		= ClassRegistry::init('TblMember');
+		$this->TblMemberDetail	= ClassRegistry::init('TblMemberDetail');
+		$this->TblMemberSubMail	= ClassRegistry::init('TblMemberSubMail');
 		$this->TblMemberLock	= ClassRegistry::init('TblMemberLock');
 		$this->TblGroup			= ClassRegistry::init('TblGroup');
 	}
@@ -47,7 +49,7 @@ class TblMemberTest extends CakeTestCase {
 	}
 	
 	/**
-	 * グループ作成時に更新ロック用データが作成されることを確認
+	 * メンバ作成時に更新ロック用データが作成されることを確認
 	 */
 	public function testCreateLockData() {
 		$tu				= $this;
@@ -77,6 +79,207 @@ class TblMemberTest extends CakeTestCase {
 		$tu->assertEqual($findData['TblMemberLock']['id'], $id, 'ID Check Ng');
 	}
 	
+	/**
+	 * メンバ作成時に詳細データが作成されることを確認
+	 */
+	public function testSaveCreateTblMemberDetail() {
+		$tu					= $this;
+		$tblMember			= $tu->TblMember;
+		$tblMemberDetail	= $tu->TblMemberDetail;
+		
+		$saveData = array(
+			'TblMember' => array(
+				'member_name' => 'TEST_MEMBER_NAME_ADD',
+				'member_mail' => 'test_mail_add@test.871.nagoya',
+				'member_birthday' => '1980-01-01',
+				'mst_sex_id' => '1',
+				'tbl_group_count' => '0',
+			),
+			'TblMemberDetail' => array(
+				'remarks' => join("\n", array(
+					'AAA',
+					'BBB',
+					'CCC',
+					'DDD',
+				)),
+			),
+		);
+		$tblMember->save($saveData);
+		$id = $tblMember->getId();
+		
+		$options = array(
+			'conditions' => array(
+				'TblMemberDetail.tbl_member_id'	=> $id,
+			),
+		);
+		$savedData = $tblMemberDetail->find('first', $options);
+		
+		$path1 = 'TblMemberDetail.remarks';
+		$save1	= Hash::get($saveData, $path1);
+		$saved1	= Hash::get($savedData, $path1);
+		$tu->assertEqual($save1, $saved1);
+		
+		$path2	= 'TblMemberDetail.id';
+		$save2	= $tblMemberDetail->createStringId($id);
+		$saved2	= Hash::get($savedData, $path2);
+		$tu->assertEqual($save2, $saved2);
+	}
+	
+	/**
+	 * メンバ更新時に詳細データが作成されることを確認
+	 */
+	public function testSaveUpdateTblMemberDetail() {
+		$tu					= $this;
+		$tblMember			= $tu->TblMember;
+		$tblMemberDetail	= $tu->TblMemberDetail;
+		$id					= 1;
+		
+		$options = array(
+			'conditions' => array(
+				'TblMemberDetail.tbl_member_id'	=> $id,
+			),
+		);
+		$beforeSaveData = $tblMemberDetail->find('first', $options);
+		
+		$saveData = array(
+			'TblMember' => array(
+				'id'			=> $id,
+				'member_name' => 'TEST_MEMBER_NAME_ADD',
+				'member_mail' => 'test_mail_add@test.871.nagoya',
+				'member_birthday' => '1980-01-01',
+				'mst_sex_id' => '1',
+				'tbl_group_count' => '0',
+			),
+			'TblMemberDetail' => array(
+				'remarks' => join("\n", array(
+					'AAA',
+					'BBB',
+					'CCC',
+					'DDD',
+				)),
+			),
+		);
+		$tblMember->save($saveData);
+		
+		$savedData = $tblMemberDetail->find('first', $options);
+		
+		$path1 = 'TblMemberDetail.remarks';
+		$save1	= Hash::get($saveData, $path1);
+		$saved1	= Hash::get($savedData, $path1);
+		$tu->assertEqual($save1, $saved1);
+		
+		$path2	= 'TblMemberDetail.id';
+		$save2	= $tblMemberDetail->createStringId($id);
+		$saved2	= Hash::get($savedData, $path2);
+		$tu->assertEqual($save2, $saved2);
+		
+		$path3			= 'TblMemberDetail.remarks';
+		$save3			= Hash::get($saveData, $path1);
+		$beforeSave3	= Hash::get($beforeSaveData, $path3);
+		$tu->assertNotEqual($save3, $beforeSave3);
+	}
+	
+	/**
+	 * メンバ作成時にサブメールデータが作成されることを確認
+	 */
+	public function testSaveCreateTblMemberSubMail() {
+		$tu					= $this;
+		$tblMember			= $tu->TblMember;
+		$tblMemberSubMail	= $tu->TblMemberSubMail;
+		
+		$saveData = array(
+			'TblMember' => array(
+				'member_name' => 'TEST_MEMBER_NAME_ADD',
+				'member_mail' => 'test_mail_add@test.871.nagoya',
+				'member_birthday' => '1980-01-01',
+				'mst_sex_id' => '1',
+				'tbl_group_count' => '0',
+			),
+			'TblMemberSubMail' => array(
+				array('sub_mail' => 'create1@test.871.nagoya',),
+				array('sub_mail' => 'create2@test.871.nagoya',),
+				array('sub_mail' => 'create3@test.871.nagoya',),
+				array('sub_mail' => 'create4@test.871.nagoya',),
+			),
+		);
+		$tblMember->save($saveData);
+		$id = $tblMember->getId();
+		$options = array(
+			'conditions' => array(
+				'TblMemberSubMail.tbl_member_id'	=> $id,
+			),
+		);
+		$saveCount = $tblMemberSubMail->find('count', $options);
+		
+		$tu->assertEqual($saveCount, 4);
+		
+		$data = $tblMemberSubMail->find('all', $options);
+		$path1 = '3.TblMemberSubMail.sub_mail';
+		$path2 = 'TblMemberSubMail.3.sub_mail';
+		
+		$value1	= Hash::get($data, $path1);
+		$value2	= Hash::get($saveData, $path2);
+		$tu->assertEqual($value2, $value1);
+	}
+	
+	/**
+	 * メンバ更新時にサブメールデータが作成されることを確認
+	 */
+	public function testSaveUpdateTblMemberSubMail() {
+		$tu					= $this;
+		$tblMember			= $tu->TblMember;
+		$tblMemberSubMail	= $tu->TblMemberSubMail;
+		$id = 1;
+		
+		$options = array(
+			'conditions' => array(
+				'TblMemberSubMail.tbl_member_id'	=> $id,
+			),
+		);
+		$beforeCount = $tblMemberSubMail->find('count', $options);
+		
+		$saveData = array(
+			'TblMember' => array(
+				'id'			=> $id,
+				'member_name' => 'TEST_MEMBER_NAME_ADD',
+				'member_mail' => 'test_mail_add@test.871.nagoya',
+				'member_birthday' => '1980-01-01',
+				'mst_sex_id' => '1',
+				'tbl_group_count' => '0',
+			),
+			'TblMemberSubMail' => array(
+				array('sub_mail' => 'create1@test.871.nagoya',),
+				array('sub_mail' => 'create2@test.871.nagoya',),
+				array('sub_mail' => 'create3@test.871.nagoya',),
+				array('sub_mail' => 'create4@test.871.nagoya',),
+			),
+		);
+		$tblMember->save($saveData);
+		
+		$saveCount = $tblMemberSubMail->find('count', $options);
+		
+		$tu->assertEqual($saveCount, 4);
+		$tu->assertNotEqual($beforeCount, $saveCount);
+		
+		
+		$data = $tblMemberSubMail->find('all', $options);
+		$path1 = '3.TblMemberSubMail.sub_mail';
+		$path2 = 'TblMemberSubMail.3.sub_mail';
+		$path3 = '3.TblMemberSubMail.id';
+		$path4 = '3.TblMemberSubMail.tbl_member_id';
+		$path5 = '3.TblMemberSubMail.branch_no';
+		
+		$value1	= Hash::get($data, $path1);
+		$value2	= Hash::get($saveData, $path2);
+		$value3	= Hash::get($data, $path3);
+		$value4	= Hash::get($data, $path4);
+		$value5	= Hash::get($data, $path5);
+		
+		$tu->assertEqual($value2, $value1);
+		$tu->assertEqual($value3, '00000000001_00000000004');
+		$tu->assertEqual($value4, '1');
+		$tu->assertEqual($value5, '4');
+	}
 	
 	
 	public function testCounterCatchTblGroup() {

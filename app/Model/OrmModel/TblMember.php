@@ -1,5 +1,7 @@
 <?php
 App::uses('AppOrmModel', 'Model');
+App::uses('TblMemberUtil', 'Lib/Util');
+
 /**
  * TblMember Model
  *
@@ -116,29 +118,20 @@ class TblMember extends AppOrmModel {
 	);
 	
 	public function afterSave($created, $options = array()) {
+		$tblMember			= $this;
+		$tblMemberDetail	= ClassRegistry::init('TblMemberDetail');
+		$tblMemberSubMail	= ClassRegistry::init('TblMemberSubMail');
+		
+		// メンバ情報詳細（否検索項目）の登録
+		TblMemberUtil::saveTblMemberDetail($tblMemberDetail, $tblMember);
+		// サブメールアドレス（メンバ情報）の登録
+		TblMemberUtil::saveTblMemberSubMails($tblMemberSubMail, $tblMember);
+		
 		if ($created) {
-			$id			= $this->getID();
+			$id			= $tblMember->getID();
 			$lockModel	= ClassRegistry::init('TblMemberLock');
 			// 更新ロック用データ作成
-			self::saveTblMemberLock($lockModel, $id);
-		}
-	}
-	
-	/**
-	 * 更新ロック用データ作成
-	 * @param TblMemberLock $lockModel
-	 * @param type $id
-	 * @throws ErrorException
-	 */
-	private static function saveTblMemberLock(TblMemberLock $lockModel, $id) {
-		$data = array(
-			$lockModel->alias => array(
-				$lockModel->primaryKey => $id,
-			),
-		);
-		$result = $lockModel->save($data);
-		if (!$result) {
-			throw new ErrorException();
+			TblMemberUtil::saveTblMemberLock($lockModel, $id);
 		}
 	}
 	
@@ -146,19 +139,6 @@ class TblMember extends AppOrmModel {
 		$id			= $this->id;
 		$lockModel	= ClassRegistry::init('TblMemberLock');
 		// 更新ロック用データ削除
-		self::deleteTblMemberLock($lockModel, $id);
-	}
-	
-	/**
-	 * 更新ロック用データ削除
-	 * @param TblMemberLock $lockModel
-	 * @param type $id
-	 * @throws ErrorException
-	 */
-	private static function deleteTblMemberLock(TblMemberLock $lockModel, $id) {
-		$result = $lockModel->delete($id);
-		if (!$result) {
-			throw new ErrorException();
-		}
+		TblMemberUtil::deleteTblMemberLock($lockModel, $id);
 	}
 }

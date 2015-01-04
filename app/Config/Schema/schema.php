@@ -117,8 +117,6 @@ class AppSchema extends CakeSchema {
 		// 備考
 		'remarks'					=> array('comment' => '備考',							'type' => 'text',						'null' => true,		'default' => null,),
 		
-		'create_ip'	=> array('comment' => '作成IP',		'type' => 'string',		'length' => 200,	'null' => true, 'default' => null),
-		'update_ip'	=> array('comment' => '更新IP',		'type' => 'string', 	'length' => 200,	'null' => true, 'default' => null),
 		'created'	=> array('comment' => '作成日時',		'type' => 'datetime',						'null' => true, 'default' => null),
 		'updated'	=> array('comment' => '更新日時',		'type' => 'datetime',						'null' => true, 'default' => null),
 		
@@ -150,7 +148,7 @@ class AppSchema extends CakeSchema {
 	);
 	
 	/**
-	 * メンバ情報詳細（否検索項目）
+	 * サブメールアドレス（メンバ情報）
 	 * @var type 
 	 */
 	public $tbl_member_sub_mails = array(
@@ -163,8 +161,6 @@ class AppSchema extends CakeSchema {
 		// メールアドレス	
 		'sub_mail'					=> array('comment' => 'メンバのメールアドレス(サブ)',	'type' => 'string',		'length' => 200,	'null' => false,	'default' => null,),
 		
-		'create_ip'	=> array('comment' => '作成IP',		'type' => 'string',		'length' => 200,	'null' => true, 'default' => null),
-		'update_ip'	=> array('comment' => '更新IP',		'type' => 'string', 	'length' => 200,	'null' => true, 'default' => null),
 		'created'	=> array('comment' => '作成日時',		'type' => 'datetime',						'null' => true, 'default' => null),
 		'updated'	=> array('comment' => '更新日時',		'type' => 'datetime',						'null' => true, 'default' => null),
 		
