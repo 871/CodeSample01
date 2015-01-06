@@ -37,4 +37,68 @@ class OrmModelUtil {
 		$vlues	= empty($tmp)? array(): $tmp;
 		return ',' . join(',', $vlues) . ',';
 	}
+	
+	/**
+	 * 更新ロック用データ作成
+	 * @param AppOrmModel $lockModel
+	 * @param type $id
+	 * @throws ErrorException
+	 */
+	public static function saveLockModelData(AppOrmModel $lockModel, $id) {
+		$data = array(
+			$lockModel->alias => array(
+				$lockModel->primaryKey => $id,
+			),
+		);
+		$result = $lockModel->save($data);
+		if (!$result) {
+			throw new ErrorException($lockModel->name . ' Save Error');
+		}
+	}
+	
+	/**
+	 * 更新ロック用データ削除
+	 * @param AppOrmModel $lockModel
+	 * @param type $id
+	 * @throws ErrorException
+	 */
+	public static function deleteLockModelData(AppOrmModel $lockModel, $id) {
+		$result = $lockModel->delete($id);
+		if (!$result) {
+			throw new ErrorException($lockModel->name .' Delete Error');
+		}
+	}
+	
+	public static function setHasManySaveData(AppOrmModel $ormModel, stdClass $std, $parField, $bnField) {
+		$priField	= $ormModel->primaryKey;
+		$data		= !empty($std->data)? $std->data: $ormModel->data;
+		if (empty($data[$priField])) {
+			$parValue	= $data[$parField];
+			$bnValue	= $ormModel->getBranchNo($parValue);
+			$priValue	= $ormModel->createStringId($parValue, $bnValue);
+			$data[$priField]	= $priValue;
+			$data[$bnField]		= $bnValue;
+		}
+		if (!empty($std->data)) {
+			$std->data = $data;
+		} else {
+			$ormModel->data = $data;
+		}
+	}
+	
+	public static function setHasOneSaveData(AppOrmModel $ormModel, stdClass $std, $parField) {
+		$priField	= $ormModel->primaryKey;
+		$data		= !empty($std->data)? $std->data: $ormModel->data;
+		
+		if (empty($data[$priField])) {
+			$parValue	= $data[$parField];
+			$priValue	= $ormModel->createStringId($parValue);
+			$data[$priField]	= $priValue;
+		}
+		if (!empty($std->data)) {
+			$std->data = $data;
+		} else {
+			$ormModel->data = $data;
+		}
+	}
 }
