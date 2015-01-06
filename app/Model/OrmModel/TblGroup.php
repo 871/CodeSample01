@@ -1,5 +1,7 @@
 <?php
 App::uses('AppOrmModel', 'Model');
+App::uses('OrmModelUtil', 'Lib/Util');
+
 /**
  * TblGroup Model
  *
@@ -46,47 +48,15 @@ class TblGroup extends AppOrmModel {
 		if ($created) {
 			$id			= $this->getID();
 			$lockModel	= ClassRegistry::init('TblGroupLock');
-			self::saveTblGroupLock($lockModel, $id);
+			// 更新用ロックデータ作成
+			OrmModelUtil::saveLockModelData($lockModel, $id);
 		}
 	}
-	
-	/**
-	 * ロック用データ作成
-	 * @param TblGroupLock $lockModel
-	 * @param type $id
-	 * @throws ErrorException
-	 */
-	private static function saveTblGroupLock(TblGroupLock $lockModel, $id) {
-		$data = array(
-			$lockModel->alias => array(
-				$lockModel->primaryKey => $id,
-			),
-		);
-		$result = $lockModel->save($data);
-		if (!$result) {
-			throw new ErrorException();
-		}
-	}
-	
 	
 	public function afterDelete() {
 		$id			= $this->id;
 		$lockModel	= ClassRegistry::init('TblGroupLock');
 		// 更新ロック用データ削除
-		self::deleteTblGroupLock($lockModel, $id);
+		OrmModelUtil::deleteLockModelData($lockModel, $id);
 	}
-	
-	/**
-	 * 更新ロック用データ削除
-	 * @param TblGroupLock $lockModel
-	 * @param type $id
-	 * @throws ErrorException
-	 */
-	private static function deleteTblGroupLock(TblGroupLock $lockModel, $id) {
-		$result = $lockModel->delete($id);
-		if (!$result) {
-			throw new ErrorException();
-		}
-	}
-
 }

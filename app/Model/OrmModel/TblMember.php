@@ -1,6 +1,6 @@
 <?php
 App::uses('AppOrmModel', 'Model');
-App::uses('TblMemberUtil', 'Lib/Util');
+App::uses('OrmModelUtil', 'Lib/Util');
 
 /**
  * TblMember Model
@@ -119,19 +119,11 @@ class TblMember extends AppOrmModel {
 	
 	public function afterSave($created, $options = array()) {
 		$tblMember			= $this;
-		$tblMemberDetail	= ClassRegistry::init('TblMemberDetail');
-		$tblMemberSubMail	= ClassRegistry::init('TblMemberSubMail');
-		
-		// メンバ情報詳細（否検索項目）の登録
-		TblMemberUtil::saveTblMemberDetail($tblMemberDetail, $tblMember);
-		// サブメールアドレス（メンバ情報）の登録
-		TblMemberUtil::saveTblMemberSubMails($tblMemberSubMail, $tblMember);
-		
 		if ($created) {
 			$id			= $tblMember->getID();
 			$lockModel	= ClassRegistry::init('TblMemberLock');
 			// 更新ロック用データ作成
-			TblMemberUtil::saveTblMemberLock($lockModel, $id);
+			OrmModelUtil::saveLockModelData($lockModel, $id);
 		}
 	}
 	
@@ -139,6 +131,6 @@ class TblMember extends AppOrmModel {
 		$id			= $this->id;
 		$lockModel	= ClassRegistry::init('TblMemberLock');
 		// 更新ロック用データ削除
-		TblMemberUtil::deleteTblMemberLock($lockModel, $id);
+		OrmModelUtil::deleteLockModelData($lockModel, $id);
 	}
 }

@@ -104,7 +104,8 @@ class TblMemberTest extends CakeTestCase {
 				)),
 			),
 		);
-		$tblMember->save($saveData);
+		$tblMember instanceof TblMember;
+		$tblMember->saveAssociated($saveData, array('deep' => true));
 		$id = $tblMember->getId();
 		
 		$options = array(
@@ -159,7 +160,7 @@ class TblMemberTest extends CakeTestCase {
 				)),
 			),
 		);
-		$tblMember->save($saveData);
+		$tblMember->saveAssociated($saveData, array('deep' => true));
 		
 		$savedData = $tblMemberDetail->find('first', $options);
 		
@@ -202,7 +203,7 @@ class TblMemberTest extends CakeTestCase {
 				array('sub_mail' => 'create4@test.871.nagoya',),
 			),
 		);
-		$tblMember->save($saveData);
+		$tblMember->saveAssociated($saveData, array('deep' => true));
 		$id = $tblMember->getId();
 		$options = array(
 			'conditions' => array(
@@ -254,17 +255,18 @@ class TblMemberTest extends CakeTestCase {
 				array('sub_mail' => 'create4@test.871.nagoya',),
 			),
 		);
-		$tblMember->save($saveData);
+		$tblMember->saveAssociated($saveData, array('deep' => true));
 		
 		$saveCount = $tblMemberSubMail->find('count', $options);
 		
-		$tu->assertEqual($saveCount, 4);
+		$tu->assertEqual($saveCount, $beforeCount + 4);
 		$tu->assertNotEqual($beforeCount, $saveCount);
 		
 		
 		$data = $tblMemberSubMail->find('all', $options);
+		
 		$path1 = '3.TblMemberSubMail.sub_mail';
-		$path2 = 'TblMemberSubMail.3.sub_mail';
+		$path2 = 'TblMemberSubMail.2.sub_mail';
 		$path3 = '3.TblMemberSubMail.id';
 		$path4 = '3.TblMemberSubMail.tbl_member_id';
 		$path5 = '3.TblMemberSubMail.branch_no';

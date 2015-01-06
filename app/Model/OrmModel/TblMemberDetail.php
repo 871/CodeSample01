@@ -1,5 +1,6 @@
 <?php
 App::uses('AppOrmModel', 'Model');
+App::uses('OrmModelUtil', 'Lib/Util');
 /**
  * TblMemberDetail Model
  *
@@ -59,6 +60,13 @@ class TblMemberDetail extends AppOrmModel {
 		)
 	);
 	
+	public function save($data = null, $validate = true, $fieldList = array()) {
+		$std = new stdClass();
+		$std->data = $data;
+		OrmModelUtil::setHasOneSaveData($this, $std, 'tbl_member_id');
+		return parent::save($std->data, $validate, $fieldList);
+	}
+
 	/**
 	 * 文字列型プライマリIDを作成
 	 * (over raid)
