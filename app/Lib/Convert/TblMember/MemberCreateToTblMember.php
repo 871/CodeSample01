@@ -38,14 +38,20 @@ class MemberCreateToTblMember {
 				'member_mail'		=> $inputData[$ctlAlias]['member_mail'],
 				'member_birthday'	=> $inputData[$ctlAlias]['member_birthday'],
 				'mst_sex_id'		=> $inputData[$ctlAlias]['mst_sex_id'],
-				'tbl_group_count'	=> 0,
+				'tbl_group_count'	=> count($inputData[$ctlAlias]['TblGroup']),
 				'create_ip'			=> env('REMOTE_ADDR'),
 				'update_ip'			=> env('REMOTE_ADDR'),
 			),
+			// hasOne
 			'TblMemberDetail' => array(
 				'remarks'			=> $inputData[$ctlAlias]['remarks'],
 			),
-			'TblMemberSubMail' => $dataTblMemberSubMail,
+			// HasMany
+			'TblMemberSubMail'	=> $dataTblMemberSubMail,
+			// BelongsToHasMany
+			'TblGroup' => array(
+				'TblGroup' => $inputData[$ctlAlias]['TblGroup'],
+			),
 		);
 		return $saveData;
 	}

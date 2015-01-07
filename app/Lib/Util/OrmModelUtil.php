@@ -32,6 +32,12 @@ class OrmModelUtil {
 		return $saveIds;
 	}
 	
+	public static function transactionSaveAssociatedDeep(AppOrmModel $ormModel, array $data = null) {
+		if (! $ormModel->saveAssociated($data, array('deep' => true))) {
+			throw new ErrorException($ormModel->alias . ' Save Error');
+		}
+	}
+
 	public static function getHabtmCacheData(array $ctlData, $ctlAlias, $ctlFieldName) {
 		$tmp	= $ctlData[$ctlAlias][$ctlFieldName];
 		$vlues	= empty($tmp)? array(): $tmp;
