@@ -271,12 +271,12 @@ class MemberDetailHelper extends AppCtlHelper {
 		$field	= 'id';
 		
 		$tbl_member_id	= $data[$alias][$field];
-		$user_name		= $data[$alias]['member_name'];
+		$member_name	= $data[$alias]['member_name'];
 		
 		$title		= __('メンバー情報削除');
 		$url		= UrlUtil::getMemberDelete($tbl_member_id);
 		$options	= array();
-		$confirmMessage = sprintf(__('ID: %1$s [%2$s]のメンバー情報を削除しますか？'), $tbl_member_id, $user_name);
+		$confirmMessage = sprintf(__('ID: %1$s [%2$s]のメンバー情報を削除しますか？'), $tbl_member_id, $member_name);
 		return $form->postLink($title, $url, $options, $confirmMessage);
 	}
 	/**/
