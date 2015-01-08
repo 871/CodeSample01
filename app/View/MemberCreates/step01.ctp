@@ -12,11 +12,12 @@ $inputRemarks			= $ctlHelper->getInputRemarks			();
 $submitNext				= $ctlHelper->getSubmitNext				();
 $formEnd				= $ctlHelper->getFormEnd();
 // リンク
-$linkMemberSearch = $ctlHelper->getLinkMemberSearch();
-
+$linkMemberSearch	= $ctlHelper->getLinkMemberSearch	();
+$divNaviLinks		= $ctlHelper->getDivNaviLinks		();
 ?>
 <div class="form">
 	<h2>新規メンバー登録</h2>
+	<?php echo $divNaviLinks; ?>
 	<?php echo $formStart; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tr>

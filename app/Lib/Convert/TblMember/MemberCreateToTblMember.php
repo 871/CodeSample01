@@ -31,23 +31,24 @@ class MemberCreateToTblMember {
 		$ctlAlias	= self::CTL_ALIAS;
 		$ormAlias	= self::ORM_ALIAS;
 		
-		$dataTblMemberSubMail = self::getDataTblMemberSubMail($inputData);
+		$tblMemberSubMail	= self::getTblMemberSubMail($inputData);
+		$tbl_group_count	= self::getTblGroupCount($inputData);
 		$saveData = array(
 			$ormAlias => array(
 				'member_name'		=> $inputData[$ctlAlias]['member_name'],
 				'member_mail'		=> $inputData[$ctlAlias]['member_mail'],
 				'member_birthday'	=> $inputData[$ctlAlias]['member_birthday'],
 				'mst_sex_id'		=> $inputData[$ctlAlias]['mst_sex_id'],
-				'tbl_group_count'	=> count($inputData[$ctlAlias]['TblGroup']),
+				'tbl_group_count'	=> $tbl_group_count,
 				'create_ip'			=> env('REMOTE_ADDR'),
 				'update_ip'			=> env('REMOTE_ADDR'),
 			),
 			// hasOne
 			'TblMemberDetail' => array(
-				'remarks'			=> $inputData[$ctlAlias]['remarks'],
+				'remarks'		=> $inputData[$ctlAlias]['remarks'],
 			),
 			// HasMany
-			'TblMemberSubMail'	=> $dataTblMemberSubMail,
+			'TblMemberSubMail'	=> $tblMemberSubMail,
 			// BelongsToHasMany
 			'TblGroup' => array(
 				'TblGroup' => $inputData[$ctlAlias]['TblGroup'],
@@ -56,7 +57,7 @@ class MemberCreateToTblMember {
 		return $saveData;
 	}
 	
-	private static function getDataTblMemberSubMail(array $inputData) {
+	private static function getTblMemberSubMail(array $inputData) {
 		$ctlAlias	= self::CTL_ALIAS;
 		$result		= array();
 		
@@ -70,5 +71,16 @@ class MemberCreateToTblMember {
 			++$i;
 		}
 		return $result;
+	}
+	
+	private static function getTblGroupCount(array $inputData) {
+		$ctlAlias	= self::CTL_ALIAS;
+		
+		$value = $inputData[$ctlAlias]['TblGroup'];
+		if (!is_array($value)) {
+			return 0;
+		} else {
+			return count($value);
+		}
 	}
 }

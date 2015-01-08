@@ -11,9 +11,11 @@ $submitConf			= $ctlHelper->getSubmitConf		();
 $formEnd			= $ctlHelper->getFormEnd();
 // リンク
 $linkMemberSearch	= $ctlHelper->getLinkMemberSearch();
+$divNaviLinks		= $ctlHelper->getDivNaviLinks		();
 ?>
 <div class="form">
 	<h2>新規メンバー登録</h2>
+	<?php echo $divNaviLinks; ?>
 	<?php echo $formStart; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tr>
@@ -23,8 +25,8 @@ $linkMemberSearch	= $ctlHelper->getLinkMemberSearch();
 		<tr>
 			<td></td>
 			<td>
-				<?php echo $submitBack; ?>
 				<?php echo $submitConf; ?>
+				<?php echo $submitBack; ?>
 			</td>
 		</tr>
 	</table>

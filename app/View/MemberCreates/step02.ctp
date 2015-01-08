@@ -6,19 +6,21 @@ if (!$ctlHelper instanceof MemberCreateHelper)	throw new RuntimeException(__DIR_
 // フォーム
 $formStart				= $ctlHelper->getFormStart(array('action' => 'step02'));
 $inputMemberMail		= $ctlHelper->getInputMemberMail();
-$inputSubMails			= $ctlHelper->getInputSubMails	();
+$inputsSubMail			= $ctlHelper->getInputsSubMail	();
 $submitBack				= $ctlHelper->getSubmitBack		('step01');
 $submitNext				= $ctlHelper->getSubmitNext		();
 $formEnd				= $ctlHelper->getFormEnd();
 // リンク
-$linkMailAdd			= $ctlHelper->getLinkMailAdd();	// JSイベント用
-$linkMemberSearch		= $ctlHelper->getLinkMemberSearch();
+$linkMailAdd			= $ctlHelper->getLinkMailAdd		();	// JSイベント用
+$linkMemberSearch		= $ctlHelper->getLinkMemberSearch	();
+$divNaviLinks			= $ctlHelper->getDivNaviLinks		();
 // テキスト
-$titleSubMails			= $ctlHelper->getTitleSubMails();
+$titlesSubMail			= $ctlHelper->getTitlesSubMail();
 
 ?>
 <div class="form">
 	<h2>新規メンバー登録</h2>
+	<?php echo $divNaviLinks; ?>
 	<?php echo $formStart; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tr>
@@ -28,21 +30,44 @@ $titleSubMails			= $ctlHelper->getTitleSubMails();
 				<?php echo $linkMailAdd;		?>
 			</td>
 		</tr>
-		<?php for ($i = 0, $cnt = count($inputSubMails); $i < $cnt; ++$i) { ?>
+		<?php for ($i = 0, $cnt = count($inputsSubMail); $i < $cnt; ++$i) { ?>
 		<tr class="sysSubMail">
-			<th><?php echo $titleSubMails[$i]; ?></th>
-			<td><?php echo $inputSubMails[$i]; ?></td>
+			<th><?php echo $titlesSubMail[$i]; ?></th>
+			<td><?php echo $inputsSubMail[$i]; ?></td>
 		</tr>
 		<?php } ?>
 		<tr>
 			<td></td>
 			<td>
-				<?php echo $submitBack; ?>
 				<?php echo $submitNext; ?>
+				<?php echo $submitBack; ?>
 			</td>
 		</tr>
 	</table>
 	<?php echo $formEnd; ?>
+	<script>(function($){
+		var elRowAdd		= '.sysRowAdd';
+		var elSubMailRow	= 'tr.sysSubMail';
+		var subMailRows = $(elSubMailRow);
+		for (var i = subMailRows.length - 1; i >= 0; --i) {
+			var el = subMailRows[i];
+			if ($(el).find('input').val()) {
+				break;
+			}
+			$(el).hide();
+				
+		}
+		
+		$(elRowAdd).click(function(){
+			for (var i = 0; i < subMailRows.length; ++i) {
+				var el = subMailRows[i];
+				if ($(el).is(':hidden')) {
+					$(el).show();
+					break;
+				}
+			}
+		});
+	})(jQuery);</script>
 </div>
 <div class="actions">
 	<h3>操作</h3>

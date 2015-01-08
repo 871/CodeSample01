@@ -102,7 +102,9 @@ class MemberCreateHelper extends AppCtlHelper {
 	 */
 	public function getInputMemberMail() {
 		$form		= $this->ExtForm;
-		$options	= array();
+		$options	= array(
+			'style' => 'width: 90%;',
+		);
 		$field		= 'member_mail';
 		return $form->error($field) . $form->input($field, $options);
 	}
@@ -111,7 +113,7 @@ class MemberCreateHelper extends AppCtlHelper {
 	 * メンバメールアドレス(サブ)
 	 * @return string
 	 */
-	public function getInputSubMails() {
+	public function getInputsSubMail() {
 		$form		= $this->ExtForm;
 		$options	= array();
 		
@@ -132,7 +134,12 @@ class MemberCreateHelper extends AppCtlHelper {
 		$form		= $this->ExtForm;
 		$options	= array();
 		$field		= 'TblGroup';
-		return $form->error($field) . $form->input($field, $options);
+		$error		= $form->error($field);
+		$tmp		= $form->input($field, $options);
+		
+		
+		$input = preg_replace('%(<div[^>]+>|</div>)%', '', $tmp);
+		return $error . $input;
 	}
 	
 	/**
@@ -189,7 +196,7 @@ class MemberCreateHelper extends AppCtlHelper {
 	 * メンバメールアドレス(サブ)
 	 * @return string
 	 */
-	public function getValueSubMails() {
+	public function getValuesSubMail() {
 		$form		= $this->ExtForm;
 		$values = array();
 		for ($i = 0, $cnt = TblMemberSubMail::MAX_DATA_COUNT; $i < $cnt; ++$i) {
@@ -208,8 +215,6 @@ class MemberCreateHelper extends AppCtlHelper {
 		$field		= 'TblGroup';
 		return h($form->extValue($field));
 	}
-
-
 
 	/**
 	 * サブミットボタン(次へ)
@@ -283,7 +288,7 @@ class MemberCreateHelper extends AppCtlHelper {
 	 * メンバメールアドレス(サブ)
 	 * @return string
 	 */
-	public function getTitleSubMails() {
+	public function getTitlesSubMail() {
 		$tpl = 'メールアドレス';
 		$titles = array();
 		for ($i = 0, $cnt = TblMemberSubMail::MAX_DATA_COUNT; $i < $cnt; ++$i) {
@@ -300,7 +305,9 @@ class MemberCreateHelper extends AppCtlHelper {
 		$html		= $this->Html;
 		$title		= __('追加');
 		$url		= '#';
-		$options	= array();
+		$options	= array(
+			'class' => 'sysRowAdd',
+		);
 		return $html->link($title, $url, $options);
 	}
 
@@ -316,9 +323,36 @@ class MemberCreateHelper extends AppCtlHelper {
 		return $html->link($title, $url, $options);
 	}
 	
-	
+	/**
+	 * パンくずナビゲータ
+	 * @return string
+	 */
 	public function getDivNaviLinks() {
+		$html		= $this->Html;
+		$request	= $this->request;
+		$action		= $request->params['action'];
 		
+		$url1 = $url2 = $url3 = null;
+		switch ($action) {
+			case 'conf':
+				$url3 = array('action' => 'step03',);
+			case 'step03':
+				$url2 = array('action' => 'step02',);
+			case 'step02':
+				$url1 = array('action' => 'step01',);
+			case 'step01':
+			default :
+				// 処理無し
+				break;
+		}
+		
+		$html->addCrumb('Step1(メンバ情報)'		, $url1);
+		$html->addCrumb('Step2(メールアドレス)'	, $url2);
+		$html->addCrumb('Step3(グループ情報)'		, $url3);
+		$html->addCrumb('登録確認');
+		$html->addCrumb('登録完了');
+		
+		return $html->getCrumbs(" > ");
 	}
 	/**/
 }
