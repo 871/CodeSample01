@@ -102,7 +102,7 @@ class MemberCreatesController extends AppController {
 				return;
 			} else {
 				$session->setFlash(__('メンバ情報の作成に失敗しました'));
-				$ctl->setAction('input', true);
+				$ctl->setAction('step01', true);
 				return;
 			}
 		}
