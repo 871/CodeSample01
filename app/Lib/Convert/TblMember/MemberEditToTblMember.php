@@ -43,7 +43,7 @@ class MemberEditToTblMember {
 				'tbl_group_count'	=> $tbl_group_count,
 				'update_ip'			=> env('REMOTE_ADDR'),
 			),
-			// hasOne
+			// HasOne
 			'TblMemberDetail' => array(
 				'id'				=> $inputData[$ctlAlias]['tbl_member_detail_id'],
 				'tbl_member_id'		=> $inputData[$ctlAlias]['id'],

@@ -50,9 +50,7 @@ class MemberCreateToTblMember {
 			// HasMany
 			'TblMemberSubMail'	=> $tblMemberSubMail,
 			// BelongsToHasMany
-			'TblGroup' => array(
-				'TblGroup' => $inputData[$ctlAlias]['TblGroup'],
-			),
+			'TblGroup' =>  $inputData[$ctlAlias]['TblGroup'],
 		);
 		return $saveData;
 	}

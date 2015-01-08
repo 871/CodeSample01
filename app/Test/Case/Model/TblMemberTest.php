@@ -305,9 +305,7 @@ class TblMemberTest extends CakeTestCase {
 					'id'				=> $id,
 					'tbl_group_count'	=> count($groups),
 				),
-				'TblGroup' => array(
-					'TblGroup'	=> $groups,
-				),
+				'TblGroup' =>  $groups,
 			);
 			$tblMember->save($saveData);
 			$db->commit();
