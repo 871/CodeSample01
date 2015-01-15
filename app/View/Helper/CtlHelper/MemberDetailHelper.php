@@ -12,6 +12,7 @@
 
 App::uses('AppCtlHelper', 'View/Helper');
 App::uses('UrlUtil', 'Lib/Util');
+App::uses('TblMemberView', 'Lib/Trait/OrmView');
 
 /**
  * Application helper
@@ -24,7 +25,11 @@ App::uses('UrlUtil', 'Lib/Util');
  */
 class MemberDetailHelper extends AppCtlHelper {
 	
-	public $dataDetail = array();
+	use TblMemberView;
+	
+	private $dataDetail = array();
+	
+	// TblMemberView::$dataTblMember;
 
 	/**
 	 * 詳細情報
@@ -32,32 +37,9 @@ class MemberDetailHelper extends AppCtlHelper {
 	 */
 	public function setDataDetail(array $dataDetail) {
 		$this->dataDetail = $dataDetail;
+		$this->setDataTblMember($dataDetail);
 	}
 
-	/**
-	 * TblMember.id
-	 * @return string
-	 */
-	public function getTextId() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'id';
-		
-		return h($data[$alias][$field]);
-	}
-	
-	/**
-	 * TblMember.member_name
-	 * @return string
-	 */
-	public function getTextMemberName() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'member_name';
-		
-		return h($data[$alias][$field]);
-	}
-	
 	/**
 	 * TblMember.member_mail
 	 * @return string
@@ -74,30 +56,6 @@ class MemberDetailHelper extends AppCtlHelper {
 		
 		$result = join("\n", $arrTmp);
 		return nl2br(h($result));
-	}
-	
-	/**
-	 * MstSex.name
-	 * @return string
-	 */
-	public function getTextMstSexName() {
-		$data	= $this->dataDetail;
-		$alias	= 'MstSex';
-		$field	= 'name';
-		
-		return h($data[$alias][$field]);
-	}
-	
-	/**
-	 * TblMember.member_birthday
-	 * @return string
-	 */
-	public function getTextMemberBirthday() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'member_birthday';
-		
-		return h($data[$alias][$field]);
 	}
 	
 	/**
@@ -122,18 +80,6 @@ class MemberDetailHelper extends AppCtlHelper {
 		} else {
 			return h('--');
 		}
-	}
-	
-	/**
-	 * TblMember.tbl_group_count
-	 * @return string
-	 */
-	public function getTextTblGroupCount() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'tbl_group_count';
-		
-		return h($data[$alias][$field]);
 	}
 	
 	/**
@@ -166,56 +112,6 @@ class MemberDetailHelper extends AppCtlHelper {
 		$field	= 'remarks';
 		
 		return nl2br(h($data[$alias][$field]));
-	}
-	
-	/**
-	 * TblMember.create_ip
-	 * @return string
-	 */
-	public function getTextCreateIp() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'create_ip';
-		
-		return h($data[$alias][$field]);
-	}
-	
-	/**
-	 * TblMember.update_ip
-	 * @return string
-	 */
-	public function getTextUdateIp() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'update_ip';
-		
-		return h($data[$alias][$field]);
-	}
-	
-	/**
-	 * TblMember.created
-	 * @param int $index
-	 * @return string
-	 */
-	public function getTextCreated() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'created';
-		
-		return h($data[$alias][$field]);
-	}
-	
-	/**
-	 * TblMember.updated
-	 * @param int $index
-	 * @return string
-	 */
-	public function getTextUpdated() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMember';
-		$field	= 'updated';
-		
-		return h($data[$alias][$field]);
 	}
 	
 	/**

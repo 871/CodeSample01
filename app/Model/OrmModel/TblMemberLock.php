@@ -1,10 +1,10 @@
 <?php
-App::uses('AppOrmModel', 'Model');
+App::uses('AppLockModel', 'Model');
 /**
  * TblMemberLock Model
  *
  */
-class TblMemberLock extends AppOrmModel {
+class TblMemberLock extends AppLockModel {
 
 /**
  * Display field

@@ -143,11 +143,15 @@ class Group extends AppCtlModel {
 	}
 	
 	private static function saveTransaction(self $ctlModel) {
-		$db			= $ctlModel->getDataSource();
-		$tblGroup	= ClassRegistry::init('TblGroup');
+		$db				= $ctlModel->getDataSource();
+		$tblGroup		= ClassRegistry::init('TblGroup');
+		$tblGroupLock	= ClassRegistry::init('TblGroupLock');
+		$primaryId		= Hash::get($tblGroup->data, 'TblGroup.id');
 		
 		try {
 			$db->begin();
+			// 更新行ロック
+			OrmModelUtil::rowDataLock($tblGroupLock, $primaryId);
 			// アカウント情報
 			GroupToTblGroup::convert($ctlModel, $tblGroup);
 			OrmModelUtil::transactionSave($tblGroup);

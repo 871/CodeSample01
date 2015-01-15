@@ -3,7 +3,8 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
+ */ 
+App::uses('RowDataLock', 'Lib/Interface');
 
 /**
  * Description of OrmModelUtil
@@ -12,7 +13,7 @@
  */
 class OrmModelUtil {
 	
-	public static function rowDataLock(AppOrmModel $ormModel, $primaryId) {
+	public static function rowDataLock(RowDataLock $ormModel, $primaryId) {
 		$ormModel->rowDataLock($primaryId);
 	}
 
@@ -46,11 +47,11 @@ class OrmModelUtil {
 	
 	/**
 	 * 更新ロック用データ作成
-	 * @param AppOrmModel $lockModel
+	 * @param AppLockModel $lockModel
 	 * @param type $id
 	 * @throws ErrorException
 	 */
-	public static function saveLockModelData(AppOrmModel $lockModel, $id) {
+	public static function saveLockModelData(AppLockModel $lockModel, $id) {
 		$data = array(
 			$lockModel->alias => array(
 				$lockModel->primaryKey => $id,
@@ -64,11 +65,11 @@ class OrmModelUtil {
 	
 	/**
 	 * 更新ロック用データ削除
-	 * @param AppOrmModel $lockModel
+	 * @param AppLockModel $lockModel
 	 * @param type $id
 	 * @throws ErrorException
 	 */
-	public static function deleteLockModelData(AppOrmModel $lockModel, $id) {
+	public static function deleteLockModelData(AppLockModel $lockModel, $id) {
 		$result = $lockModel->delete($id);
 		if (!$result) {
 			throw new ErrorException($lockModel->name .' Delete Error');

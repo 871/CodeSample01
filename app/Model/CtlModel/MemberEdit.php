@@ -340,11 +340,15 @@ class MemberEdit extends AppCtlModel {
 	}
 	
 	private static function saveTransaction(self $ctlModel) {
-		$db			= $ctlModel->getDataSource();
-		$tblMember	= ClassRegistry::init('TblMember');
+		$db				= $ctlModel->getDataSource();
+		$tblMember		= ClassRegistry::init('TblMember');
+		$tblMemberLock	= ClassRegistry::init('TblMemberLock');
+		$primaryId		= Hash::get($tblMember->data, 'TblMember.id');
 		
 		try {
 			$db->begin();
+			// 更新行ロック
+			OrmModelUtil::rowDataLock($tblMemberLock, $primaryId);
 			// アカウント情報
 			MemberEditToTblMember::convert($ctlModel, $tblMember);
 			OrmModelUtil::transactionSaveAssociatedDeep($tblMember);

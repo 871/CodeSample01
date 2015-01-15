@@ -8,19 +8,21 @@ if (! $ctlHelper instanceof MemberDetailHelper)	throw new RuntimeException(__DIR
 
 $ctlHelper->setDataDetail($dataDetail);
 
-$textId					= $ctlHelper->getTextId				();
-$textMemberName			= $ctlHelper->getTextMemberName		();
-$textMemberMail			= $ctlHelper->getTextMemberMail		();
-$textMstSexName			= $ctlHelper->getTextMstSexName		();
-$textMemberBirthday		= $ctlHelper->getTextMemberBirthday	();
-$textMemberAge			= $ctlHelper->getTextMemberAge		();
-$textTblGroupCount		= $ctlHelper->getTextTblGroupCount	();
+$textId					= $ctlHelper->getTextTblMemberId			();
+$textMemberName			= $ctlHelper->getTextTblMemberMemberName	();
+$textMemberMail			= $ctlHelper->getTextMemberMail				();
+$textMstSexName			= $ctlHelper->getTextMstSexName				();
+$textMemberBirthday		= $ctlHelper->getTextTblMemberMemberBirthday();
+$textMemberAge			= $ctlHelper->getTextMemberAge				();
+$textTblGroupCount		= $ctlHelper->getTextTblMemberTblGroupCount	();
+
 $textTblGroup			= $ctlHelper->getTextTblGroup		();
 $textRemarks			= $ctlHelper->getTextRemarks		();
-$textCreateIp			= $ctlHelper->getTextCreateIp		();
-$textUdateIp			= $ctlHelper->getTextUdateIp		();
-$textCreated			= $ctlHelper->getTextCreated		();
-$textUpdated			= $ctlHelper->getTextUpdated		();
+
+$textCreateIp			= $ctlHelper->getTextTblMemberCreateIp		();
+$textUdateIp			= $ctlHelper->getTextTblMemberUpdateIp		();
+$textCreated			= $ctlHelper->getTextTblMemberCreated		();
+$textUpdated			= $ctlHelper->getTextTblMemberUpdated		();
 // リンク
 $linkMemberCreate		= $ctlHelper->getLinkMemberCreate	();
 $linkMemberSearch		= $ctlHelper->getLinkMemberSearch	();

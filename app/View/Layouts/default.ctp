@@ -58,6 +58,18 @@ $sessionFlashMessage	= $prjHelper->getSessionFlashMessage();
 				<h3><?php echo $textMenuTitle; ?></h3>
 				<?php echo $ulMenuLinks; ?>
 			</div>
+			<script>(function($){
+				var elContent = 'div.index,div.form';
+				var elActions = 'div.actions';
+				
+				var actionsHeigth = 0;
+				$(elActions).each(function(i, e){
+					actionsHeigth += $(e).height();
+				});
+				if ($(elContent).height() < actionsHeigth) {
+					$(elContent).height(actionsHeigth);
+				}
+			})(jQuery);</script>
 		</div>
 		<div id="footer">
 			<?php echo $textCopyright; ?>

@@ -93,12 +93,6 @@ $linkMemberCreate		= $ctlHelper->getLinkMemberCreate	();
 	<p><?php echo $paginatorCounter; ?></p>
 	<div class="paging"><?php echo $paginatorLinks; ?></div>
 </div>
-<script>(function($){
-	var el = 'div.index';
-	if ($(el).height() < 1000) {
-		$(el).height(1000);
-	}
-})(jQuery);</script>
 <?php
 // 検索フォーム
 $formStart				= $ctlHelper->getFormStart				();
