@@ -19,14 +19,19 @@ class GenerateLibTraitOrmViewShell extends AppShell {
 	
     public function main() {
 		$shell = $this;
-		$modelName = $shell->args[0];
-		try {
-			$shell->out('Start Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
-			$shell->GenerateLibTraitOrmView->run($modelName);
-			$shell->out('End Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
-		} catch (RuntimeException $e) {
-			$shell->out('Error Message:' . $e->getMessage());
-			$shell->out('Error Not Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
+		$modelNames = $shell->args;
+		foreach ($modelNames as $modelName) {
+			try {
+				$shell->out('Start Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
+				$shell->GenerateLibTraitOrmView->run($modelName);
+				$shell->out('End Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
+			} catch (RuntimeException $e) {
+				$shell->out('Error Message:' . $e->getMessage());
+				$shell->out('Error Not Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
+			} catch (Exception $e) {
+				$shell->out('System Error [' . $e->getMessage() . ']');
+				$shell->out('Error Not Generate [Lib/Trait/OrmView/' . $modelName . 'View.php]');
+			}
 		}
     }
 }
