@@ -192,27 +192,31 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		$returnComment	= 'string';
 		$rootModelName	= $prefix === ''? $modelName: $prefix;
 		
+		$medhod = new ClassMedhod();
+		$medhod->setMedhodName($medhodName);
+		$medhod->setAccess($access);
 		switch ($type) {
 			case 'text':
 				$arrLogic = self::getLogicText($rootModelName, $modelName, $fieldName, $pluralityFlag);
+				$medhod->setLogic($arrLogic);
 				break;
-			case 'boolan':
-				$arrLogic = self::getLogicBoolan($rootModelName, $modelName, $fieldName, $pluralityFlag);
+			case 'boolean':
+				$arrLogic = self::getLogicBoolean($rootModelName, $modelName, $fieldName, $pluralityFlag);
+				$medhod->setLogic($arrLogic);
+				$medhod->addArg('$true = \'可\'', 'string $true');
+				$medhod->addArg('$false = \'不可\'', 'string $false');
 				break;
 			case 'float':
 			case 'integer':
 				$arrLogic = self::getLogicInteger($rootModelName, $modelName, $fieldName, $pluralityFlag);
+				$medhod->setLogic($arrLogic);
 				break;
 			case 'string':
 			default :
 				$arrLogic = self::getLogicString($rootModelName, $modelName, $fieldName, $pluralityFlag);
+				$medhod->setLogic($arrLogic);
 				break;
 		}
-		
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->setLogic($arrLogic);
 		$medhod->addMedhodComment($comment);
 		$medhod->addMedhodComment($memo1);
 		$medhod->addMedhodComment($memo2);
@@ -457,7 +461,7 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 	 * @param type $fieldName
 	 * @return string
 	 */
-	private static function getLogicBoolan($modelName, $alais, $fieldName, $pluralityFlag = false) {
+	private static function getLogicBoolean($modelName, $alais, $fieldName, $pluralityFlag = false) {
 		$result = array();
 		$result[] = '$data	= $this->data' . $modelName . ';';
 		$result[] = '$alias	= \'' . $alais . '\';';
@@ -467,7 +471,7 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		} else {
 			$result[] = '$flag	= $data[$alias][$field];';
 		}
-		$result[] = '$value	= $flag? \'可\': \'不可\';';
+		$result[] = '$value	= $flag? $true: $false;';
 		$result[] = '';
 		$result[] = 'return h($value);';
 		
