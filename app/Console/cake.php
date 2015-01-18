@@ -15,7 +15,7 @@
  * @package       app.Console
  * @since         CakePHP(tm) v 2.0
  */
-
+date_default_timezone_set('Asia/Tokyo');
 $ds = DIRECTORY_SEPARATOR;
 $dispatcher = 'Cake' . $ds . 'Console' . $ds . 'ShellDispatcher.php';
 
