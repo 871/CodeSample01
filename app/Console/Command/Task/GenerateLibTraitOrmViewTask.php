@@ -277,8 +277,12 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		$aliases	= array_keys($model->hasMany);
 		
 		foreach ($aliases as $alias) {
-			$comment	= 'hasManyデータカウント（' . $alias . '）';
-			$result[]	= self::getDataCountMethod($alias, $prefix, $comment);
+			$commentCnt	= 'hasManyデータカウント（' . $alias . '）';
+			$result[]	= self::getDataCountMethod($alias, $prefix, $commentCnt);
+			
+			$displayField	= $model->{$alias}->displayField;
+			$commentDis		= 'hasMany Displays (' . $alias . '）';
+			$result[]		= self::getDisplayFieldsMethod($alias, $displayField, $prefix, $commentDis);
 			
 			$schema		= $model->{$alias}->schema();
 			foreach ($schema as $fieldName => $params) {
@@ -289,7 +293,6 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		}
 		return $result;
 	}
-	
 	
 	/**
 	 * HasAndBelongsToManyアソシエーションのメソッド
@@ -304,6 +307,10 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		foreach ($aliases as $alias) {
 			$comment	= 'hasAndBelongsToManyデータカウント（' . $alias . '）';
 			$result[]	= self::getDataCountMethod($alias, $prefix, $comment);
+			
+			$displayField	= $model->{$alias}->displayField;
+			$commentDis		= 'hasAndBelongsToMany Displays (' . $alias . '）';
+			$result[]		= self::getDisplayFieldsMethod($alias, $displayField, $prefix, $commentDis);
 			
 			$schema		= $model->{$alias}->schema();
 			foreach ($schema as $fieldName => $params) {
@@ -337,6 +344,42 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		$medhod->setLogic($arrLogic);
 		$medhod->addMedhodComment($medhodComment);
 		$medhod->addMedhodComment($memo1);
+		$medhod->setReturnComment($returnComment);
+		return $medhod;
+	}
+	
+	
+	/**
+	 * 複数項目の一覧表示
+	 * @param type $alias
+	 * @param type $displayField
+	 * @param type $modelName
+	 * @param type $medhodComment
+	 * @return \ClassMedhod
+	 */
+	private static function getDisplayFieldsMethod($alias, $displayField, $modelName, $medhodComment) {
+		$medhodName	= 'getText' . $modelName . $alias . 'Display';
+		$access		= 'public';
+		$arg		= '$display = \'' . $displayField . '\'';
+		$arrLogic	= array(
+			'$data	= $this->data' . $modelName . ';',
+			'$path	= \'' . $alias . '.{n}.\' . $display;',
+			'$tmp	= Hash::extract($data, $path);',
+			'',
+			'return join(",\n", $tmp);',
+		);
+		$memo1			= '$text' . $modelName . $alias . 'Display = $ctlHelper->' . $medhodName . '();';
+		$memo2			= '<?php $text' . $modelName . $alias . 'Display; ?>';
+		$returnComment	= 'string';
+		
+		$medhod = new ClassMedhod();
+		$medhod->setMedhodName($medhodName);
+		$medhod->setAccess($access);
+		$medhod->setLogic($arrLogic);
+		$medhod->addArg($arg, 'string');
+		$medhod->addMedhodComment($medhodComment);
+		$medhod->addMedhodComment($memo1);
+		$medhod->addMedhodComment($memo2);
 		$medhod->setReturnComment($returnComment);
 		return $medhod;
 	}
