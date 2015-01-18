@@ -179,29 +179,33 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 	 * @param type $comment
 	 * @return \ClassMedhod
 	 */
-	private static function getSchemaMethod($modelName, $fieldName, $type, $comment, $prefix = '') {
+	private static function getSchemaMethod($modelName, $fieldName, $type, $comment, $prefix = '', $pluralityFlag = false) {
 		$access			= 'public';
 		$cameFieldName	= Inflector::camelize($fieldName);
 		$medhodName		= 'getText' . $prefix . $modelName . $cameFieldName;
-		$memo1			= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $medhodName . '	();';
+		if ($pluralityFlag) {
+			$memo1	= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $medhodName . '	($cnt = 0);';
+		} else {
+			$memo1	= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $medhodName . '	();';
+		}
 		$memo2			= '<?php echo $text' . $prefix . $modelName . $cameFieldName . '	; ?>';
 		$returnComment	= 'string';
 		$rootModelName	= $prefix === ''? $modelName: $prefix;
 		
 		switch ($type) {
 			case 'text':
-				$arrLogic = self::getLogicText($rootModelName, $modelName, $fieldName);
+				$arrLogic = self::getLogicText($rootModelName, $modelName, $fieldName, $pluralityFlag);
 				break;
 			case 'boolan':
-				$arrLogic = self::getLogicBoolan($rootModelName, $modelName, $fieldName);
+				$arrLogic = self::getLogicBoolan($rootModelName, $modelName, $fieldName, $pluralityFlag);
 				break;
 			case 'float':
 			case 'integer':
-				$arrLogic = self::getLogicInteger($rootModelName, $modelName, $fieldName);
+				$arrLogic = self::getLogicInteger($rootModelName, $modelName, $fieldName, $pluralityFlag);
 				break;
 			case 'string':
 			default :
-				$arrLogic = self::getLogicString($rootModelName, $modelName, $fieldName);
+				$arrLogic = self::getLogicString($rootModelName, $modelName, $fieldName, $pluralityFlag);
 				break;
 		}
 		
@@ -213,7 +217,10 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		$medhod->addMedhodComment($memo1);
 		$medhod->addMedhodComment($memo2);
 		$medhod->setReturnComment($returnComment);
-		
+		if ($pluralityFlag) {
+			$medhod->addArg('$cnt = 0', 'int $cnt');
+		}
+			
 		return $medhod;
 	}
 
@@ -266,9 +273,23 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 	 */
 	private static function getHasManyMethods(AppOrmModel $model) {
 		$result		= array();
-		// TODO
+		$prefix		= $model->name;
+		$aliases	= array_keys($model->hasMany);
+		
+		foreach ($aliases as $alias) {
+			$comment	= 'hasManyデータカウント（' . $alias . '）';
+			$result[]	= self::getDataCountMethod($alias, $prefix, $comment);
+			
+			$schema		= $model->{$alias}->schema();
+			foreach ($schema as $fieldName => $params) {
+				$type		= $params['type'];
+				$comment	= $params['comment'] . '(hasMany ' . $alias . '.{n}.' . $fieldName . ')';
+				$result[]	= self::getSchemaMethod($alias, $fieldName, $type, $comment, $prefix, true);
+			}
+		}
 		return $result;
 	}
+	
 	
 	/**
 	 * HasAndBelongsToManyアソシエーションのメソッド
@@ -277,10 +298,48 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 	 */
 	private static function getHabtmMethods(AppOrmModel $model) {
 		$result		= array();
-		// TODO
+		$prefix		= $model->name;
+		$aliases	= array_keys($model->hasAndBelongsToMany);
+		
+		foreach ($aliases as $alias) {
+			$comment	= 'hasAndBelongsToManyデータカウント（' . $alias . '）';
+			$result[]	= self::getDataCountMethod($alias, $prefix, $comment);
+			
+			$schema		= $model->{$alias}->schema();
+			foreach ($schema as $fieldName => $params) {
+				$type		= $params['type'];
+				$comment	= $params['comment'] . '(hasAndBelongsToMany ' . $alias . '.{n}.' . $fieldName . ')';
+				$result[]	= self::getSchemaMethod($alias, $fieldName, $type, $comment, $prefix, true);
+			}
+		}
 		return $result;
 	}
 	
+	/**
+	 * データ数取得メソッド
+	 * @param type $alias
+	 * @param type $modelName
+	 * @param type $medhodComment
+	 * @return \ClassMedhod
+	 */
+	private static function getDataCountMethod($alias, $modelName, $medhodComment) {
+		$medhodName	= 'getData' . $modelName . $alias . 'Count';
+		$access		= 'public';
+		$arrLogic	= array(
+			'return count($this->data' . $modelName . '[\''. $alias . '\']);',
+		);
+		$memo1			= '$cnt = $ctlHelper->' . $medhodName . '();';
+		$returnComment	= 'int';
+		
+		$medhod = new ClassMedhod();
+		$medhod->setMedhodName($medhodName);
+		$medhod->setAccess($access);
+		$medhod->setLogic($arrLogic);
+		$medhod->addMedhodComment($medhodComment);
+		$medhod->addMedhodComment($memo1);
+		$medhod->setReturnComment($returnComment);
+		return $medhod;
+	}
 	
 	/**
 	 * １行文字列の出力ロジック
