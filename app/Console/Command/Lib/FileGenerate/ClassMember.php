@@ -35,6 +35,10 @@ class ClassMember implements FielGenerate {
 		$file->type		= $type;
 	}
 
+	public function getName() {
+		return $this->name;
+	}
+
 	public function getContents() {
 		$lfc	= static::LFC;
 		$tab	= static::TAB;

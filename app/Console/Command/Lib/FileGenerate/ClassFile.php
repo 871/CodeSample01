@@ -66,7 +66,10 @@ class ClassFile implements FielGenerate {
 	 * @param ClassMember $member
 	 */
 	public function addMember(ClassMember $member) {
-		$this->members[] = $member;
+		$memberName = $member->getName();
+		if (!array_key_exists($memberName, $this->members)) {
+			$this->members[$memberName] = $member;
+		};
 	}
 	
 	/**
@@ -74,7 +77,10 @@ class ClassFile implements FielGenerate {
 	 * @param ClassMedhod $medhod
 	 */
 	public function addMedhod(ClassMedhod $medhod) {
-		$this->medhods[] = $medhod;
+		$methodName = $medhod->getName();
+		if (!array_key_exists($methodName, $this->medhods)) {
+			$this->medhods[$methodName] = $medhod;
+		}
 	}
 	
 	/**
@@ -85,8 +91,8 @@ class ClassFile implements FielGenerate {
 		$file		= $this;
 		$classType	= $file->classType;
 		$className	= $file->className;
-		$members	= $file->members;
-		$medhods	= $file->medhods;
+		$members	= array_values($file->members);
+		$medhods	= array_values($file->medhods);
 		
 		$file->contents[] = '<?php ';
 		$file->contents[] = '';

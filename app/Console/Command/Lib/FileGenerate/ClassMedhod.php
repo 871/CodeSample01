@@ -74,6 +74,14 @@ class ClassMedhod implements FielGenerate {
 		$this->args[]			= trim($tmp);
 		$this->argsComments[]	= $comment;
 	}
+	
+	/**
+	 * メソッド名
+	 * @return type
+	 */
+	public function getName() {
+		return $this->medhodName;
+	}
 
 	/**
 	 * コンテンツ
