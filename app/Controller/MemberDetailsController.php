@@ -13,7 +13,7 @@ class MemberDetailsController extends AppController {
 		$ctl		= $this;
 		$model		= $ctl->MemberDetail;
 		
-		$dataDetail = $model->getDataDetail($tbl_member_id);
-		$ctl->set(compact('dataDetail'));
+		$dataTblMember = $model->getDataDetail($tbl_member_id);
+		$ctl->set(compact('dataTblMember'));
 	}
 }

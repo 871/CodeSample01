@@ -27,25 +27,14 @@ class MemberDetailHelper extends AppCtlHelper {
 	
 	use TblMemberView;
 	
-	private $dataDetail = array();
-	
 	// TblMemberView::$dataTblMember;
-
-	/**
-	 * 詳細情報
-	 * @param array $dataDetail
-	 */
-	public function setDataDetail(array $dataDetail) {
-		$this->dataDetail = $dataDetail;
-		$this->setDataTblMember($dataDetail);
-	}
-
+	
 	/**
 	 * TblMember.member_mail
 	 * @return string
 	 */
 	public function getTextMemberMail() {
-		$data	= $this->dataDetail;
+		$data	= $this->dataTblMember;
 		$alias	= 'TblMember';
 		$field	= 'member_mail';
 		$value	= $data[$alias][$field];
@@ -63,7 +52,7 @@ class MemberDetailHelper extends AppCtlHelper {
 	 * @return string
 	 */
 	public function getTextMemberAge() {
-		$data	= $this->dataDetail;
+		$data	= $this->dataTblMember;
 		$alias	= 'TblMember';
 		$field	= 'member_birthday';
 		
@@ -87,7 +76,7 @@ class MemberDetailHelper extends AppCtlHelper {
 	 * @return string
 	 */
 	public function getTextTblGroup() {
-		$data	= $this->dataDetail;
+		$data	= $this->dataTblMember;
 		$path1	= 'TblGroup.{n}.group_name';
 		$path2	= 'TblGroup.{n}.tbl_member_count';
 		
@@ -100,18 +89,6 @@ class MemberDetailHelper extends AppCtlHelper {
 		}
 		$arrTmp4 = join("\n", $arrTmp3);
 		return nl2br(h($arrTmp4));
-	}
-	
-	/**
-	 * TblMemberDetail.tbl_group_count
-	 * @return string
-	 */
-	public function getTextRemarks() {
-		$data	= $this->dataDetail;
-		$alias	= 'TblMemberDetail';
-		$field	= 'remarks';
-		
-		return nl2br(h($data[$alias][$field]));
 	}
 	
 	/**
@@ -144,7 +121,7 @@ class MemberDetailHelper extends AppCtlHelper {
 	 */
 	public function getLinkMemberEdit() {
 		$form	= $this->ExtForm;
-		$data	= $this->dataDetail;
+		$data	= $this->dataTblMember;
 		$alias	= 'TblMember';
 		$field	= 'id';
 		
@@ -162,7 +139,7 @@ class MemberDetailHelper extends AppCtlHelper {
 	 */
 	public function getLinkMemberDelete() {
 		$form	= $this->ExtForm;
-		$data	= $this->dataDetail;
+		$data	= $this->dataTblMember;
 		$alias	= 'TblMember';
 		$field	= 'id';
 		
