@@ -142,22 +142,6 @@ trait TblMemberSubMailView {
 	}
 
 	/**
-	 * プライマリID(belongsTo TblMember.id)
-	 * $textTblMemberSubMailTblMemberId	= $ctlHelper->getTextTblMemberSubMailTblMemberId	();
-	 * <?php echo $textTblMemberSubMailTblMemberId	; ?>
-	 * @return string
-	 */
-	public function getTextTblMemberSubMailTblMemberId() {
-		$data	= $this->dataTblMemberSubMail;
-		$alias	= 'TblMember';
-		$field	= 'id';
-		$tmp	= $data[$alias][$field];
-		$value	= number_format((int) $tmp);
-		
-		return h($value);
-	}
-
-	/**
 	 * メンバ名(belongsTo TblMember.member_name)
 	 * $textTblMemberSubMailTblMemberMemberName	= $ctlHelper->getTextTblMemberSubMailTblMemberMemberName	();
 	 * <?php echo $textTblMemberSubMailTblMemberMemberName	; ?>

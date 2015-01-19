@@ -126,22 +126,6 @@ trait TblMemberDetailView {
 	}
 
 	/**
-	 * プライマリID(belongsTo TblMember.id)
-	 * $textTblMemberDetailTblMemberId	= $ctlHelper->getTextTblMemberDetailTblMemberId	();
-	 * <?php echo $textTblMemberDetailTblMemberId	; ?>
-	 * @return string
-	 */
-	public function getTextTblMemberDetailTblMemberId() {
-		$data	= $this->dataTblMemberDetail;
-		$alias	= 'TblMember';
-		$field	= 'id';
-		$tmp	= $data[$alias][$field];
-		$value	= number_format((int) $tmp);
-		
-		return h($value);
-	}
-
-	/**
 	 * メンバ名(belongsTo TblMember.member_name)
 	 * $textTblMemberDetailTblMemberMemberName	= $ctlHelper->getTextTblMemberDetailTblMemberMemberName	();
 	 * <?php echo $textTblMemberDetailTblMemberMemberName	; ?>
