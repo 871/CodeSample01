@@ -24,6 +24,18 @@ abstract class AppOrmModel extends AppModel {
 	
 	public $branchNoModelName = '';
 	
+		public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		
+		$ormModel		= $this;
+		$name			= $ormModel->name;
+		$alias			= $ormModel->alias;
+		$virtualFields	= $ormModel->virtualFields;
+		if ($alias !== $name) {
+			$ormModel->virtualFields = preg_replace('/' . $name . '/' , $alias, $virtualFields);
+		}
+	}
+	
 	/**
 	 * 文字列型プライマリIDを作成
 	 * (over raid)
