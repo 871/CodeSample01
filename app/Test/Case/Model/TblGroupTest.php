@@ -36,6 +36,8 @@ class TblGroupTest extends CakeTestCase {
  */
 	public function tearDown() {
 		unset($this->TblGroup);
+		unset($this->TblGroupLock);
+		unset($this->TblMember);
 
 		parent::tearDown();
 	}
