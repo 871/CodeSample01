@@ -408,7 +408,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		} else {
 			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
-		$result[] = '$value	= Hssh::get($data, $path);';
+		$result[] = '$value	= Hash::get($data, $path);';
 		$result[] = '';
 		$result[] = 'return h($value);';
 		
@@ -431,7 +431,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		} else {
 			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
-		$result[] = '$value	= Hssh::get($data, $path);';
+		$result[] = '$value	= Hash::get($data, $path);';
 		$result[] = '';
 		$result[] = 'return nl2br(h($value));';
 		
@@ -454,7 +454,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		} else {
 			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
-		$result[] = '$tmp	= Hssh::get($data, $path);';
+		$result[] = '$tmp	= Hash::get($data, $path);';
 		$result[] = '$value	= number_format((int) $tmp);';
 		$result[] = '';
 		$result[] = 'return h($value);';
@@ -478,7 +478,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		} else {
 			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
-		$result[] = '$flag	= Hssh::get($data, $path);';
+		$result[] = '$flag	= Hash::get($data, $path);';
 		$result[] = '$value	= $flag? $true: $false;';
 		$result[] = '';
 		$result[] = 'return h($value);';
