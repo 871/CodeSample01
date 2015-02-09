@@ -404,10 +404,11 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$result[] = '$alias	= \'' . $alais . '\';';
 		$result[] = '$field	= \'' . $fieldName . '\';';
 		if ($pluralityFlag) {
-			$result[] = '$value	= $data[$alias][$cnt2][$field];';
+			$result[] = '$path	= $alias . \'.\' . $cnt2 . \'.\' . $field;';
 		} else {
-			$result[] = '$value	= $data[$alias][$field];';
+			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
+		$result[] = '$value	= Hssh::get($data, $path);';
 		$result[] = '';
 		$result[] = 'return h($value);';
 		
@@ -426,10 +427,11 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$result[] = '$alias	= \'' . $alais . '\';';
 		$result[] = '$field	= \'' . $fieldName . '\';';
 		if ($pluralityFlag) {
-			$result[] = '$value	= $data[$alias][$cnt2][$field];';
+			$result[] = '$path	= $alias . \'.\' . $cnt2 . \'.\' . $field;';
 		} else {
-			$result[] = '$value	= $data[$alias][$field];';
+			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
+		$result[] = '$value	= Hssh::get($data, $path);';
 		$result[] = '';
 		$result[] = 'return nl2br(h($value));';
 		
@@ -448,10 +450,11 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$result[] = '$alias	= \'' . $alais . '\';';
 		$result[] = '$field	= \'' . $fieldName . '\';';
 		if ($pluralityFlag) {
-			$result[] = '$tmp	= $data[$alias][$cnt2][$field];';
+			$result[] = '$path	= $alias . \'.\' . $cnt2 . \'.\' . $field;';
 		} else {
-			$result[] = '$tmp	= $data[$alias][$field];';
+			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
+		$result[] = '$tmp	= Hssh::get($data, $path);';
 		$result[] = '$value	= number_format((int) $tmp);';
 		$result[] = '';
 		$result[] = 'return h($value);';
@@ -471,10 +474,11 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$result[] = '$alias	= \'' . $alais . '\';';
 		$result[] = '$field	= \'' . $fieldName . '\';';
 		if ($pluralityFlag) {
-			$result[] = '$flag	= $data[$alias][$cnt2][$field];';
+			$result[] = '$path	= $alias . \'.\' . $cnt2 . \'.\' . $field;';
 		} else {
-			$result[] = '$flag	= $data[$alias][$field];';
+			$result[] = '$path	= $alias . \'.\' . $field;';
 		}
+		$result[] = '$flag	= Hssh::get($data, $path);';
 		$result[] = '$value	= $flag? $true: $false;';
 		$result[] = '';
 		$result[] = 'return h($value);';
