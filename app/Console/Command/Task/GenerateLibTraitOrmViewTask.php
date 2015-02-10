@@ -337,7 +337,11 @@ class GenerateLibTraitOrmViewTask extends AppShell {
 		$medhodName	= 'getData' . $modelName . $alias . 'Count';
 		$access		= 'public';
 		$arrLogic	= array(
-			'return count($this->data' . $modelName . '[\''. $alias . '\']);',
+			'if (isset($this->data' . $modelName . '[\''. $alias . '\'])) {',
+			'	return count($this->data' . $modelName . '[\''. $alias . '\']);',
+			'} else {',
+			'	return 0;',
+			'}',
 		);
 		$memo1			= '$cnt = $ctlHelper->' . $medhodName . '();';
 		$returnComment	= 'int';
