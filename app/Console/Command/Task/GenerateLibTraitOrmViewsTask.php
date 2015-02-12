@@ -61,6 +61,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$member		= new ClassMember('data' . $modelName , 'private', 'array()', $modelName, 'array<' . $modelName . '::$data>');
 		
 		$setDataMedhod			= self::getSetDataMedhod	($model);
+		$modelDataCountMethod	= self::getModelDataCountMethod($model);
 		$virtualFieldsMedhods	= self::getVirtualFields	($model);
 		$schemaMedhods			= self::getSchemaMethods	($model);
 		$hasOneMedhods			= self::getHasOneMethods	($model);
@@ -73,6 +74,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$file->setClassName($className);
 		$file->addMember($member);
 		$file->addMedhod($setDataMedhod);
+		$file->addMedhod($modelDataCountMethod);
 		
 		foreach ($virtualFieldsMedhods as $medhod) {
 			$file->addMedhod($medhod);
@@ -116,6 +118,32 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$medhod->addMedhodComment($memo1);
 		$medhod->addMedhodComment($memo2);
 		
+		return $medhod;
+	}
+	
+	/**
+	 * HasManyアソシエーションのメソッド
+	 * @param AppOrmModel $model
+	 * @return array<ClassMedhod>
+	 */
+	private static function getModelDataCountMethod(AppOrmModel $model) {
+		$modelName		= $model->name;
+		$medhodComment	= 'データカウント（' . $modelName . '）';
+		$medhodName	= 'getData' . $modelName . 'Count';
+		$access		= 'public';
+		$arrLogic	= array(
+			'return count($this->data' . $modelName . ');',
+		);
+		$memo1			= '$cnt = $ctlHelper->' . $medhodName . '();';
+		$returnComment	= 'int';
+		
+		$medhod = new ClassMedhod();
+		$medhod->setMedhodName($medhodName);
+		$medhod->setAccess($access);
+		$medhod->setLogic($arrLogic);
+		$medhod->addMedhodComment($medhodComment);
+		$medhod->addMedhodComment($memo1);
+		$medhod->setReturnComment($returnComment);
 		return $medhod;
 	}
 
