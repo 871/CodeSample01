@@ -16,8 +16,7 @@ class UserEditsController extends AppController {
 		$session	= $ctl->Session;
 		$request	= $ctl->request;
 		
-		$model->loadEditData($tbl_user_id);
-		$request->data = $model->data;
+		$model->setEditDataToRequest($request, $tbl_user_id);
 		$model->setRequestToSessionData($session, $request);
 		$ctl->setAction('input', true);
 	}

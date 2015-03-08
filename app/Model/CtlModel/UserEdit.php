@@ -39,11 +39,20 @@ class UserEdit extends AppCtlModel {
 	public $fieldParams = array();
 	
 	
-	public function loadEditData($tbl_user_id) {
+	public function setEditDataToRequest(CakeRequest $request, $tbl_user_id) {
 		$ctlModel	= $this;
-		$tblUser	= ClassRegistry::init('TblUser');
+		$ormModel	= ClassRegistry::init('TblUser');
+		$ormData	= self::findTblUser($ormModel, $tbl_user_id);
 		
-		UserEditFromTblUser::convert($ctlModel, $tblUser, $tbl_user_id);
+		$convert = new UserEditFromTblUser($ctlModel, $ormModel);
+		$convert->setOrmData($ormData);
+		$ctlData = $convert->getCtlData();
+		
+		$request->data = $ctlData;
+	}
+	
+	private static function findTblUser(TblUser $tblUser, $tbl_user_id) {
+		return $tblUser->read(null, $tbl_user_id);
 	}
 
 	public function setInputFormParams() {
@@ -280,24 +289,30 @@ class UserEdit extends AppCtlModel {
 	 * @return boolean
 	 */
 	public function saveUser(array $data) {
-		$ctlModel = $this;
+		$ctlModel	= $this;
+		$ormModel	= ClassRegistry::init('TblUser');
+		
 		$ctlModel->set($data);
 		$result = $ctlModel->validates();
 		if ($result) {
-			$result = self::saveTransaction($ctlModel);
+			$convert = new UserEditToTblUser($ctlModel, $ormModel);
+			$convert->setCtlData($data);
+			
+			$result = self::saveTransaction($convert);
 		}
 		return $result;
 	}
 	
-	private static function saveTransaction(self $ctlModel) {
-		$db			= $ctlModel->getDataSource();
-		$tblUser	= ClassRegistry::init('TblUser');
+	private static function saveTransaction(UserEditToTblUser $convert) {
+		$db			= $convert->getDataSource();
+		$ctlModel	= $convert->getCtlModel();
+		$ormModel	= $convert->getOrmModel();
+		$saveData	= $convert->getSaveData();
 		
 		try {
 			$db->begin();
 			// アカウント情報
-			UserEditToTblUser::convert($ctlModel, $tblUser);
-			OrmModelUtil::transactionSave($tblUser);
+			OrmModelUtil::transactionSave($ormModel, $saveData);
 			$db->commit();
 		} catch (ErrorException $e) {
 			$db->rollback();

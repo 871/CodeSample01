@@ -4,40 +4,28 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+App::uses('AppToConvert', 'Lib/Convert');
 
 /**
  * Description of UserEditToTblUser
  *
  * @author hanai
  */
-class UserEditToTblUser {
+class UserEditToTblUser extends AppToConvert {
 	
-	const CTL_ALIAS	= 'UserEdit';
-	const ORM_ALIAS = 'TblUser';
-	
-	/**
-	 * 
-	 * @param UserEdit $ctlModel
-	 * @param TblUser $ormModel
-	 * @return array
-	 */
-	public static function convert(UserEdit $ctlModel, TblUser $ormModel) {
-		$inputData	= $ctlModel->data;
-		$saveData	= self::getSaveData($inputData);
-		$ormModel->set($saveData);
-	}
-	
-	private static function getSaveData($inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
-		$ormAlias	= self::ORM_ALIAS;
+	public function getSaveData() {
+		$convert	= $this;
+		$ctlAlias	= $convert->ctlAlias;
+		$ormAlias	= $convert->ormAlias;
+		$ctlData	= $convert->ctlData;
 		
 		$saveData = array(
 			$ormAlias => array(
-				'id'			=> $inputData[$ctlAlias]['id'],
-				'user_name'		=> $inputData[$ctlAlias]['user_name'],
-				'user_mail'		=> $inputData[$ctlAlias]['user_mail'],
-				'password'		=> $inputData[$ctlAlias]['password'],
-				'login_flag'	=> $inputData[$ctlAlias]['login_flag'],
+				'id'			=> $ctlData[$ctlAlias]['id'],
+				'user_name'		=> $ctlData[$ctlAlias]['user_name'],
+				'user_mail'		=> $ctlData[$ctlAlias]['user_mail'],
+				'password'		=> $ctlData[$ctlAlias]['password'],
+				'login_flag'	=> $ctlData[$ctlAlias]['login_flag'],
 				'update_ip'		=> env('REMOTE_ADDR'),
 			),
 		);

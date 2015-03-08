@@ -4,35 +4,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+App::uses('AppFromConvert', 'Lib/Convert');
 
 /**
  * Description of UserEditFromTblUser
  *
  * @author hanai
  */
-class UserEditFromTblUser {
+class UserEditFromTblUser extends AppFromConvert {
 	
-	const CTL_ALIAS	= 'UserEdit';
-	const ORM_ALIAS = 'TblUser';
-	
-	/**
-	 * 
-	 * @param UserEdit $ctlModel
-	 * @param TblUser $ormModel
-	 * @return array
-	 */
-	public static function convert(UserEdit $ctlModel, TblUser $ormModel, $tbl_user_id) {
-		$ormData	= $ormModel->read(null, $tbl_user_id);
-		$editData	= self::getEditData($ormData, $ormModel);
-		$ctlModel->set($editData);
-	}
-	
-	private static function getEditData(array $ormData, TblUser $ormModel) {
-		$ctlAlias	= self::CTL_ALIAS;
-		$ormAlias	= self::ORM_ALIAS;
+	public function getCtlData() {
+		$convert	= $this;
+		$ctlAlias	= $convert->ctlAlias;
+		$ormAlias	= $convert->ormAlias;
+		$ormData	= $convert->ormData;
 		
-		$password	= self::getPasssword($ormData, $ormModel);
-		
+		$password	= self::getPasssword();
 		$editData = array(
 			$ctlAlias => array(
 				'id'			=> $ormData[$ormAlias]['id'],
@@ -47,8 +34,11 @@ class UserEditFromTblUser {
 		return $editData;
 	}
 	
-	private static function getPasssword(array $ormData, TblUser $ormModel) {
-		$ormAlias = self::ORM_ALIAS;
+	private function getPasssword() {
+		$convert	= $this;
+		$ormAlias	= $convert->ormAlias;
+		$ormModel	= $convert->ormModel;
+		$ormData	= $convert->ormData;
 		
 		$user_password = $ormData[$ormAlias]['user_password'];
 		return $ormModel->passwordDecrypt($user_password);
