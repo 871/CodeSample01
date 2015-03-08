@@ -79,16 +79,15 @@ class OrmModelUtil {
 	}
 	
 	public static function setHasManySaveData(AppOrmModel $ormModel, stdClass $std, $parField, $bnField) {
-		$alias		= $ormModel->alias;
 		$priField	= $ormModel->primaryKey;
 		$data		= !empty($std->data)? $std->data: $ormModel->data;
 		
-		if (empty($data[$alias][$priField])) {
-			$parValue	= $data[$alias][$parField];
+		if (empty($data[$priField])) {
+			$parValue	= $data[$parField];
 			$bnValue	= $ormModel->getBranchNo($parValue);
 			$priValue	= $ormModel->createStringId($parValue, $bnValue);
-			$data[$alias][$priField]	= $priValue;
-			$data[$alias][$bnField]		= $bnValue;
+			$data[$priField]	= $priValue;
+			$data[$bnField]		= $bnValue;
 		}
 		if (!empty($std->data)) {
 			$std->data = $data;
@@ -98,15 +97,15 @@ class OrmModelUtil {
 	}
 	
 	public static function setHasOneSaveData(AppOrmModel $ormModel, stdClass $std, $parField) {
-		$alias		= $ormModel->alias;
 		$priField	= $ormModel->primaryKey;
 		$data		= !empty($std->data)? $std->data: $ormModel->data;
 		
-		if (empty($data[$alias][$priField])) {
+		if (empty($data[$priField])) {
 			$parValue	= $data[$parField];
 			$priValue	= $ormModel->createStringId($parValue);
-			$data[$alias][$priField]	= $priValue;
+			$data[$priField]	= $priValue;
 		}
+		
 		if (!empty($std->data)) {
 			$std->data = $data;
 		} else {

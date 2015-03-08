@@ -308,23 +308,29 @@ class MemberCreate extends AppCtlModel {
 	 */
 	public function saveMember(array $data) {
 		$ctlModel = $this;
+		$ormModel	= ClassRegistry::init('TblMember');
+		
 		$ctlModel->set($data);
 		$result = $ctlModel->validates();
 		if ($result) {
-			$result = self::saveTransaction($ctlModel);
+			$convert = new MemberCreateToTblMember($ctlModel, $ormModel);
+			$convert->setinputData($data);
+			
+			$result = self::saveTransaction($convert);
 		}
 		return $result;
 	}
 	
-	private static function saveTransaction(self $ctlModel) {
-		$db			= $ctlModel->getDataSource();
-		$tblMember	= ClassRegistry::init('TblMember');
+	private static function saveTransaction(MemberCreateToTblMember $convert) {
+		$db			= $convert->getDataSource();
+		$ctlModel	= $convert->getCtlModel();
+		$ormModel	= $convert->getOrmModel();
+		$saveData	= $convert->getSaveData();
 		
 		try {
 			$db->begin();
 			// アカウント情報
-			MemberCreateToTblMember::convert($ctlModel, $tblMember);
-			OrmModelUtil::transactionSaveAssociatedDeep($tblMember);
+			OrmModelUtil::transactionSaveAssociatedDeep($ormModel, $saveData);
 			$db->commit();
 		} catch (ErrorException $e) {
 			$db->rollback();

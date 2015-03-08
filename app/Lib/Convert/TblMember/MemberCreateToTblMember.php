@@ -4,32 +4,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+App::uses('AppToConvert', 'Lib/Convert');
 
 /**
  * Description of MemberCreateToTblMember
  *
  * @author hanai
  */
-class MemberCreateToTblMember {
+class MemberCreateToTblMember extends AppToConvert {
 	
-	const CTL_ALIAS	= 'MemberCreate';
-	const ORM_ALIAS = 'TblMember';
-	
-	/**
-	 * 
-	 * @param MemberCreate $ctlData
-	 * @param TblMember $ormModel
-	 * @return array
-	 */
-	public static function convert(MemberCreate $ctlModel, TblMember $ormModel) {
-		$inputData	= $ctlModel->data;
-		$saveData	= self::getSaveData($inputData);
-		$ormModel->set($saveData);
-	}
-	
-	private static function getSaveData(array $inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
-		$ormAlias	= self::ORM_ALIAS;
+	public function getSaveData() {
+		$convert	= $this;
+		$ctlAlias	= $convert->ctlAlias;
+		$ormAlias	= $convert->ormAlias;
+		$inputData	= $convert->inputData;
 		
 		$tblMemberSubMail	= self::getTblMemberSubMail($inputData);
 		$tbl_group_count	= self::getTblGroupCount($inputData);
@@ -55,8 +43,9 @@ class MemberCreateToTblMember {
 		return $saveData;
 	}
 	
-	private static function getTblMemberSubMail(array $inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
+	private function getTblMemberSubMail(array $inputData) {
+		$convert	= $this;
+		$ctlAlias	= $convert->ctlAlias;
 		$result		= array();
 		
 		$i = 0;
@@ -71,8 +60,9 @@ class MemberCreateToTblMember {
 		return $result;
 	}
 	
-	private static function getTblGroupCount(array $inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
+	private function getTblGroupCount(array $inputData) {
+		$convert	= $this;
+		$ctlAlias	= $convert->ctlAlias;
 		
 		$value = $inputData[$ctlAlias]['TblGroup'];
 		if (!is_array($value)) {
