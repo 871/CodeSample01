@@ -22,9 +22,16 @@ App::uses('AppModel', 'Model');
  */
 abstract class AppOrmModel extends AppModel {
 	
-	public $branchNoModelName = '';
+	// public $branchNoModelName = '';
 	
-		public function __construct($id = false, $table = null, $ds = null) {
+	/**
+	 *
+	 * @var AuthComponent
+	 */
+	protected $auth = null;
+
+
+	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		
 		$ormModel		= $this;
@@ -36,6 +43,10 @@ abstract class AppOrmModel extends AppModel {
 		}
 	}
 	
+	public function setAuth(AuthComponent $auth) {
+		$this->auth = $auth;
+	}
+		
 	/**
 	 * 文字列型プライマリIDを作成
 	 * (over raid)
