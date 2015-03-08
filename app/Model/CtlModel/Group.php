@@ -128,13 +128,20 @@ class Group extends AppCtlModel {
 	 * @return \stdClass
 	 */
 	public function saveGroup(array $data) {
-		$ctlModel = $this;
+		$ctlModel		= $this;
+		$tblGroup		= ClassRegistry::init('TblGroup');
+		$tblGroupLock	= ClassRegistry::init('TblGroupLock');
+		
 		$result = new stdClass();
 		
 		$ctlModel->set($data);
 		$result->result = $ctlModel->validates();
 		if ($result->result) {
-			$result->result = self::saveTransaction($ctlModel);
+			$convert = new GroupToTblGroup($ctlModel, $tblGroup);
+			$convert->setLockModel($tblGroupLock);
+			$convert->setInputData($data);
+			
+			$result->result = self::saveTransaction($convert);
 		}
 		if (! $result->result) {
 			$result->errMessages = self::getErrorMessages($ctlModel);
@@ -142,19 +149,20 @@ class Group extends AppCtlModel {
 		return $result;
 	}
 	
-	private static function saveTransaction(self $ctlModel) {
-		$db				= $ctlModel->getDataSource();
-		$tblGroup		= ClassRegistry::init('TblGroup');
-		$tblGroupLock	= ClassRegistry::init('TblGroupLock');
-		$primaryId		= Hash::get($tblGroup->data, 'TblGroup.id');
+	private static function saveTransaction(GroupToTblGroup $convert) {
+		$db				= $convert->getDataSource();
+		$ctlModel		= $convert->getCtlModel();
+		$tblGroup		= $convert->getOrmModel();
+		$tblGroupLock	= $convert->getLockModel();
+		$saveData		= $convert->getSaveData();
 		
+		$primaryId		= Hash::get($saveData, 'Group.id');
 		try {
 			$db->begin();
 			// 更新行ロック
 			OrmModelUtil::rowDataLock($tblGroupLock, $primaryId);
 			// アカウント情報
-			GroupToTblGroup::convert($ctlModel, $tblGroup);
-			OrmModelUtil::transactionSave($tblGroup);
+			OrmModelUtil::transactionSave($tblGroup, $saveData);
 			$db->commit();
 		} catch (ErrorException $e) {
 			$db->rollback();

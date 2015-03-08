@@ -14,7 +14,9 @@ App::uses('RowDataLock', 'Lib/Interface');
 class OrmModelUtil {
 	
 	public static function rowDataLock(RowDataLock $ormModel, $primaryId) {
-		$ormModel->rowDataLock($primaryId);
+		if (!empty($primaryId)) {
+			$ormModel->rowDataLock($primaryId);
+		}
 	}
 
 	public static function transactionSave(AppOrmModel $ormModel, array $data = null) {

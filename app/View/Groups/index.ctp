@@ -140,7 +140,7 @@ $linkGroupSave		= $ctlHelper->getLinkGroupSave	();
 			}
 		};
 		$.ajaxSubmit = ajaxSubmit;
-	})(jQuery)</script>
+	})(jQuery);</script>
 	<p><?php echo $paginatorCounter; ?></p>
 	<div class="paging"><?php echo $paginatorLinks; ?></div>
 </div>

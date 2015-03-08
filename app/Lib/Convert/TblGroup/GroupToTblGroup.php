@@ -4,35 +4,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+App::uses('AppToConvert', 'Lib/Convert');
 
 /**
  * Description of GroupToTblGroup
  *
  * @author hanai
  */
-class GroupToTblGroup {
+class GroupToTblGroup extends AppToConvert {
 	
-	const CTL_ALIAS	= 'Group';
-	const ORM_ALIAS = 'TblGroup';
 	
-	/**
-	 * 
-	 * @param Group $ctlData
-	 * @param TblGroup $ormModel
-	 * @return array
-	 */
-	public static function convert(Group $ctlModel, TblGroup $ormModel) {
-		$inputData	= $ctlModel->data;
-		$saveData	= self::getSaveData($inputData);
-		$ormModel->set($saveData);
-	}
-	
-	private static function getSaveData(array $inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
-		$ormAlias	= self::ORM_ALIAS;
+	public function getSaveData() {
+		$convert	= $this;
+		$inputData	= $convert->inputData;
+		$ctlAlias	= $convert->ctlAlias;
+		$ormAlias	= $convert->ormAlias;
 		
-		$tbl_group_id	= self::getTblGroupId	($inputData);
-		$create_ip		= self::getCreateIp		($inputData);
+		$tbl_group_id	= Hash::get($inputData, $ctlAlias . '.id');
+		$create_ip		= self::getCreateIp($tbl_group_id);
 		
 		$saveData = array(
 			$ormAlias => array(
@@ -49,24 +38,11 @@ class GroupToTblGroup {
 		return $saveData;
 	}
 	
-	private static function getTblGroupId(array $inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
-		
-		if (!isset($inputData[$ctlAlias]['id']) || empty($inputData[$ctlAlias]['id'])) {
-			return null;
-		} else {
-			return $inputData[$ctlAlias]['id'];
-		}
-	}
-	
-	private static function getCreateIp(array $inputData) {
-		$ctlAlias	= self::CTL_ALIAS;
-		
-		if (!isset($inputData[$ctlAlias]['id']) || empty($inputData[$ctlAlias]['id'])) {
+	private static function getCreateIp($tbl_group_id) {
+		if (empty($tbl_group_id)) {
 			return env('REMOTE_ADDR');
 		} else {
 			return null;
 		}
 	}
-	
 }

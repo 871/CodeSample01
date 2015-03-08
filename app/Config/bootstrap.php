@@ -59,6 +59,7 @@ App::build(array(
 		APP.'Model'.DS.'00_Bake'.DS,
 		APP.'Model'.DS.'BnModel'.DS,
 		APP.'Model'.DS.'CtlModel'.DS,
+		APP.'Model'.DS.'LockModel'.DS,
 		APP.'Model'.DS.'OrmModel'.DS,
 		APP.'Model'.DS.'MstModel'.DS,
 	),
