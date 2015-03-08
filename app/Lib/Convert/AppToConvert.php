@@ -23,7 +23,7 @@ abstract class AppToConvert extends AppConvert {
 	 *
 	 * @var array
 	 */
-	protected $inputData = array();
+	protected $ctlData = array();
 
 	public function getDataSource() {
 		return $this->ctlModel->getDataSource();
@@ -37,8 +37,8 @@ abstract class AppToConvert extends AppConvert {
 		$this->lockModel = $lockModel;
 	}
 	
-	public function setInputData(array $inputData) {
-		$this->inputData = $inputData;
+	public function setCtlData(array $ctlData) {
+		$this->ctlData = $ctlData;
 	}
 
 	abstract public function getSaveData();

@@ -59,7 +59,7 @@ class MemberEditsController extends AppController {
 			if (!empty($request->data) && $model->saveMember($request->data)) {
 				$model->deleteRequestSessionData($session);
 				$session->setFlash(__('メンバ情報を更新しました'));
-				$ctl->setAction('comp', true);
+				//$ctl->setAction('comp', true);
 				return;
 			} else {
 				$session->setFlash(__('メンバ情報の更新に失敗しました'));

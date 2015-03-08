@@ -35,6 +35,17 @@ class OrmModelUtil {
 		return $saveIds;
 	}
 	
+	public static function deleteHasManyData(AppOrmModel $hasManyModel, $parentIdField, $parentId, $exceptionFlag = false) {
+		$alias	= $hasManyModel->alias;
+		$conditions = array(
+			$alias . '.' . $parentIdField => $parentId,
+		);
+		$result = $hasManyModel->deleteAll($conditions);	
+		if (!$result && $exceptionFlag) {
+			throw new ErrorException($alias . ' Delete All Error');
+		}
+	}
+
 	public static function transactionSaveAssociatedDeep(AppOrmModel $ormModel, array $data = null) {
 		if (! $ormModel->saveAssociated($data, array('deep' => true))) {
 			throw new ErrorException($ormModel->alias . ' Save Error');

@@ -314,7 +314,7 @@ class MemberCreate extends AppCtlModel {
 		$result = $ctlModel->validates();
 		if ($result) {
 			$convert = new MemberCreateToTblMember($ctlModel, $ormModel);
-			$convert->setinputData($data);
+			$convert->setCtlData($data);
 			
 			$result = self::saveTransaction($convert);
 		}

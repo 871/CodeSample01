@@ -139,7 +139,7 @@ class Group extends AppCtlModel {
 		if ($result->result) {
 			$convert = new GroupToTblGroup($ctlModel, $tblGroup);
 			$convert->setLockModel($tblGroupLock);
-			$convert->setInputData($data);
+			$convert->setCtlData($data);
 			
 			$result->result = self::saveTransaction($convert);
 		}

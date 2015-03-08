@@ -14,6 +14,15 @@ App::uses('AppConvert', 'Lib/Convert');
 abstract class AppFromConvert extends AppConvert {
 	//put your code here
 	
+	/**
+	 *
+	 * @var array
+	 */
+	protected $ormData = array();
 	
+	public function setOrmData(array $ormData) {
+		$this->ormData = $ormData;
+	}
 	
+	abstract public function getCtlData();
 }

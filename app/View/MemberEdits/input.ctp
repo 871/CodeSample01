@@ -29,7 +29,7 @@ $titlesSubMail			= $ctlHelper->getTitlesSubMail();
 
 ?>
 <div class="form">
-	<h2>新規メンバー登録</h2>
+	<h2>メンバー情報編集</h2>
 	<?php echo $formStart; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tr>

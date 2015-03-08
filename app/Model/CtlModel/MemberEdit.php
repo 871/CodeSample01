@@ -46,14 +46,16 @@ class MemberEdit extends AppCtlModel {
 	
 	public function setEditDataToRequest(CakeRequest $request, $tbl_member_id) {
 		$ctlModel	= $this;
-		$tblMember	= ClassRegistry::init('TblMember');
+		$ormModel	= ClassRegistry::init('TblMember');
 		
-		$tblMember->data = self::findTblMember($tblMember, $tbl_member_id);
-		if (empty($tblMember->data)) {
+		$ormData = self::findTblMember($ormModel, $tbl_member_id);
+		if (empty($ormData)) {
 			throw new BadRequestException();
 		}
-		MemberEditFromTblMember::convert($ctlModel, $tblMember);
-		$request->data = $ctlModel->data;
+		$convert = new MemberEditFromTblMember($ctlModel, $ormModel);
+		$convert->setOrmData($ormData);
+		$ctlData = $convert->getCtlData();
+		$request->data = $ctlData;
 	}
 	
 	private static function findTblMember(TblMember $tblMember, $tbl_member_id) {
@@ -330,28 +332,38 @@ class MemberEdit extends AppCtlModel {
 	 * @return boolean
 	 */
 	public function saveMember(array $data) {
-		$ctlModel = $this;
+		$ctlModel	= $this;
+		$ormModel	= ClassRegistry::init('TblMember');
+		$lockModel	= ClassRegistry::init('TblMemberLock');
+		
 		$ctlModel->set($data);
 		$result = $ctlModel->validates();
 		if ($result) {
-			$result = self::saveTransaction($ctlModel);
+			$convert = new MemberEditToTblMember($ctlModel, $ormModel);
+			$convert->setLockModel($lockModel);
+			$convert->setCtlData($data);
+			
+			$result = self::saveTransaction($convert);
 		}
 		return $result;
 	}
 	
-	private static function saveTransaction(self $ctlModel) {
-		$db				= $ctlModel->getDataSource();
-		$tblMember		= ClassRegistry::init('TblMember');
-		$tblMemberLock	= ClassRegistry::init('TblMemberLock');
-		$primaryId		= Hash::get($tblMember->data, 'TblMember.id');
-		
+	private static function saveTransaction(MemberEditToTblMember $convert) {
+		$db			= $convert->getDataSource();
+		$ctlModel	= $convert->getCtlModel();
+		$ormModel	= $convert->getOrmModel();
+		$lockModel	= $convert->getLockModel();
+		$saveData	= $convert->getSaveData();
+		debug($saveData);
+		$primaryId	= Hash::get($saveData, 'TblMember.id');
 		try {
 			$db->begin();
 			// 更新行ロック
-			OrmModelUtil::rowDataLock($tblMemberLock, $primaryId);
+			OrmModelUtil::rowDataLock($lockModel, $primaryId);
+			// HasMany情報の削除
+			OrmModelUtil::deleteHasManyData($ormModel->TblMemberSubMail, 'tbl_member_id', $primaryId);
 			// アカウント情報
-			MemberEditToTblMember::convert($ctlModel, $tblMember);
-			OrmModelUtil::transactionSaveAssociatedDeep($tblMember);
+			OrmModelUtil::transactionSaveAssociatedDeep($ormModel, $saveData);
 			$db->commit();
 		} catch (ErrorException $e) {
 			$db->rollback();
@@ -359,5 +371,15 @@ class MemberEdit extends AppCtlModel {
 			return false;
 		}
 		return true;
+	}
+	
+	public static function setRequestToSessionData(SessionComponent $session, CakeRequest $request, $sessionKey = null) {
+		$sessionKey = static::TMP_REQUEST_SESSION_KEY;
+		$i = 0;
+		while ($session->check($sessionKey . 'MemberEdit.sub_mail_' . $i)) {
+			$session->delete($sessionKey . 'MemberEdit.sub_mail_' . $i);
+			++$i;
+		}
+		return parent::setRequestToSessionData($session, $request, $sessionKey);
 	}
 }
