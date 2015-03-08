@@ -239,23 +239,29 @@ class UserCreate extends AppCtlModel {
 	 */
 	public function saveUser(array $data) {
 		$ctlModel = $this;
+		$ormModel	= ClassRegistry::init('TblUser');
+		
+		
 		$ctlModel->set($data);
 		$result = $ctlModel->validates();
 		if ($result) {
-			$result = self::saveTransaction($ctlModel);
+			$convert = new UserCreateToTblUser($ctlModel, $ormModel);
+			$convert->setCtlData($data);
+			$result = self::saveTransaction($convert);
 		}
 		return $result;
 	}
 	
-	private static function saveTransaction(self $ctlModel) {
-		$db			= $ctlModel->getDataSource();
-		$tblUser	= ClassRegistry::init('TblUser');
+	private static function saveTransaction(UserCreateToTblUser $convert) {
+		$db			= $convert->getDataSource();
+		$ctlModel	= $convert->getCtlModel();
+		$ormModel	= $convert->getOrmModel();
+		$saveData	= $convert->getSaveData();
 		
 		try {
 			$db->begin();
 			// アカウント情報
-			UserCreateToTblUser::convert($ctlModel, $tblUser);
-			OrmModelUtil::transactionSave($tblUser);
+			OrmModelUtil::transactionSave($ormModel, $saveData);
 			$db->commit();
 		} catch (ErrorException $e) {
 			$db->rollback();
