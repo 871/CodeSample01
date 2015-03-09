@@ -354,7 +354,6 @@ class MemberEdit extends AppCtlModel {
 		$ormModel	= $convert->getOrmModel();
 		$lockModel	= $convert->getLockModel();
 		$saveData	= $convert->getSaveData();
-		debug($saveData);
 		$primaryId	= Hash::get($saveData, 'TblMember.id');
 		try {
 			$db->begin();
