@@ -17,42 +17,42 @@ class MemberCreateToTblMember extends AppToConvert {
 		$convert	= $this;
 		$ctlAlias	= $convert->ctlAlias;
 		$ormAlias	= $convert->ormAlias;
-		$inputData	= $convert->inputData;
+		$ctlData	= $convert->ctlData;
 		
-		$tblMemberSubMail	= self::getTblMemberSubMail($inputData);
-		$tbl_group_count	= self::getTblGroupCount($inputData);
+		$tblMemberSubMail	= self::getTblMemberSubMail($ctlData);
+		$tbl_group_count	= self::getTblGroupCount($ctlData);
 		$saveData = array(
 			$ormAlias => array(
-				'member_name'		=> $inputData[$ctlAlias]['member_name'],
-				'member_mail'		=> $inputData[$ctlAlias]['member_mail'],
-				'member_birthday'	=> $inputData[$ctlAlias]['member_birthday'],
-				'mst_sex_id'		=> $inputData[$ctlAlias]['mst_sex_id'],
+				'member_name'		=> $ctlData[$ctlAlias]['member_name'],
+				'member_mail'		=> $ctlData[$ctlAlias]['member_mail'],
+				'member_birthday'	=> $ctlData[$ctlAlias]['member_birthday'],
+				'mst_sex_id'		=> $ctlData[$ctlAlias]['mst_sex_id'],
 				'tbl_group_count'	=> $tbl_group_count,
 				'create_ip'			=> env('REMOTE_ADDR'),
 				'update_ip'			=> env('REMOTE_ADDR'),
 			),
 			// hasOne
 			'TblMemberDetail' => array(
-				'remarks'		=> $inputData[$ctlAlias]['remarks'],
+				'remarks'		=> $ctlData[$ctlAlias]['remarks'],
 			),
 			// HasMany
 			'TblMemberSubMail'	=> $tblMemberSubMail,
 			// BelongsToHasMany
-			'TblGroup' =>  $inputData[$ctlAlias]['TblGroup'],
+			'TblGroup' =>  $ctlData[$ctlAlias]['TblGroup'],
 		);
 		return $saveData;
 	}
 	
-	private function getTblMemberSubMail(array $inputData) {
+	private function getTblMemberSubMail(array $ctlData) {
 		$convert	= $this;
 		$ctlAlias	= $convert->ctlAlias;
 		$result		= array();
 		
 		$i = 0;
-		while (isset($inputData[$ctlAlias]['sub_mail_' . $i])) {
-			if (!empty($inputData[$ctlAlias]['sub_mail_' . $i])) {
+		while (isset($ctlData[$ctlAlias]['sub_mail_' . $i])) {
+			if (!empty($ctlData[$ctlAlias]['sub_mail_' . $i])) {
 				$result[] = array(
-					'sub_mail' => $inputData[$ctlAlias]['sub_mail_' . $i],
+					'sub_mail' => $ctlData[$ctlAlias]['sub_mail_' . $i],
 				);
 			}
 			++$i;
@@ -60,11 +60,11 @@ class MemberCreateToTblMember extends AppToConvert {
 		return $result;
 	}
 	
-	private function getTblGroupCount(array $inputData) {
+	private function getTblGroupCount(array $ctlData) {
 		$convert	= $this;
 		$ctlAlias	= $convert->ctlAlias;
 		
-		$value = $inputData[$ctlAlias]['TblGroup'];
+		$value = $ctlData[$ctlAlias]['TblGroup'];
 		if (!is_array($value)) {
 			return 0;
 		} else {
