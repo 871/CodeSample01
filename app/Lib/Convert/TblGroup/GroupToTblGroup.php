@@ -16,16 +16,16 @@ class GroupToTblGroup extends AppToConvert {
 	
 	public function getSaveData() {
 		$convert	= $this;
-		$inputData	= $convert->inputData;
+		$ctlData	= $convert->ctlData;
 		$ctlAlias	= $convert->ctlAlias;
 		$ormAlias	= $convert->ormAlias;
 		
-		$tbl_group_id	= Hash::get($inputData, $ctlAlias . '.id');
+		$tbl_group_id	= Hash::get($ctlData, $ctlAlias . '.id');
 		$create_ip		= self::getCreateIp($tbl_group_id);
 		
 		$saveData = array(
 			$ormAlias => array(
-				'group_name'	=> $inputData[$ctlAlias]['group_name'],
+				'group_name'	=> $ctlData[$ctlAlias]['group_name'],
 				'update_ip'		=> env('REMOTE_ADDR'),
 			),
 		);
