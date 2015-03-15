@@ -328,30 +328,30 @@ class MemberCreateHelper extends AppCtlHelper {
 	 * @return string
 	 */
 	public function getDivNaviLinks() {
-		$html		= $this->Html;
-		$request	= $this->request;
+		$ctlHelper	= $this;
+		$html		= $ctlHelper->Html;
+		$request	= $ctlHelper->request;
 		$action		= $request->params['action'];
 		
-		$url1 = $url2 = $url3 = null;
-		switch ($action) {
-			case 'conf':
-				$url3 = array('action' => 'step03',);
-			case 'step03':
-				$url2 = array('action' => 'step02',);
-			case 'step02':
-				$url1 = array('action' => 'step01',);
-			case 'step01':
-			default :
-				// 処理無し
-				break;
+		$params = array(
+			'step01'	=> 'Step1(メンバ情報)',
+			'step02'	=> 'Step2(メールアドレス)',
+			'step03'	=> 'Step3(グループ情報)',
+			'conf'		=> '登録確認',
+			'comp'		=> '登録完了',
+		);
+		
+		$linkFlag = true;
+		foreach ($params as $ctp => $label) {
+			if ($action === $ctp) {
+				$linkFlag = false;
+			}
+			if ($linkFlag) {
+				$html->addCrumb($label, array('action' => $ctp,));
+			} else {
+				$html->addCrumb($label);
+			}
 		}
-		
-		$html->addCrumb('Step1(メンバ情報)'		, $url1);
-		$html->addCrumb('Step2(メールアドレス)'	, $url2);
-		$html->addCrumb('Step3(グループ情報)'		, $url3);
-		$html->addCrumb('登録確認');
-		$html->addCrumb('登録完了');
-		
 		return $html->getCrumbs(" > ");
 	}
 	/**/
