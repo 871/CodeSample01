@@ -16,6 +16,12 @@ App::uses('ClassMedhod', 'Console/Command/Lib/FielGenerate');
 class ClassFile implements FielGenerate {
 	
 	/**
+	 * 
+	 * @var array
+	 */
+	private $imports = array();
+
+	/**
 	 * class | abstract class | trait
 	 * @var string
 	 */
@@ -26,6 +32,12 @@ class ClassFile implements FielGenerate {
 	 * @var string
 	 */
 	private $className = '';
+	
+	/**
+	 * 親クラス名
+	 * @var string
+	 */
+	private $parentClassName = '';
 	
 	/**
 	 *
@@ -44,6 +56,14 @@ class ClassFile implements FielGenerate {
 	 * @var
 	 */
 	private $contents = array();
+	
+	/**
+	 * Import Instance
+	 * @param Import $import
+	 */
+	public function addImport(Import $import) {
+		$this->imports[] = $import;
+	}
 
 	/**
 	 * クラス種別（class | abstract class | trait | interface）
@@ -59,6 +79,14 @@ class ClassFile implements FielGenerate {
 	 */
 	public function setClassName($className) {
 		$this->className = $className;
+	}
+	
+	/**
+	 * 親クラス名
+	 * @param string $className
+	 */
+	public function setParentClassName($parentClassName) {
+		$this->parentClassName = $parentClassName;
 	}
 	
 	/**
@@ -88,16 +116,27 @@ class ClassFile implements FielGenerate {
 	 * @return string
 	 */
 	public function getContents() {
-		$file		= $this;
-		$classType	= $file->classType;
-		$className	= $file->className;
-		$members	= array_values($file->members);
-		$medhods	= array_values($file->medhods);
+		$file				= $this;
+		$imports			= $file->imports;
+		$classType			= $file->classType;
+		$className			= $file->className;
+		$parentClassName	= $file->parentClassName;
+		$members			= array_values($file->members);
+		$medhods			= array_values($file->medhods);
+		
+		$extends	= !empty($parentClassName)? ' extends ' . $parentClassName: '';
 		
 		$file->contents[] = '<?php ';
 		$file->contents[] = '';
+		foreach ($imports as $import) {
+			if ($import instanceof Import) {
+				$file->contents[] = $import->getContents();
+			} else {
+				throw new RuntimeException('Error Not Import Instance ClassFile::$imports');
+			}
+		}
 		$file->contents[] = '';
-		$file->contents[] = $classType . ' ' . $className . ' {';
+		$file->contents[] = $classType . ' ' . $className . $extends . ' {';
 		$file->contents[] = '';
 		foreach ($members as $member) {
 			if ($member instanceof ClassMember) {
