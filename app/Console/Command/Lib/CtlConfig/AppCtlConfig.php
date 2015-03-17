@@ -12,6 +12,12 @@
  */
 abstract class AppCtlConfig {
 	
+	const TYPE_CREATE	= 'Create';
+	const TYPE_EDIT		= 'Edit';
+	const TYPE_DETAIL	= 'Detail';
+	const TYPE_SEARCH	= 'Search';
+	const TYPE_LIST		= 'List';
+	
 	/**
 	 * Ctl種別
 	 * @var string
@@ -36,7 +42,18 @@ abstract class AppCtlConfig {
 	 */
 	protected $helperName = '';
 	
+	/**
+	 * $lable => $url
+	 * @var array
+	 */
+	protected $naviParams = array();
 	
+	/**
+	 * $lable => $url
+	 * @var array
+	 */
+	protected $links = array();
+
 	public function __construct() {
 		$ctlConfig = $this;
 		self::setCtlName	($ctlConfig);
@@ -86,6 +103,16 @@ abstract class AppCtlConfig {
 	public function getHelperName() {
 		return $this->helperName;
 	}
-
-
+	
+	/**
+	 * ナビゲーション作成用パラメータを取得する
+	 * @return array
+	 */
+	public function getNaviParams() {
+		return $this->naviParams;
+	}
+	
+	public function getLinks() {
+		return $this->links;
+	}
 }

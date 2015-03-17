@@ -5,6 +5,7 @@
  * and open the template in the editor.
  */
 App::uses('AppShell', 'Console/Command');
+App::uses('AppCtlConfig', 'Console/Command/Lib/CtlConfig');
 
 /**
  * Description of GenerateCtlHelperShell
@@ -41,15 +42,15 @@ class GenerateCtlHelperShell extends AppShell {
 		$ctlType	= self::getCtlType($ctlConfig);
 		
 		switch ($ctlType) {
-			case 'Create':
+			case AppCtlConfig::TYPE_CREATE:
 				return $shell->GenerateCtlHelperCreate->run($ctlConfig);
-			case 'Edit':
+			case AppCtlConfig::TYPE_EDIT:
 				return $shell->GenerateCtlHelperEdit->run($ctlConfig);
-			case 'Search':
+			case AppCtlConfig::TYPE_DETAIL:
 				// TODO 追加予定	
-			case 'List':
+			case AppCtlConfig::TYPE_SEARCH:
 				// TODO 追加予定	
-			case 'Ditile':
+			case AppCtlConfig::TYPE_LIST:
 				// TODO 追加予定	
 			default :
 				throw new RuntimeException('[' . $ctlType . '] CtlConfig Type Not Fund');

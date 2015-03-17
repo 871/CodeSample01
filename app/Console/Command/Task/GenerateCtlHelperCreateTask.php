@@ -81,6 +81,7 @@ class GenerateCtlHelperCreateTask extends AppShell {
 		$getLabelMedhods	= self::getGetLabelMedhods	($config);
 		$getInputMedhods	= self::getGetInputMedhods	($config);
 		$getValueMedhods	= self::getGetValueMedhods	($config);
+		$getLinkMedhods		= self::getGetLinkMedhods	($config);
 		
 		$getDivNaviLinksMedhod	= self::getGetDivNaviLinksMedhod($config);
 		
@@ -107,6 +108,9 @@ class GenerateCtlHelperCreateTask extends AppShell {
 		}
 		foreach ($getValueMedhods as $getValueMedhod) {
 			$file->addMedhod($getValueMedhod);
+		}
+		foreach ($getLinkMedhods as $getLinkMedhod) {
+			$file->addMedhod($getLinkMedhod);
 		}
 		
 		$file->addMedhod($getDivNaviLinksMedhod);
@@ -436,29 +440,89 @@ class GenerateCtlHelperCreateTask extends AppShell {
 		return $result;
 	}
 	
+	private static function getGetLinkMedhods(AppCreateCtlConfig $config) {
+		$ctlName = $config->getCtlName();
+		
+		$methods = array();
+		$links = $config->getLinks();
+		foreach ($links as $label => $url) {
+			$medhodName	= self::getGetLinkMedhodMethodName($url, $ctlName);
+			$comment	= self::getGetLinkMedhodComment($label);
+			$logic		= self::getGetLinkMedhodLogic($label, $url, $ctlName);
+			
+			$method = new ClassMedhod();
+			$method->addMedhodComment($comment);
+			$method->addMedhodComment('');
+			$method->setReturnComment('string');
+			$method->setAccess('public');
+			$method->setMedhodName($medhodName);
+			$method->setLogic($logic);
+			
+			$methods[] = $method;
+		}
+		return $methods;
+	}
+	
+	private static function getGetLinkMedhodMethodName(array $url, $ctlName) {
+		$url['controller']	= !isset($url['controller'])? $ctlName	: $url['controller'];
+		$url['action']		= !isset($url['action'])	? 'index'	: $url['action'];
+		
+		$ctl	= Inflector::camelize($url['controller']);
+		$action	= Inflector::camelize($url['action']);
+		
+		return 'getLink' . $ctl . $action;
+	}
+	
+	private static function getGetLinkMedhodComment($label) {
+		return $label . ' Link';
+	}
+	
+	private static function getGetLinkMedhodLogic($label, $url, $ctlName) {
+		$url['controller']	= !isset($url['controller'])? $ctlName	: $url['controller'];
+		$url['action']		= !isset($url['action'])	? 'index'	: $url['action'];
+		
+		$ctl	= Inflector::camelize($url['controller']);
+		$action	= Inflector::camelize($url['action']);
+		
+		$result = array(
+			'$html		= $this->Html;',
+			'$title		= __(\'' . $label . '\');',
+			'$url		= UrlUtil::get' . $ctl . $action . '();',
+			'$options	= array();',
+			'',
+			'return $html->link($title, $url, $options);',
+		);
+		return $result;
+	}
+	
 	private static function getGetDivNaviLinksMedhod(AppCreateCtlConfig $config) {
-		$naviParams		= $config->getNaviParams();
-		$arrayInners	= self::getArrayInners($naviParams, 1, true);
+		$indnt		= self::INDENT;
+		$naviParams	= $config->getNaviParams();
 		
 		$logic = array();
 		$logic[] = '$ctlHelper	= $this;';
+		$logic[] = '$alias		= $ctlHelper->alias;';
 		$logic[] = '$html		= $ctlHelper->Html;';
 		$logic[] = '$request	= $ctlHelper->request;';
 		$logic[] = '$action		= $request->params[\'action\'];';
+		$logic[] = '$ctlName	= Inflector::tableize($alias);';
 		$logic[] = '';
 		$logic[] = '$params = array(';
-		for ($i = 0, $cnt = count($arrayInners); $i < $cnt; ++$i) {
-			$logic[] = $arrayInners[$i];
+		foreach ($naviParams as $label => $url) {
+			$logic[] = $indnt . '__(\'' . $label . '\')	=> ' . self::arrayToString($url);
 		}
 		$logic[] = ');';
 		$logic[] = '';
 		$logic[] = '$linkFlag = true;';
-		$logic[] = 'foreach ($params as $ctp => $label) {';
-		$logic[] = '	if ($action === $ctp) {';
+		$logic[] = 'foreach ($params as $label => $url) {';
+		$logic[] = '	$url[\'controller\'] = !isset($url[\'controller\'])? $ctlName: $url[\'controller\'];';
+		$logic[] = '	$url[\'controller\'] = empty($url[\'controller\'])? $ctlName: $url[\'controller\'];';
+		$logic[] = '	';
+		$logic[] = '	if ($action === $url[\'action\'] && $url[\'controller\'] === $ctlName) {';
 		$logic[] = '		$linkFlag = false;';
 		$logic[] = '	}';
 		$logic[] = '	if ($linkFlag) {';
-		$logic[] = '		$html->addCrumb($label, array(\'action\' => $ctp,));';
+		$logic[] = '		$html->addCrumb($label, $url);';
 		$logic[] = '	} else {';
 		$logic[] = '		$html->addCrumb($label);';
 		$logic[] = '	}';
@@ -500,6 +564,22 @@ class GenerateCtlHelperCreateTask extends AppShell {
 			}
 		}
 		return $result;
+	}
+	
+	private static function arrayToString($value) {
+		if (is_array($value)) {
+			$tmp = '';
+			foreach ($value as $key => $val) {
+				if (is_numeric($key)) {
+					$tmp .= '\'' . $val . '\',';
+				} else {
+					$tmp .= '\'' . $key . '\' => \'' . $val . '\',';
+				}
+			}
+			return 'array(' . $tmp . '),';
+		} else {
+			return $value;
+		}
 	}
 
 	/**

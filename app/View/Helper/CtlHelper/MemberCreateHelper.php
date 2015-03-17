@@ -329,25 +329,31 @@ class MemberCreateHelper extends AppCtlHelper {
 	 */
 	public function getDivNaviLinks() {
 		$ctlHelper	= $this;
+		$alias		= $ctlHelper->alias;
 		$html		= $ctlHelper->Html;
 		$request	= $ctlHelper->request;
 		$action		= $request->params['action'];
+		$ctlName	= Inflector::tableize($alias);
 		
 		$params = array(
-			'step01'	=> 'Step1(メンバ情報)',
-			'step02'	=> 'Step2(メールアドレス)',
-			'step03'	=> 'Step3(グループ情報)',
-			'conf'		=> '登録確認',
-			'comp'		=> '登録完了',
+			__('Step1(メンバ情報)')		=> array('action' => 'step01'),
+			__('Step2(メールアドレス)')	=> array('action' => 'step02'),
+			__('Step3(グループ情報)')		=> array('action' => 'step03'),
+			__('登録確認'	)				=> array('action' => 'conf'),
+			__('登録完了'	)				=> array('action' => 'comp'),
 		);
 		
 		$linkFlag = true;
-		foreach ($params as $ctp => $label) {
-			if ($action === $ctp) {
+		foreach ($params as $label => $url) {
+			$url['controller'] = !isset($url['controller'])? $ctlName: $url['controller'];
+			$url['controller'] = empty($url['controller'])? $ctlName: $url['controller'];
+			
+			if ($action === $url['action'] && $url['controller'] === $ctlName) {
 				$linkFlag = false;
 			}
+			
 			if ($linkFlag) {
-				$html->addCrumb($label, array('action' => $ctp,));
+				$html->addCrumb($label, $url);
 			} else {
 				$html->addCrumb($label);
 			}

@@ -20,14 +20,7 @@ abstract class AppCreateCtlConfig extends AppCtlConfig {
 	 * Ctl Type
 	 * @var string
 	 */
-	protected $ctlType = 'Create';
-	
-	
-	/**
-	 * $ctp => $label
-	 * @var array
-	 */
-	protected $naviParams = array();
+	protected $ctlType = self::TYPE_CREATE;
 	
 	/**
 	 * Array Path
@@ -83,20 +76,6 @@ abstract class AppCreateCtlConfig extends AppCtlConfig {
 			return $submitLables;
 		} else {
 			return Hash::get($submitLables, $path);
-		}
-	}
-	
-	/**
-	 * ナビゲーション作成用パラメータを取得する
-	 * @param string $path
-	 * @return mix
-	 */
-	public function getNaviParams($path = null) {
-		$naviParams	= $this->naviParams;
-		if (is_null($path)) {
-			return $naviParams;
-		} else {
-			return Hash::get($naviParams, $path);
 		}
 	}
 }

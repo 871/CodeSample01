@@ -41,6 +41,12 @@ class ClassFile implements FielGenerate {
 	
 	/**
 	 *
+	 * @var type 
+	 */
+	private $use = array();
+
+	/**
+	 *
 	 * @var array<ClassMember>
 	 */
 	private $members = array();
@@ -90,6 +96,17 @@ class ClassFile implements FielGenerate {
 	}
 	
 	/**
+	 * トレイト
+	 * @param string $trait
+	 */
+	public function addUses($trait) {
+		$file = $this;
+		if (!array_search($trait, $file->use)) {
+			$file->use[] = $trait;
+		}
+	}
+	
+	/**
 	 * ClassMember Instance
 	 * @param ClassMember $member
 	 */
@@ -121,30 +138,30 @@ class ClassFile implements FielGenerate {
 		$classType			= $file->classType;
 		$className			= $file->className;
 		$parentClassName	= $file->parentClassName;
+		$uses				= $file->use;
 		$members			= array_values($file->members);
 		$medhods			= array_values($file->medhods);
 		
 		$extends	= !empty($parentClassName)? ' extends ' . $parentClassName: '';
+		$use		= join(', ', $uses);
 		
 		$file->contents[] = '<?php ';
 		$file->contents[] = '';
 		foreach ($imports as $import) {
-			if ($import instanceof Import) {
-				$file->contents[] = $import->getContents();
-			} else {
-				throw new RuntimeException('Error Not Import Instance ClassFile::$imports');
-			}
+			$file->contents[] = $import->getContents();
 		}
 		$file->contents[] = '';
 		$file->contents[] = $classType . ' ' . $className . $extends . ' {';
 		$file->contents[] = '';
+		
+		if (!empty($uses)) {
+			$file->contents[] = 'use ' . $use . ';';
+			$file->contents[] = '';
+		} 
+		
 		foreach ($members as $member) {
-			if ($member instanceof ClassMember) {
-				$file->contents[] = $member->getContents();
-				$file->contents[] = '';
-			} else {
-				throw new RuntimeException('Error Not ClassMember Instance ClassFile::$members');
-			}
+			$file->contents[] = $member->getContents();
+			$file->contents[] = '';
 		}
 		foreach ($medhods as $medhod) {
 			$file->contents[] = $medhod->getContents();
