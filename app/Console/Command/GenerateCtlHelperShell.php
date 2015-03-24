@@ -6,6 +6,11 @@
  */
 App::uses('AppShell', 'Console/Command');
 App::uses('AppCtlConfig', 'Console/Command/Lib/CtlConfig');
+// Memo:フォルダ整理のため明示的な読み込みに変更
+App::import('Console/Command/Task/GenerateCtlHelper', 'GenerateCtlHelperCreateTask');
+App::import('Console/Command/Task/GenerateCtlHelper', 'GenerateCtlHelperEditTask');
+App::import('Console/Command/Task/GenerateCtlHelper', 'GenerateCtlHelperDetailTask');
+App::import('Console/Command/Task/GenerateCtlHelper', 'GenerateCtlHelperSearchTask');
 
 /**
  * Description of GenerateCtlHelperShell
@@ -18,6 +23,7 @@ class GenerateCtlHelperShell extends AppShell {
 		'GenerateCtlHelperCreate',
 		'GenerateCtlHelperEdit',
 		'GenerateCtlHelperDetail',
+		'GenerateCtlHelperSearch',
 	);
 	
     public function main() {
@@ -50,7 +56,7 @@ class GenerateCtlHelperShell extends AppShell {
 			case AppCtlConfig::TYPE_DETAIL:
 				return $shell->GenerateCtlHelperDetail->run($ctlConfig);
 			case AppCtlConfig::TYPE_SEARCH:
-				// TODO 追加予定	
+				return $shell->GenerateCtlHelperSearch->run($ctlConfig);
 			case AppCtlConfig::TYPE_LIST:
 				// TODO 追加予定	
 			default :
