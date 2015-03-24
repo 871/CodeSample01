@@ -25,10 +25,7 @@ abstract class AppDetailCtlConfig extends AppCtlConfig {
 	 * use
 	 * @var array
 	 */
-	protected $traitNames = array(
-		'TblUserView',
-		
-	);
+	protected $traitNames = array();
 	
 	/**
 	 * トレイト設定作成用パラメータを取得する

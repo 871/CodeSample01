@@ -17,6 +17,7 @@ class GenerateCtlHelperShell extends AppShell {
 	public $tasks = array(
 		'GenerateCtlHelperCreate',
 		'GenerateCtlHelperEdit',
+		'GenerateCtlHelperDetail',
 	);
 	
     public function main() {
@@ -47,7 +48,7 @@ class GenerateCtlHelperShell extends AppShell {
 			case AppCtlConfig::TYPE_EDIT:
 				return $shell->GenerateCtlHelperEdit->run($ctlConfig);
 			case AppCtlConfig::TYPE_DETAIL:
-				// TODO 追加予定	
+				return $shell->GenerateCtlHelperDetail->run($ctlConfig);
 			case AppCtlConfig::TYPE_SEARCH:
 				// TODO 追加予定	
 			case AppCtlConfig::TYPE_LIST:

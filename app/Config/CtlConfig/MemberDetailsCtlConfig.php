@@ -13,6 +13,15 @@ App::uses('AppDetailCtlConfig', 'Console/Command/Lib/CtlConfig');
  */
 class MemberDetailsCtlConfig extends AppDetailCtlConfig {
 	
+	protected $traitNames = array(
+		'TblUserView',
+		'TblGroupView',
+	);
 	
+	protected $naviParams = array(
+		'Top'			=> 'UrlUtil::getMainsIndex()',
+		'Member Search'	=> 'UrlUtil::getMemberSearchsIndex()',
+		'Member Detile'	=> 'UrlUtil::getMemberDetailsIndex()',
+	);
 	
 }

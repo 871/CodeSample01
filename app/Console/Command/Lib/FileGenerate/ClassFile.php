@@ -17,7 +17,7 @@ class ClassFile implements FielGenerate {
 	
 	/**
 	 * 
-	 * @var array
+	 * @var array<Import>
 	 */
 	private $imports = array();
 
@@ -133,6 +133,7 @@ class ClassFile implements FielGenerate {
 	 * @return string
 	 */
 	public function getContents() {
+		$ind				= self::TAB;
 		$file				= $this;
 		$imports			= $file->imports;
 		$classType			= $file->classType;
@@ -155,7 +156,7 @@ class ClassFile implements FielGenerate {
 		$file->contents[] = '';
 		
 		if (!empty($uses)) {
-			$file->contents[] = 'use ' . $use . ';';
+			$file->contents[] = $ind . 'use ' . $use . ';';
 			$file->contents[] = '';
 		} 
 		
