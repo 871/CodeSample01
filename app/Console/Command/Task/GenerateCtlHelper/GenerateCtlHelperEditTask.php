@@ -7,7 +7,7 @@
 App::uses('AppShell', 'Console/Command');
 App::uses('ClassFile', 'Console/Command/Lib/FileGenerate');
 App::uses('ClassMember', 'Console/Command/Lib/FileGenerate');
-App::uses('ClassMedhod', 'Console/Command/Lib/FileGenerate');
+App::uses('ClassMethod', 'Console/Command/Lib/FileGenerate');
 App::uses('Import', 'Console/Command/Lib/FileGenerate');
 
 /**
@@ -77,12 +77,12 @@ class GenerateCtlHelperEditTask extends AppShell {
 		$getSubmitBackMethod	= self::getGetSubmitBackMethod	($config);
 		$getSubmitCompMethod	= self::getGetSubmitCompMethod	($config);
 		
-		$getLabelMedhods	= self::getGetLabelMedhods	($config);
-		$getInputMedhods	= self::getGetInputMedhods	($config);
-		$getValueMedhods	= self::getGetValueMedhods	($config);
-		$getLinkMedhods		= self::getGetLinkMedhods	($config);
+		$getLabelMethods	= self::getGetLabelMethods	($config);
+		$getInputMethods	= self::getGetInputMethods	($config);
+		$getValueMethods	= self::getGetValueMethods	($config);
+		$getLinkMethods		= self::getGetLinkMethods	($config);
 		
-		$getDivNaviLinksMedhod	= self::getGetDivNaviLinksMedhod($config);
+		$getDivNaviLinksMethod	= self::getGetDivNaviLinksMethod($config);
 		
 		$file = new ClassFile();
 		$file->setClassType($classType);
@@ -92,26 +92,26 @@ class GenerateCtlHelperEditTask extends AppShell {
 		$file->addImport($importAppCtlHelper);
 		$file->addImport($importUrlUtil);
 		
-		$file->addMedhod($getFormStartMethod);
-		$file->addMedhod($getFormEndMethod);
-		$file->addMedhod($getSubmitConfMethod);
-		$file->addMedhod($getSubmitBackMethod);
-		$file->addMedhod($getSubmitCompMethod);
+		$file->addMethod($getFormStartMethod);
+		$file->addMethod($getFormEndMethod);
+		$file->addMethod($getSubmitConfMethod);
+		$file->addMethod($getSubmitBackMethod);
+		$file->addMethod($getSubmitCompMethod);
 		
-		foreach ($getLabelMedhods as $getLabelMedhod) {
-			$file->addMedhod($getLabelMedhod);
+		foreach ($getLabelMethods as $getLabelMethod) {
+			$file->addMethod($getLabelMethod);
 		}
-		foreach ($getInputMedhods as $getInputMedhod) {
-			$file->addMedhod($getInputMedhod);
+		foreach ($getInputMethods as $getInputMethod) {
+			$file->addMethod($getInputMethod);
 		}
-		foreach ($getValueMedhods as $getValueMedhod) {
-			$file->addMedhod($getValueMedhod);
+		foreach ($getValueMethods as $getValueMethod) {
+			$file->addMethod($getValueMethod);
 		}
-		foreach ($getLinkMedhods as $getLinkMedhod) {
-			$file->addMedhod($getLinkMedhod);
+		foreach ($getLinkMethods as $getLinkMethod) {
+			$file->addMethod($getLinkMethod);
 		}
 		
-		$file->addMedhod($getDivNaviLinksMedhod);
+		$file->addMethod($getDivNaviLinksMethod);
 		
 		return $file->getContents();
 	}
@@ -138,12 +138,12 @@ class GenerateCtlHelperEditTask extends AppShell {
 			'return $form->create($alias, $options);',
 		);
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment($comment);
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment($comment);
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getFormStart');
+		$method->setMethodName('getFormStart');
 		$method->addArg('$options = array()', 'array', 'array');
 		$method->setLogic($logic);
 
@@ -157,41 +157,17 @@ class GenerateCtlHelperEditTask extends AppShell {
 			'return $form->end();',
 		);
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment($comment);
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment($comment);
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getFormEnd');
+		$method->setMethodName('getFormEnd');
 		$method->setLogic($logic);
 
 		return $method;
 	}
 
-	private static function getGetSubmitNextMethod(AppEditCtlConfig $config) {
-		$label		= $config->getSubmitLables('next');
-		$comment	= 'Submit Button (' . $label . ')';
-		$logic = array(
-			'$form		= $this->ExtForm;',
-			'$caption	= __(\'' . $label . '\');',
-			'$options	= array(',
-			'	\'div\'	=> false,',
-			');',
-			'',
-			'return $form->submit($caption, $options);',
-		);
-		
-		$method = new ClassMedhod();
-		$method->addMedhodComment($comment);
-		$method->addMedhodComment('');
-		$method->setReturnComment('string');
-		$method->setAccess('public');
-		$method->setMedhodName('getSubmitNext');
-		$method->setLogic($logic);
-
-		return $method;
-	}
-	
 	private static function getGetSubmitConfMethod(AppEditCtlConfig $config) {
 		$label		= $config->getSubmitLables('conf');
 		$comment	= 'Submit Button (' . $label . ')';
@@ -205,12 +181,12 @@ class GenerateCtlHelperEditTask extends AppShell {
 			'return $form->submit($caption, $options);',
 		);
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment($comment);
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment($comment);
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getSubmitConf');
+		$method->setMethodName('getSubmitConf');
 		$method->setLogic($logic);
 
 		return $method;
@@ -242,12 +218,12 @@ class GenerateCtlHelperEditTask extends AppShell {
 			'return $form->submit($caption, $options) . $script;',
 		);
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment($comment);
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment($comment);
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getSubmitComp');
+		$method->setMethodName('getSubmitComp');
 		$method->addArg('$backAction', 'string');
 		$method->setLogic($logic);
 
@@ -267,32 +243,32 @@ class GenerateCtlHelperEditTask extends AppShell {
 			'return $form->submit($caption, $options);',
 		);
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment($comment);
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment($comment);
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getSubmitComp');
+		$method->setMethodName('getSubmitComp');
 		$method->setLogic($logic);
 
 		return $method;
 	}
 
-	private static function getGetLabelMedhods(AppEditCtlConfig $config) {
+	private static function getGetLabelMethods(AppEditCtlConfig $config) {
 		$methods = array();
 		
 		$params = $config->getParams();
 		foreach ($params as $fieldName => $param) {
-			$medhodName	= self::getGetLabelMedhodMethodName($fieldName);
-			$comment	= self::getGetLabelMedhodComment($param);
-			$logic		= self::getGetLabelMedhodLogic($param);
+			$methodName	= self::getGetLabelMethodMethodName($fieldName);
+			$comment	= self::getGetLabelMethodComment($param);
+			$logic		= self::getGetLabelMethodLogic($param);
 			
-			$method = new ClassMedhod();
-			$method->addMedhodComment($comment);
-			$method->addMedhodComment('');
+			$method = new ClassMethod();
+			$method->addMethodComment($comment);
+			$method->addMethodComment('');
 			$method->setReturnComment('string');
 			$method->setAccess('public');
-			$method->setMedhodName($medhodName);
+			$method->setMethodName($methodName);
 			$method->setLogic($logic);
 			
 			$methods[] = $method;
@@ -300,25 +276,25 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $methods;
 	}
 	
-	private static function getGetLabelMedhodMethodName($fieldName) {
+	private static function getGetLabelMethodMethodName($fieldName) {
 		return 'getLabel' . Inflector::camelize($fieldName);
 	}
 	
-	private static function getGetLabelMedhodComment(array $param) {
+	private static function getGetLabelMethodComment(array $param) {
 		$label = $param['label'];
 		return $label . ' Label';
 	}
 	
-	private static function getGetLabelMedhodLogic(array $param) {
+	private static function getGetLabelMethodLogic(array $param) {
 		$label = $param['label'];
 		if (is_array($label)) {
-			return self::getGetLabelMedhodLogicArray($param);
+			return self::getGetLabelMethodLogicArray($param);
 		} else {
-			return self::getGetLabelMedhodLogicString($param);
+			return self::getGetLabelMethodLogicString($param);
 		}
 	}
 	
-	private static function getGetLabelMedhodLogicArray(array $param) {
+	private static function getGetLabelMethodLogicArray(array $param) {
 		$indent	= self::INDENT;
 		$label	= $param['label'];
 		
@@ -335,7 +311,7 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $result;
 	}
 	
-	private static function getGetLabelMedhodLogicString(array $param) {
+	private static function getGetLabelMethodLogicString(array $param) {
 		$label = $param['label'];
 		
 		$result = array();
@@ -345,21 +321,21 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $result;
 	}
 
-	private static function getGetInputMedhods(AppEditCtlConfig $config) {
+	private static function getGetInputMethods(AppEditCtlConfig $config) {
 		$methods = array();
 		
 		$params = $config->getParams();
 		foreach ($params as $fieldName => $param) {
-			$medhodName	= self::getGetInputMedhodMethodName($fieldName);
-			$comment	= self::getGetInputMedhodComment($param);
-			$logic		= self::getGetInputMedhodLogic($fieldName, $param);
+			$methodName	= self::getGetInputMethodMethodName($fieldName);
+			$comment	= self::getGetInputMethodComment($param);
+			$logic		= self::getGetInputMethodLogic($fieldName, $param);
 			
-			$method = new ClassMedhod();
-			$method->addMedhodComment($comment);
-			$method->addMedhodComment('');
+			$method = new ClassMethod();
+			$method->addMethodComment($comment);
+			$method->addMethodComment('');
 			$method->setReturnComment('string');
 			$method->setAccess('public');
-			$method->setMedhodName($medhodName);
+			$method->setMethodName($methodName);
 			$method->setLogic($logic);
 			
 			$methods[] = $method;
@@ -367,16 +343,16 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $methods;
 	}
 	
-	private static function getGetInputMedhodMethodName($fieldName) {
+	private static function getGetInputMethodMethodName($fieldName) {
 		return 'getInput' . Inflector::camelize($fieldName);
 	}
 	
-	private static function getGetInputMedhodComment(array $param) {
+	private static function getGetInputMethodComment(array $param) {
 		$label = $param['label'];
 		return $label . ' Input';
 	}
 	
-	private static function getGetInputMedhodLogic($fieldName, array $param) {
+	private static function getGetInputMethodLogic($fieldName, array $param) {
 		$options		= $param['options'];
 		$arrayInners	= self::getArrayInners($options, 1);
 		
@@ -398,21 +374,21 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $result;
 	}
 	
-	private static function getGetValueMedhods(AppEditCtlConfig $config) {
+	private static function getGetValueMethods(AppEditCtlConfig $config) {
 		$methods = array();
 		
 		$params = $config->getParams();
 		foreach ($params as $fieldName => $param) {
-			$medhodName	= self::getGetValueMedhodMethodName($fieldName);
-			$comment	= self::getGetValueMedhodComment($param);
-			$logic		= self::getGetValueMedhodLogic($fieldName);
+			$methodName	= self::getGetValueMethodMethodName($fieldName);
+			$comment	= self::getGetValueMethodComment($param);
+			$logic		= self::getGetValueMethodLogic($fieldName);
 			
-			$method = new ClassMedhod();
-			$method->addMedhodComment($comment);
-			$method->addMedhodComment('');
+			$method = new ClassMethod();
+			$method->addMethodComment($comment);
+			$method->addMethodComment('');
 			$method->setReturnComment('string');
 			$method->setAccess('public');
-			$method->setMedhodName($medhodName);
+			$method->setMethodName($methodName);
 			$method->setLogic($logic);
 			
 			$methods[] = $method;
@@ -420,16 +396,16 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $methods;
 	}
 	
-	private static function getGetValueMedhodMethodName($fieldName) {
+	private static function getGetValueMethodMethodName($fieldName) {
 		return 'getValue' . Inflector::camelize($fieldName);
 	}
 
-	private static function getGetValueMedhodComment(array $param) {
+	private static function getGetValueMethodComment(array $param) {
 		$label = $param['label'];
 		return $label . ' Value';
 	}
 
-	private static function getGetValueMedhodLogic($fieldName) {
+	private static function getGetValueMethodLogic($fieldName) {
 		$result = array(
 			'$form		= $this->ExtForm;',
 			'$field		= \'' . $fieldName . '\';',
@@ -438,22 +414,22 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $result;
 	}
 	
-	private static function getGetLinkMedhods(AppCreateCtlConfig $config) {
+	private static function getGetLinkMethods(AppEditCtlConfig $config) {
 		$ctlName = $config->getCtlName();
 		
 		$methods = array();
 		$links = $config->getLinks();
 		foreach ($links as $label => $url) {
-			$medhodName	= self::getGetLinkMedhodMethodName($url, $ctlName);
-			$comment	= self::getGetLinkMedhodComment($label);
-			$logic		= self::getGetLinkMedhodLogic($label, $url, $ctlName);
+			$methodName	= self::getGetLinkMethodMethodName($url, $ctlName);
+			$comment	= self::getGetLinkMethodComment($label);
+			$logic		= self::getGetLinkMethodLogic($label, $url, $ctlName);
 			
-			$method = new ClassMedhod();
-			$method->addMedhodComment($comment);
-			$method->addMedhodComment('');
+			$method = new ClassMethod();
+			$method->addMethodComment($comment);
+			$method->addMethodComment('');
 			$method->setReturnComment('string');
 			$method->setAccess('public');
-			$method->setMedhodName($medhodName);
+			$method->setMethodName($methodName);
 			$method->setLogic($logic);
 			
 			$methods[] = $method;
@@ -461,7 +437,7 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $methods;
 	}
 	
-	private static function getGetLinkMedhodMethodName(array $url, $ctlName) {
+	private static function getGetLinkMethodMethodName(array $url, $ctlName) {
 		$url['controller']	= !isset($url['controller'])? $ctlName	: $url['controller'];
 		$url['action']		= !isset($url['action'])	? 'index'	: $url['action'];
 		
@@ -471,11 +447,11 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return 'getLink' . $ctl . $action;
 	}
 	
-	private static function getGetLinkMedhodComment($label) {
+	private static function getGetLinkMethodComment($label) {
 		return $label . ' Link';
 	}
 	
-	private static function getGetLinkMedhodLogic($label, $url, $ctlName) {
+	private static function getGetLinkMethodLogic($label, $url, $ctlName) {
 		$url['controller']	= !isset($url['controller'])? $ctlName	: $url['controller'];
 		$url['action']		= !isset($url['action'])	? 'index'	: $url['action'];
 		
@@ -493,7 +469,7 @@ class GenerateCtlHelperEditTask extends AppShell {
 		return $result;
 	}
 	
-	private static function getGetDivNaviLinksMedhod(AppCreateCtlConfig $config) {
+	private static function getGetDivNaviLinksMethod(AppEditCtlConfig $config) {
 		$indnt		= self::INDENT;
 		$naviParams	= $config->getNaviParams();
 		
@@ -528,12 +504,12 @@ class GenerateCtlHelperEditTask extends AppShell {
 		$logic[] = '';
 		$logic[] = 'return $html->getCrumbs(" > ");';
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment('Top Navigator');
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment('Top Navigator');
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getDivNaviLinks');
+		$method->setMethodName('getDivNaviLinks');
 		$method->setLogic($logic);
 
 		return $method;

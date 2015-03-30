@@ -7,7 +7,7 @@
 App::uses('AppShell', 'Console/Command');
 App::uses('ClassFile', 'Console/Command/Lib/FileGenerate');
 App::uses('ClassMember', 'Console/Command/Lib/FileGenerate');
-App::uses('ClassMedhod', 'Console/Command/Lib/FileGenerate');
+App::uses('ClassMethod', 'Console/Command/Lib/FileGenerate');
 
 /**
  * Description of GenerateAuthUtilTask
@@ -59,31 +59,31 @@ class GenerateAuthUtilTask extends AppShell {
 		$classType	= 'class';
 		$className	= 'AuthUtil';
 		
-		$refreshMedhod				= self::getRefreshMedhod($modelName);
-		$getAuthMedhods				= self::getGetAuthMedhods			($model);
-		$getHasOneAuthMedhods		= self::getGetHasOneAuthMedhods		($model);
-		$getBelongsToAuthMedhods	= self::getGetBelongsToAuthMedhods	($model);
+		$refreshMethod				= self::getRefreshMethod($modelName);
+		$getAuthMethods				= self::getGetAuthMethods			($model);
+		$getHasOneAuthMethods		= self::getGetHasOneAuthMethods		($model);
+		$getBelongsToAuthMethods	= self::getGetBelongsToAuthMethods	($model);
 		
 		
 		$file = new ClassFile();
 		$file->setClassType($classType);
 		$file->setClassName($className);
-		$file->addMedhod($refreshMedhod);
+		$file->addMethod($refreshMethod);
 		
-		foreach ($getAuthMedhods as $getAuthMedhod) {
-			$file->addMedhod($getAuthMedhod);
+		foreach ($getAuthMethods as $getAuthMethod) {
+			$file->addMethod($getAuthMethod);
 		}
-		foreach ($getHasOneAuthMedhods as $getAuthMedhod) {
-			$file->addMedhod($getAuthMedhod);
+		foreach ($getHasOneAuthMethods as $getAuthMethod) {
+			$file->addMethod($getAuthMethod);
 		}
-		foreach ($getBelongsToAuthMedhods as $getAuthMedhod) {
-			$file->addMedhod($getAuthMedhod);
+		foreach ($getBelongsToAuthMethods as $getAuthMethod) {
+			$file->addMethod($getAuthMethod);
 		}
 		return $file->getContents();
 	}
 	
-	private static function getRefreshMedhod($modelName) {
-		$medhodName	= 'refresh';
+	private static function getRefreshMethod($modelName) {
+		$methodName	= 'refresh';
 		$access		= 'public static';
 		$arrLogic = array(
 			'$authrModelNmae	= \'' . $modelName . '\';',
@@ -100,62 +100,62 @@ class GenerateAuthUtilTask extends AppShell {
 			'$auth->login($authData);',
 		);
 		
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->setLogic($arrLogic);
-		$medhod->addArg('$auth', 'AuthComponent $auth', 'AuthComponent');
-		$medhod->addMedhodComment('認証情報の更新');
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->setLogic($arrLogic);
+		$method->addArg('$auth', 'AuthComponent $auth', 'AuthComponent');
+		$method->addMethodComment('認証情報の更新');
 		
-		return $medhod;
+		return $method;
 	}
 	
-	private static function getGetAuthMedhods(AppOrmModel $model) {
+	private static function getGetAuthMethods(AppOrmModel $model) {
 		$modelName	= $model->name;
 		$fields		= array_keys($model->schema());
 		
-		$medhods = array();
+		$methods = array();
 		foreach ($fields as $field) {
-			$medhods[] = self::getGetAuthMedhod($modelName, $field, false);
+			$methods[] = self::getGetAuthMethod($modelName, $field, false);
 		}
-		return $medhods;
+		return $methods;
 	}
 	
-	private static function getGetHasOneAuthMedhods(AppOrmModel $model) {
+	private static function getGetHasOneAuthMethods(AppOrmModel $model) {
 		$hasOneModelNames = array_keys($model->hasOne);
 		
-		$medhods = array();
+		$methods = array();
 		foreach ($hasOneModelNames as $hasOneModelName) {
 			$hasOneModel	= $model->{$hasOneModelName};
 			$modelName		= $hasOneModel->name;
 			$fields			= array_keys($hasOneModel->schema());
 			
 			foreach ($fields as $field) {
-				$medhods[] = self::getGetAuthMedhod($modelName, $field, true);
+				$methods[] = self::getGetAuthMethod($modelName, $field, true);
 			}
 		}
-		return $medhods;
+		return $methods;
 	}
 	
-	private static function getGetBelongsToAuthMedhods(AppOrmModel $model) {
+	private static function getGetBelongsToAuthMethods(AppOrmModel $model) {
 		$belongsToModelNames = array_keys($model->belongsTo);
 		
-		$medhods = array();
+		$methods = array();
 		foreach ($belongsToModelNames as $belongsToModelName) {
 			$belongsToModel	= $model->{$belongsToModelName};
 			$modelName		= $belongsToModel->name;
 			$fields			= array_keys($belongsToModel->schema());
 			
 			foreach ($fields as $field) {
-				$medhods[] = self::getGetAuthMedhod($modelName, $field, true);
+				$methods[] = self::getGetAuthMethod($modelName, $field, true);
 			}
 		}
-		return $medhods;
+		return $methods;
 	}
 
 	
-	private static function getGetAuthMedhod($modelName, $field, $relationFlag = false) {
-		$medhodName = 'get' . $modelName . Inflector::camelize($field);
+	private static function getGetAuthMethod($modelName, $field, $relationFlag = false) {
+		$methodName = 'get' . $modelName . Inflector::camelize($field);
 		$access		= 'public static';
 		$fieldName	= $relationFlag? $modelName . '.' . $field: $field;
 		
@@ -163,13 +163,13 @@ class GenerateAuthUtilTask extends AppShell {
 			'return $auth->user(\'' . $fieldName . '\');',
 		);
 
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->setLogic($arrLogic);
-		$medhod->addArg('$auth', 'AuthComponent $auth', 'AuthComponent');
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->setLogic($arrLogic);
+		$method->addArg('$auth', 'AuthComponent $auth', 'AuthComponent');
 
-		return $medhod;
+		return $method;
 	}
 	
 	/**

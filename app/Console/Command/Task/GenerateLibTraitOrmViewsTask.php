@@ -7,7 +7,7 @@
 App::uses('AppShell', 'Console/Command');
 App::uses('ClassFile', 'Console/Command/Lib/FileGenerate');
 App::uses('ClassMember', 'Console/Command/Lib/FileGenerate');
-App::uses('ClassMedhod', 'Console/Command/Lib/FileGenerate');
+App::uses('ClassMethod', 'Console/Command/Lib/FileGenerate');
 
 /**
  * Description of GenerateLibTraitOrmViewTask
@@ -60,97 +60,97 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		$className	= $modelName . 'Views';
 		$member		= new ClassMember('data' . $modelName , 'private', 'array()', $modelName, 'array<' . $modelName . '::$data>');
 		
-		$setDataMedhod			= self::getSetDataMedhod	($model);
+		$setDataMethod			= self::getSetDataMethod	($model);
 		$modelDataCountMethod	= self::getModelDataCountMethod($model);
-		$virtualFieldsMedhods	= self::getVirtualFields	($model);
-		$schemaMedhods			= self::getSchemaMethods	($model);
-		$hasOneMedhods			= self::getHasOneMethods	($model);
-		$belongsToMedhods		= self::getBelongsToMethods	($model);
-		$hasManyMedhods			= self::getHasManyMethods	($model);
-		$habtmMedhods			= self::getHabtmMethods		($model);
+		$virtualFieldsMethods	= self::getVirtualFields	($model);
+		$schemaMethods			= self::getSchemaMethods	($model);
+		$hasOneMethods			= self::getHasOneMethods	($model);
+		$belongsToMethods		= self::getBelongsToMethods	($model);
+		$hasManyMethods			= self::getHasManyMethods	($model);
+		$habtmMethods			= self::getHabtmMethods		($model);
 		
 		$file = new ClassFile();
 		$file->setClassType($classType);
 		$file->setClassName($className);
 		$file->addMember($member);
-		$file->addMedhod($setDataMedhod);
-		$file->addMedhod($modelDataCountMethod);
+		$file->addMethod($setDataMethod);
+		$file->addMethod($modelDataCountMethod);
 		
-		foreach ($virtualFieldsMedhods as $medhod) {
-			$file->addMedhod($medhod);
+		foreach ($virtualFieldsMethods as $method) {
+			$file->addMethod($method);
 		}
-		foreach ($schemaMedhods as $medhod) {
-			$file->addMedhod($medhod);
+		foreach ($schemaMethods as $method) {
+			$file->addMethod($method);
 		}
-		foreach ($hasOneMedhods as $medhod) {
-			$file->addMedhod($medhod);
+		foreach ($hasOneMethods as $method) {
+			$file->addMethod($method);
 		}
-		foreach ($belongsToMedhods as $medhod) {
-			$file->addMedhod($medhod);
+		foreach ($belongsToMethods as $method) {
+			$file->addMethod($method);
 		}
-		foreach ($hasManyMedhods as $medhod) {
-			$file->addMedhod($medhod);
+		foreach ($hasManyMethods as $method) {
+			$file->addMethod($method);
 		}
-		foreach ($habtmMedhods as $medhod) {
-			$file->addMedhod($medhod);
+		foreach ($habtmMethods as $method) {
+			$file->addMethod($method);
 		}
 		return $file->getContents();
 	}
 	
-	private static function getSetDataMedhod(AppOrmModel $model) {
+	private static function getSetDataMethod(AppOrmModel $model) {
 		$modelName = $model->name;
 		
-		$medhodName	= 'setData' . $modelName;
+		$methodName	= 'setData' . $modelName;
 		$access		= 'public';
 		$arg		= '$data' . $modelName;
 		$arrLogic	= array(
 			'$this->data' . $modelName . ' = ' . $arg . ';'
 		);
-		$medhodComment	= $modelName . '::$data';
+		$methodComment	= $modelName . '::$data';
 		$memo1			= "if (!isset(" . $arg . "))	throw new RuntimeException(__DIR__ . ':' . __FILE__ . ':' . __LINE__);";
-		$memo2			= '$ctlHelper->' . $medhodName . '(' . $arg . ');';
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->setLogic($arrLogic);
-		$medhod->addArg($arg, 'array ' . $arg , 'array');
-		$medhod->addMedhodComment($medhodComment);
-		$medhod->addMedhodComment($memo1);
-		$medhod->addMedhodComment($memo2);
+		$memo2			= '$ctlHelper->' . $methodName . '(' . $arg . ');';
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->setLogic($arrLogic);
+		$method->addArg($arg, 'array ' . $arg , 'array');
+		$method->addMethodComment($methodComment);
+		$method->addMethodComment($memo1);
+		$method->addMethodComment($memo2);
 		
-		return $medhod;
+		return $method;
 	}
 	
 	/**
 	 * HasManyアソシエーションのメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getModelDataCountMethod(AppOrmModel $model) {
 		$modelName		= $model->name;
-		$medhodComment	= 'データカウント（' . $modelName . '）';
-		$medhodName	= 'getData' . $modelName . 'Count';
+		$methodComment	= 'データカウント（' . $modelName . '）';
+		$methodName	= 'getData' . $modelName . 'Count';
 		$access		= 'public';
 		$arrLogic	= array(
 			'return count($this->data' . $modelName . ');',
 		);
-		$memo1			= '$cnt = $ctlHelper->' . $medhodName . '();';
+		$memo1			= '$cnt = $ctlHelper->' . $methodName . '();';
 		$returnComment	= 'int';
 		
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->setLogic($arrLogic);
-		$medhod->addMedhodComment($medhodComment);
-		$medhod->addMedhodComment($memo1);
-		$medhod->setReturnComment($returnComment);
-		return $medhod;
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->setLogic($arrLogic);
+		$method->addMethodComment($methodComment);
+		$method->addMethodComment($memo1);
+		$method->setReturnComment($returnComment);
+		return $method;
 	}
 
 	/**
 	 * バーチャルフィールドのメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getVirtualFields(AppOrmModel $model) {
 		$result		= array();
@@ -159,25 +159,25 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 		
 		foreach ($fieldNames as $fieldName) {
 			$cameFieldName	= Inflector::camelize($fieldName);
-			$medhodName		= 'getText' . $modelName . $cameFieldName;
+			$methodName		= 'getText' . $modelName . $cameFieldName;
 			$access			= 'public';
 			$arrLogic		= self::getLogicString($modelName, $modelName, $fieldName);
-			$medhodComment	= $modelName . '::virtualFields[' . $fieldName . ']';
-			$memo1			= '$text' . $modelName . $cameFieldName . '	= $ctlHelper->' . $medhodName . '	($i);';
+			$methodComment	= $modelName . '::virtualFields[' . $fieldName . ']';
+			$memo1			= '$text' . $modelName . $cameFieldName . '	= $ctlHelper->' . $methodName . '	($i);';
 			$memo2			= '<?php echo $text' . $modelName . $cameFieldName . '	; ?>';
 			$returnComment	= 'string';
 					
-			$medhod = new ClassMedhod();
-			$medhod->setMedhodName($medhodName);
-			$medhod->setAccess($access);
-			$medhod->setLogic($arrLogic);
-			$medhod->addMedhodComment($medhodComment);
-			$medhod->addMedhodComment($memo1);
-			$medhod->addMedhodComment($memo2);
-			$medhod->setReturnComment($returnComment);
-			$medhod->addArg('$cnt = 0', 'int $cnt');
+			$method = new ClassMethod();
+			$method->setMethodName($methodName);
+			$method->setAccess($access);
+			$method->setLogic($arrLogic);
+			$method->addMethodComment($methodComment);
+			$method->addMethodComment($memo1);
+			$method->addMethodComment($memo2);
+			$method->setReturnComment($returnComment);
+			$method->addArg('$cnt = 0', 'int $cnt');
 			
-			$result[] = $medhod;
+			$result[] = $method;
 		}
 		return $result;
 	}
@@ -185,7 +185,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	/**
 	 * スキーマ情報のメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getSchemaMethods(AppOrmModel $model) {
 		$result		= array();
@@ -206,62 +206,62 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	 * @param type $type
 	 * @param type $null
 	 * @param type $comment
-	 * @return \ClassMedhod
+	 * @return \ClassMethod
 	 */
 	private static function getSchemaMethod($modelName, $fieldName, $type, $comment, $prefix = '', $pluralityFlag = false) {
 		$access			= 'public';
 		$cameFieldName	= Inflector::camelize($fieldName);
-		$medhodName		= 'getText' . $prefix . $modelName . $cameFieldName;
+		$methodName		= 'getText' . $prefix . $modelName . $cameFieldName;
 		if ($pluralityFlag) {
-			$memo1	= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $medhodName . '	($i, $j);';
+			$memo1	= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $methodName . '	($i, $j);';
 		} else {
-			$memo1	= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $medhodName . '	($i);';
+			$memo1	= '$text' . $prefix . $modelName . $cameFieldName . '	= $ctlHelper->' . $methodName . '	($i);';
 		}
 		$memo2			= '<?php echo $text' . $prefix . $modelName . $cameFieldName . '	; ?>';
 		$returnComment	= 'string';
 		$rootModelName	= $prefix === ''? $modelName: $prefix;
 		
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->addArg('$cnt1 = 0', 'int $cnt1');
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->addArg('$cnt1 = 0', 'int $cnt1');
 		if ($pluralityFlag) {
-			$medhod->addArg('$cnt2 = 0', 'int $cnt2');
+			$method->addArg('$cnt2 = 0', 'int $cnt2');
 		}
 		switch ($type) {
 			case 'text':
 				$arrLogic = self::getLogicText($rootModelName, $modelName, $fieldName, $pluralityFlag);
-				$medhod->setLogic($arrLogic);
+				$method->setLogic($arrLogic);
 				break;
 			case 'boolean':
 				$arrLogic = self::getLogicBoolean($rootModelName, $modelName, $fieldName, $pluralityFlag);
-				$medhod->setLogic($arrLogic);
-				$medhod->addArg('$true = \'可\'', 'string $true');
-				$medhod->addArg('$false = \'不可\'', 'string $false');
+				$method->setLogic($arrLogic);
+				$method->addArg('$true = \'可\'', 'string $true');
+				$method->addArg('$false = \'不可\'', 'string $false');
 				break;
 			case 'float':
 			case 'integer':
 				$arrLogic = self::getLogicInteger($rootModelName, $modelName, $fieldName, $pluralityFlag);
-				$medhod->setLogic($arrLogic);
+				$method->setLogic($arrLogic);
 				break;
 			case 'string':
 			default :
 				$arrLogic = self::getLogicString($rootModelName, $modelName, $fieldName, $pluralityFlag);
-				$medhod->setLogic($arrLogic);
+				$method->setLogic($arrLogic);
 				break;
 		}
-		$medhod->addMedhodComment($comment);
-		$medhod->addMedhodComment($memo1);
-		$medhod->addMedhodComment($memo2);
-		$medhod->setReturnComment($returnComment);
+		$method->addMethodComment($comment);
+		$method->addMethodComment($memo1);
+		$method->addMethodComment($memo2);
+		$method->setReturnComment($returnComment);
 		
-		return $medhod;
+		return $method;
 	}
 
 	/**
 	 * HasOneアソシエーションのメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getHasOneMethods(AppOrmModel $model) {
 		$result		= array();
@@ -282,7 +282,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	/**
 	 * BelongsToアソシエーションのメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getBelongsToMethods(AppOrmModel $model) {
 		$result		= array();
@@ -303,7 +303,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	/**
 	 * HasManyアソシエーションのメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getHasManyMethods(AppOrmModel $model) {
 		$result		= array();
@@ -331,7 +331,7 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	/**
 	 * HasAndBelongsToManyアソシエーションのメソッド
 	 * @param AppOrmModel $model
-	 * @return array<ClassMedhod>
+	 * @return array<ClassMethod>
 	 */
 	private static function getHabtmMethods(AppOrmModel $model) {
 		$result		= array();
@@ -360,11 +360,11 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	 * データ数取得メソッド
 	 * @param type $alias
 	 * @param type $modelName
-	 * @param type $medhodComment
-	 * @return \ClassMedhod
+	 * @param type $methodComment
+	 * @return \ClassMethod
 	 */
-	private static function getDataCountMethod($alias, $modelName, $medhodComment) {
-		$medhodName	= 'getData' . $modelName . $alias . 'Count';
+	private static function getDataCountMethod($alias, $modelName, $methodComment) {
+		$methodName	= 'getData' . $modelName . $alias . 'Count';
 		$access		= 'public';
 		$arrLogic	= array(
 			'if (isset($this->data' . $modelName . '[$cnt][\''. $alias . '\'])) {',
@@ -373,18 +373,18 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 			'	return 0;',
 			'}',
 		);
-		$memo1			= '$cnt = $ctlHelper->' . $medhodName . '();';
+		$memo1			= '$cnt = $ctlHelper->' . $methodName . '();';
 		$returnComment	= 'int';
 		
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->addArg('$cnt', 'int $snt1');
-		$medhod->setLogic($arrLogic);
-		$medhod->addMedhodComment($medhodComment);
-		$medhod->addMedhodComment($memo1);
-		$medhod->setReturnComment($returnComment);
-		return $medhod;
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->addArg('$cnt', 'int $snt1');
+		$method->setLogic($arrLogic);
+		$method->addMethodComment($methodComment);
+		$method->addMethodComment($memo1);
+		$method->setReturnComment($returnComment);
+		return $method;
 	}
 	
 	
@@ -393,11 +393,11 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 	 * @param type $alias
 	 * @param type $displayField
 	 * @param type $modelName
-	 * @param type $medhodComment
-	 * @return \ClassMedhod
+	 * @param type $methodComment
+	 * @return \ClassMethod
 	 */
-	private static function getDisplayFieldsMethod($alias, $displayField, $modelName, $medhodComment) {
-		$medhodName	= 'getText' . $modelName . $alias . 'Display';
+	private static function getDisplayFieldsMethod($alias, $displayField, $modelName, $methodComment) {
+		$methodName	= 'getText' . $modelName . $alias . 'Display';
 		$access		= 'public';
 		$arg		= '$display = \'' . $displayField . '\'';
 		$arrLogic	= array(
@@ -407,21 +407,21 @@ class GenerateLibTraitOrmViewsTask extends AppShell {
 			'',
 			'return join(",\n", $tmp);',
 		);
-		$memo1			= '$text' . $modelName . $alias . 'Display = $ctlHelper->' . $medhodName . '($i);';
+		$memo1			= '$text' . $modelName . $alias . 'Display = $ctlHelper->' . $methodName . '($i);';
 		$memo2			= '<?php $text' . $modelName . $alias . 'Display; ?>';
 		$returnComment	= 'string';
 		
-		$medhod = new ClassMedhod();
-		$medhod->setMedhodName($medhodName);
-		$medhod->setAccess($access);
-		$medhod->setLogic($arrLogic);
-		$medhod->addArg('$cnt1', 'int $cnt1');
-		$medhod->addArg($arg, 'string $display');
-		$medhod->addMedhodComment($medhodComment);
-		$medhod->addMedhodComment($memo1);
-		$medhod->addMedhodComment($memo2);
-		$medhod->setReturnComment($returnComment);
-		return $medhod;
+		$method = new ClassMethod();
+		$method->setMethodName($methodName);
+		$method->setAccess($access);
+		$method->setLogic($arrLogic);
+		$method->addArg('$cnt1', 'int $cnt1');
+		$method->addArg($arg, 'string $display');
+		$method->addMethodComment($methodComment);
+		$method->addMethodComment($memo1);
+		$method->addMethodComment($memo2);
+		$method->setReturnComment($returnComment);
+		return $method;
 	}
 	
 	/**

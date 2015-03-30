@@ -6,7 +6,7 @@
  */
 App::uses('FielGenerate', 'Console/Command/Lib/Interface');
 App::uses('ClassMember', 'Console/Command/Lib/FielGenerate');
-App::uses('ClassMedhod', 'Console/Command/Lib/FielGenerate');
+App::uses('ClassMethod', 'Console/Command/Lib/FielGenerate');
 
 /**
  * Description of ClassFile
@@ -53,9 +53,9 @@ class ClassFile implements FielGenerate {
 	
 	/**
 	 *
-	 * @var array<ClassMedhod>
+	 * @var array<ClassMethod>
 	 */
-	private $medhods = array();
+	private $methods = array();
 	
 	/**
 	 * ファイル内容
@@ -118,13 +118,13 @@ class ClassFile implements FielGenerate {
 	}
 	
 	/**
-	 * ClassMedhod Instance
-	 * @param ClassMedhod $medhod
+	 * ClassMethod Instance
+	 * @param ClassMethod $method
 	 */
-	public function addMedhod(ClassMedhod $medhod) {
-		$methodName = $medhod->getName();
-		if (!array_key_exists($methodName, $this->medhods)) {
-			$this->medhods[$methodName] = $medhod;
+	public function addMethod(ClassMethod $method) {
+		$methodName = $method->getName();
+		if (!array_key_exists($methodName, $this->methods)) {
+			$this->methods[$methodName] = $method;
 		}
 	}
 	
@@ -141,7 +141,7 @@ class ClassFile implements FielGenerate {
 		$parentClassName	= $file->parentClassName;
 		$uses				= $file->use;
 		$members			= array_values($file->members);
-		$medhods			= array_values($file->medhods);
+		$methods			= array_values($file->methods);
 		
 		$extends	= !empty($parentClassName)? ' extends ' . $parentClassName: '';
 		$use		= join(', ', $uses);
@@ -164,8 +164,8 @@ class ClassFile implements FielGenerate {
 			$file->contents[] = $member->getContents();
 			$file->contents[] = '';
 		}
-		foreach ($medhods as $medhod) {
-			$file->contents[] = $medhod->getContents();
+		foreach ($methods as $method) {
+			$file->contents[] = $method->getContents();
 			$file->contents[] = '';
 		}
 		$file->contents[] = '}';

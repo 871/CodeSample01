@@ -7,7 +7,7 @@
 App::uses('AppShell', 'Console/Command');
 App::uses('ClassFile', 'Console/Command/Lib/FileGenerate');
 App::uses('ClassMember', 'Console/Command/Lib/FileGenerate');
-App::uses('ClassMedhod', 'Console/Command/Lib/FileGenerate');
+App::uses('ClassMethod', 'Console/Command/Lib/FileGenerate');
 App::uses('Import', 'Console/Command/Lib/FileGenerate');
 
 /**
@@ -73,7 +73,7 @@ class GenerateCtlHelperDetailTask extends AppShell {
 		
 		$traits					= self::getTraits($config);
 		
-		$getDivNaviLinksMedhod	= self::getGetDivNaviLinksMedhod($config);
+		$getDivNaviLinksMethod	= self::getGetDivNaviLinksMethod($config);
 		
 		$file = new ClassFile();
 		$file->setClassType($classType);
@@ -91,7 +91,7 @@ class GenerateCtlHelperDetailTask extends AppShell {
 			$file->addUses($trait);
 		}
 		
-		$file->addMedhod($getDivNaviLinksMedhod);
+		$file->addMethod($getDivNaviLinksMethod);
 		
 		return $file->getContents();
 	}
@@ -125,7 +125,7 @@ class GenerateCtlHelperDetailTask extends AppShell {
 		return $config->getTraitNames();
 	}
 
-	private static function getGetDivNaviLinksMedhod(AppDetailCtlConfig $config) {
+	private static function getGetDivNaviLinksMethod(AppDetailCtlConfig $config) {
 		$indnt		= self::INDENT;
 		$naviParams	= $config->getNaviParams();
 		
@@ -160,12 +160,12 @@ class GenerateCtlHelperDetailTask extends AppShell {
 		$logic[] = '';
 		$logic[] = 'return $html->getCrumbs(" > ");';
 		
-		$method = new ClassMedhod();
-		$method->addMedhodComment('Top Navigator');
-		$method->addMedhodComment('');
+		$method = new ClassMethod();
+		$method->addMethodComment('Top Navigator');
+		$method->addMethodComment('');
 		$method->setReturnComment('string');
 		$method->setAccess('public');
-		$method->setMedhodName('getDivNaviLinks');
+		$method->setMethodName('getDivNaviLinks');
 		$method->setLogic($logic);
 
 		return $method;
