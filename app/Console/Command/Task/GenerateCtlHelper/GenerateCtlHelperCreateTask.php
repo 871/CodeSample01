@@ -520,6 +520,8 @@ class GenerateCtlHelperCreateTask extends AppShell {
 		$logic[] = '	';
 		$logic[] = '	if ($action === $url[\'action\'] && $url[\'controller\'] === $ctlName) {';
 		$logic[] = '		$linkFlag = false;';
+		$logic[] = '		$html->addCrumb(\'<strong>\' . $label . \'</strong>\');';
+		$logic[] = '		continue;';
 		$logic[] = '	}';
 		$logic[] = '	if ($linkFlag) {';
 		$logic[] = '		$html->addCrumb($label, $url);';
