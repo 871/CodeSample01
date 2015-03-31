@@ -348,8 +348,10 @@ class MemberCreateHelper extends AppCtlHelper {
 			$url['controller'] = !isset($url['controller'])? $ctlName: $url['controller'];
 			$url['controller'] = empty($url['controller'])? $ctlName: $url['controller'];
 			
-			if ($action === $url['action'] && $url['controller'] === $ctlName) {
+			if ($action === $url['action'] && $ctlName === $url['controller']) {
 				$linkFlag = false;
+				$html->addCrumb('<strong>' . $label . '</strong>');
+				continue;
 			}
 			
 			if ($linkFlag) {
